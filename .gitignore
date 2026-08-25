@@ -1,0 +1,22 @@
+# Dependencies
+node_modules/
+miniprogram_npm/
+
+# TypeScript 编译产物（源是 .ts，.js 是 tsc 生成的，不要入库）
+*.js
+*.js.map
+!project.config.js
+
+# IDE
+.idea/
+.vscode/
+*.swp
+.DS_Store
+
+# 微信开发者工具临时文件
+miniprogram/
+.cache/
+
+# 环境变量
+.env
+.env.local

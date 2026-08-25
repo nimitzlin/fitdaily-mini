@@ -1,0 +1,21 @@
+<view class="fc" bindtap="onTap">
+  <view class="fc-gi">
+    <gi-badge gi="{{log.gi}}" />
+  </view>
+  <view class="fc-main">
+    <view class="fc-row1">
+      <text class="fc-name">{{log.nameSnapshot}}</text>
+      <text class="fc-kcal">{{log.intake.calories}} kcal</text>
+    </view>
+    <view class="fc-row2">
+      <text class="fc-meta">{{log.weight}}g</text>
+      <text class="fc-meta">蛋白 {{log.intake.protein}}g</text>
+      <text class="fc-meta">碳水 {{log.intake.carbs}}g</text>
+      <text class="fc-meta">脂肪 {{log.intake.fat}}g</text>
+    </view>
+  </view>
+  <view class="fc-ops" catchtap="">
+    <text class="fc-op" catchtap="onEdit">编辑</text>
+    <text class="fc-op fc-del" catchtap="onRemove">删除</text>
+  </view>
+</view>

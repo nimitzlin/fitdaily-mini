@@ -1,0 +1,41 @@
+.cp-wrap {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+}
+
+.cp-track {
+  flex: 1;
+  height: 22rpx;
+  background: var(--primary-light);
+  border-radius: var(--radius-pill);
+  overflow: hidden;
+}
+
+.cp-fill {
+  height: 100%;
+  background: var(--primary-deep);
+  border-radius: var(--radius-pill);
+  transition: width 0.3s ease;
+}
+
+.cp-fill.cp-over {
+  background: var(--accent-coral);
+}
+
+.cp-bubble {
+  min-width: 88rpx;
+  text-align: center;
+  font-size: 24rpx;
+  font-weight: 700;
+  color: var(--text-main);
+  background: #fff;
+  border: 3rpx solid var(--primary);
+  border-radius: var(--radius-pill);
+  padding: 2rpx 12rpx;
+}
+
+.cp-bubble.cp-over-text {
+  border-color: var(--accent-coral);
+  color: var(--gi-high);
+}

@@ -1,0 +1,6 @@
+{
+  "component": true,
+  "usingComponents": {
+    "gi-badge": "../gi-badge/gi-badge"
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/training/training",
+    "pages/data/data",
+    "pages/profile/profile",
+    "pages/food-search/food-search",
+    "pages/food-edit/food-edit",
+    "pages/my-foods/my-foods",
+    "pages/vision-settings/vision-settings",
+    "pages/weight/weight",
+    "pages/stats/stats",
+    "pages/goal-settings/goal-settings"
+  ],
+  "window": {
+    "navigationBarBackgroundColor": "#F1FAF0",
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "每日健身伴侣",
+    "backgroundColor": "#F1FAF0",
+    "backgroundTextStyle": "light"
+  },
+  "tabBar": {
+    "color": "#6B8F6E",
+    "selectedColor": "#386641",
+    "backgroundColor": "#FFFFFF",
+    "borderStyle": "white",
+    "list": [
+      { "pagePath": "pages/index/index", "text": "今日" },
+      { "pagePath": "pages/training/training", "text": "训练" },
+      { "pagePath": "pages/stats/stats", "text": "数据" },
+      { "pagePath": "pages/profile/profile", "text": "我的" }
+    ]
+  },
+  "style": "v2",
+  "lazyCodeLoading": "requiredComponents",
+  "sitemapLocation": "sitemap.json"
+}

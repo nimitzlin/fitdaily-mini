@@ -1,0 +1,178 @@
+<view class="page">
+  <!-- 顶部日期范围 -->
+  <view class="stats-head">
+    <text class="stats-head-emoji">📊</text>
+    <view class="stats-head-main">
+      <text class="stats-head-title">本周数据</text>
+      <text class="stats-head-range">{{startDate}} ~ {{endDate}}</text>
+    </view>
+    <view class="stats-head-tag">
+      <text class="stats-head-num">{{activeDays}}</text>
+      <text class="stats-head-unit">/7 天</text>
+    </view>
+  </view>
+
+  <!-- 空态 -->
+  <view wx:if="{{!hasAnyLog}}" class="card stats-empty">
+    <text class="stats-empty-emoji">📭</text>
+    <text class="stats-empty-title">本周还没有数据</text>
+    <text class="stats-empty-desc">先在「今日」记录饮食，明天开始就能看到趋势</text>
+  </view>
+
+  <block wx:if="{{hasAnyLog}}">
+    <!-- 1. 今日完成度 -->
+    <view class="card">
+      <view class="stats-row-h">
+        <text class="stats-emoji">🎯</text>
+        <text class="stats-title">今日完成度</text>
+      </view>
+      <view class="stats-today">
+        <view class="stats-kcal-row">
+          <text class="stats-kcal-num">{{summaries[6].stats.calories || 0}}</text>
+          <text class="stats-kcal-slash">/</text>
+          <text class="stats-kcal-target">{{calorieTarget}} kcal</text>
+        </view>
+        <view class="stats-progress-track">
+          <view class="stats-progress-fill {{summaries[6].stats.calories > calorieTarget ? 'over' : ''}}"
+                style="width: {{summaries[6].stats && calorieTarget > 0 ? (summaries[6].stats.calories / calorieTarget * 100) > 100 ? 100 : (summaries[6].stats.calories / calorieTarget * 100) : 0}}%"></view>
+        </view>
+
+        <view class="stats-macros">
+          <view class="stats-macro">
+            <view class="stats-macro-head"><text class="stats-macro-name">蛋白质</text><text class="stats-macro-val">{{summaries[6].stats.protein || 0}}/{{proteinTarget}}g</text></view>
+            <view class="stats-mini-track"><view class="stats-mini-fill" style="width: {{summaries[6].stats && proteinTarget > 0 ? (summaries[6].stats.protein / proteinTarget * 100) > 100 ? 100 : (summaries[6].stats.protein / proteinTarget * 100) : 0}}%"></view></view>
+          </view>
+          <view class="stats-macro">
+            <view class="stats-macro-head"><text class="stats-macro-name">碳水</text><text class="stats-macro-val">{{summaries[6].stats.carbs || 0}}/{{carbsTarget}}g</text></view>
+            <view class="stats-mini-track"><view class="stats-mini-fill" style="width: {{summaries[6].stats && carbsTarget > 0 ? (summaries[6].stats.carbs / carbsTarget * 100) > 100 ? 100 : (summaries[6].stats.carbs / carbsTarget * 100) : 0}}%"></view></view>
+          </view>
+          <view class="stats-macro">
+            <view class="stats-macro-head"><text class="stats-macro-name">脂肪</text><text class="stats-macro-val">{{summaries[6].stats.fat || 0}}/{{fatTarget}}g</text></view>
+            <view class="stats-mini-track"><view class="stats-mini-fill" style="width: {{summaries[6].stats && fatTarget > 0 ? (summaries[6].stats.fat / fatTarget * 100) > 100 ? 100 : (summaries[6].stats.fat / fatTarget * 100) : 0}}%"></view></view>
+          </view>
+          <view class="stats-macro">
+            <view class="stats-macro-head"><text class="stats-macro-name">纤维</text><text class="stats-macro-val">{{summaries[6].stats.fiber || 0}}/{{fiberTarget}}g</text></view>
+            <view class="stats-mini-track"><view class="stats-mini-fill" style="width: {{summaries[6].stats && fiberTarget > 0 ? ((summaries[6].stats.fiber || 0) / fiberTarget * 100) > 100 ? 100 : ((summaries[6].stats.fiber || 0) / fiberTarget * 100) : 0}}%"></view></view>
+          </view>
+          <view class="stats-macro">
+            <view class="stats-macro-head"><text class="stats-macro-name">饮水</text><text class="stats-macro-val">{{summaries[6].waterMl}}/{{waterTargetMl}}ml</text></view>
+            <view class="stats-mini-track"><view class="stats-mini-fill" style="width: {{waterTargetMl > 0 ? (summaries[6].waterMl / waterTargetMl * 100) > 100 ? 100 : (summaries[6].waterMl / waterTargetMl * 100) : 0}}%"></view></view>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 2. 本周 7 天热量柱状图 -->
+    <view class="card">
+      <view class="stats-row-h">
+        <text class="stats-emoji">📈</text>
+        <text class="stats-title">本周热量</text>
+      </view>
+
+      <view class="stats-bar-chart">
+        <view class="stats-bar-target">line {{calorieTarget}}</view>
+        <view class="stats-bars">
+          <view wx:for="{{summaries}}" wx:key="date" class="stats-bar-col">
+            <view class="stats-bar-wrap">
+              <view class="stats-bar {{item.stats.calories > calorieTarget ? 'over' : (item.stats && item.stats.calories >= calorieTarget * 0.85 ? 'ok' : 'low')}}"
+                    style="height: {{maxKcal > 0 && item.stats ? (item.stats.calories / maxKcal * 100) : 0}}%">
+              </view>
+            </view>
+            <text class="stats-bar-val">{{item.stats ? item.stats.calories : 0}}</text>
+            <text class="stats-bar-day">{{item.weekdayLabel}}</text>
+          </view>
+        </view>
+      </view>
+
+      <view class="stats-legend">
+        <view class="stats-legend-item"><view class="stats-legend-dot ok"></view><text>达标 (≥85%)</text></view>
+        <view class="stats-legend-item"><view class="stats-legend-dot low"></view><text>未达</text></view>
+        <view class="stats-legend-item"><view class="stats-legend-dot over"></view><text>超标</text></view>
+      </view>
+    </view>
+
+    <!-- 3. 本周营养素均值 -->
+    <view class="card">
+      <view class="stats-row-h">
+        <text class="stats-emoji">⚖️</text>
+        <text class="stats-title">本周日均</text>
+        <text class="stats-sub">({{activeDays}} 天记录)</text>
+      </view>
+
+      <view wx:if="{{weekAvg}}" class="stats-week">
+        <view class="stats-week-row">
+          <text class="stats-week-name">热量</text>
+          <view class="stats-week-track">
+            <view class="stats-week-fill" style="width: {{calorieTarget > 0 ? (weekAvg.calories / calorieTarget * 100) > 100 ? 100 : (weekAvg.calories / calorieTarget * 100) : 0}}%"></view>
+          </view>
+          <text class="stats-week-val">{{weekAvg.calories}}/{{calorieTarget}} kcal</text>
+        </view>
+        <view class="stats-week-row">
+          <text class="stats-week-name">蛋白质</text>
+          <view class="stats-week-track"><view class="stats-week-fill" style="width: {{proteinTarget > 0 ? (weekAvg.protein / proteinTarget * 100) > 100 ? 100 : (weekAvg.protein / proteinTarget * 100) : 0}}%"></view></view>
+          <text class="stats-week-val">{{weekAvg.protein}}/{{proteinTarget}}g</text>
+        </view>
+        <view class="stats-week-row">
+          <text class="stats-week-name">碳水</text>
+          <view class="stats-week-track"><view class="stats-week-fill" style="width: {{carbsTarget > 0 ? (weekAvg.carbs / carbsTarget * 100) > 100 ? 100 : (weekAvg.carbs / carbsTarget * 100) : 0}}%"></view></view>
+          <text class="stats-week-val">{{weekAvg.carbs}}/{{carbsTarget}}g</text>
+        </view>
+        <view class="stats-week-row">
+          <text class="stats-week-name">脂肪</text>
+          <view class="stats-week-track"><view class="stats-week-fill" style="width: {{fatTarget > 0 ? (weekAvg.fat / fatTarget * 100) > 100 ? 100 : (weekAvg.fat / fatTarget * 100) : 0}}%"></view></view>
+          <text class="stats-week-val">{{weekAvg.fat}}/{{fatTarget}}g</text>
+        </view>
+        <view class="stats-week-row">
+          <text class="stats-week-name">纤维</text>
+          <view class="stats-week-track"><view class="stats-week-fill" style="width: {{fiberTarget > 0 ? (weekAvg.fiber / fiberTarget * 100) > 100 ? 100 : (weekAvg.fiber / fiberTarget * 100) : 0}}%"></view></view>
+          <text class="stats-week-val">{{weekAvg.fiber}}/{{fiberTarget}}g</text>
+        </view>
+        <view class="stats-week-row">
+          <text class="stats-week-name">饮水</text>
+          <view class="stats-week-track"><view class="stats-week-fill" style="width: {{waterTargetMl > 0 ? (weekAvg.waterMl / waterTargetMl * 100) > 100 ? 100 : (weekAvg.waterMl / waterTargetMl * 100) : 0}}%"></view></view>
+          <text class="stats-week-val">{{weekAvg.waterMl}}/{{waterTargetMl}}ml</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 4. GI 加权评分趋势 -->
+    <view class="card">
+      <view class="stats-row-h">
+        <text class="stats-emoji">🍬</text>
+        <text class="stats-title">GI 控制</text>
+        <view class="stats-gi-badge {{weekGi == null ? 'none' : (weekGi <= 55 ? 'low' : (weekGi <= 69 ? 'mid' : 'high'))}}">
+          <text wx:if="{{weekGi != null}}">本周日均 GI {{weekGi}}</text>
+          <text wx:else>暂无 GI 数据</text>
+        </view>
+      </view>
+
+      <view wx:if="{{weekGi != null}}" class="stats-gi-hint">
+        {{weekGi <= 55 ? '✅ 本周饮食以低 GI 为主，控糖效果不错' : (weekGi <= 69 ? '💡 中 GI 区间，尝试用低 GI 食物替换部分主食' : '⚠️ 本周 GI 偏高，建议减少精制糖和白米饭')}}
+      </view>
+
+      <!-- 7 天 GI 柱状 -->
+      <view class="stats-gi-bars">
+        <view wx:for="{{summaries}}" wx:key="date" class="stats-gi-col">
+          <view class="stats-gi-value">{{item.stats && item.stats.avgGi != null ? item.stats.avgGi : '-'}}</view>
+          <view class="stats-gi-bar-wrap">
+            <view wx:if="{{item.stats && item.stats.avgGi != null}}"
+                  class="stats-gi-bar {{item.stats.avgGi <= 55 ? 'low' : (item.stats.avgGi <= 69 ? 'mid' : 'high')}}"
+                  style="height: {{item.stats.avgGi}}%"></view>
+          </view>
+          <text class="stats-gi-day">{{item.weekdayLabel}}</text>
+        </view>
+      </view>
+
+      <!-- 高 GI 食物 -->
+      <view wx:if="{{highGi.length}}" class="stats-higilist">
+        <text class="stats-higilist-title">⚠️ 本周高 GI 食物</text>
+        <view class="stats-higilist-items">
+          <view wx:for="{{highGi}}" wx:key="name" class="stats-higilist-item">
+            <text class="stats-higilist-name">{{item.name}}</text>
+            <text class="stats-higilist-gi">GI {{item.gi}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </block>
+</view>

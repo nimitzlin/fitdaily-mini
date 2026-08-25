@@ -1,0 +1,294 @@
+.page {
+  padding: 24rpx;
+}
+
+/* 顶部 */
+.stats-head {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+  margin-bottom: 24rpx;
+}
+.stats-head-emoji { font-size: 40rpx; }
+.stats-head-main { flex: 1; display: flex; flex-direction: column; }
+.stats-head-title { font-size: 34rpx; font-weight: 700; color: var(--text-main); }
+.stats-head-range { font-size: 22rpx; color: var(--text-sub); margin-top: 4rpx; }
+.stats-head-tag {
+  background: var(--primary-light);
+  color: var(--primary-deep);
+  border-radius: 16rpx;
+  padding: 8rpx 16rpx;
+  display: flex;
+  align-items: baseline;
+  gap: 4rpx;
+}
+.stats-head-num { font-size: 32rpx; font-weight: 700; }
+.stats-head-unit { font-size: 22rpx; }
+
+/* 空态 */
+.stats-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 64rpx 24rpx;
+  gap: 12rpx;
+}
+.stats-empty-emoji { font-size: 60rpx; }
+.stats-empty-title { font-size: 30rpx; font-weight: 700; color: var(--text-main); }
+.stats-empty-desc { font-size: 24rpx; color: var(--text-sub); text-align: center; }
+
+/* 区块标题 */
+.stats-row-h {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+  margin-bottom: 16rpx;
+}
+.stats-emoji { font-size: 32rpx; }
+.stats-title { font-size: 30rpx; font-weight: 700; color: var(--text-main); flex: 1; }
+.stats-sub { font-size: 22rpx; color: var(--text-sub); }
+
+/* 今日完成度 */
+.stats-kcal-row {
+  display: flex;
+  align-items: baseline;
+  gap: 8rpx;
+  margin-bottom: 16rpx;
+}
+.stats-kcal-num { font-size: 56rpx; font-weight: 700; color: var(--primary); }
+.stats-kcal-slash { font-size: 32rpx; color: var(--text-sub); }
+.stats-kcal-target { font-size: 26rpx; color: var(--text-sub); }
+
+.stats-progress-track {
+  background: var(--primary-light);
+  border-radius: 999rpx;
+  height: 24rpx;
+  overflow: hidden;
+  margin-bottom: 24rpx;
+}
+.stats-progress-fill {
+  background: linear-gradient(90deg, var(--primary), var(--primary-deep));
+  height: 100%;
+  border-radius: 999rpx;
+  transition: width 0.4s ease;
+}
+.stats-progress-fill.over { background: var(--accent-coral); }
+
+.stats-macros { display: flex; flex-direction: column; gap: 16rpx; }
+.stats-macro { display: flex; flex-direction: column; gap: 8rpx; }
+.stats-macro-head {
+  display: flex;
+  justify-content: space-between;
+  font-size: 24rpx;
+}
+.stats-macro-name { color: var(--text-main); font-weight: 600; }
+.stats-macro-val { color: var(--text-sub); font-size: 22rpx; }
+.stats-mini-track {
+  background: var(--bg-page);
+  border-radius: 999rpx;
+  height: 14rpx;
+  overflow: hidden;
+}
+.stats-mini-fill {
+  background: var(--primary);
+  height: 100%;
+  border-radius: 999rpx;
+  transition: width 0.4s ease;
+}
+
+/* 柱状图 */
+.stats-bar-chart {
+  background: var(--bg-page);
+  border-radius: 16rpx;
+  padding: 20rpx 16rpx 12rpx;
+}
+.stats-bar-target {
+  text-align: right;
+  font-size: 20rpx;
+  color: var(--text-sub);
+  margin-bottom: 8rpx;
+  border-bottom: 2rpx dashed var(--accent-coral);
+  padding-bottom: 4rpx;
+}
+.stats-bars {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  height: 240rpx;
+  gap: 6rpx;
+}
+.stats-bar-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4rpx;
+  height: 100%;
+}
+.stats-bar-wrap {
+  flex: 1;
+  width: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+.stats-bar {
+  width: 70%;
+  border-radius: 8rpx 8rpx 0 0;
+  transition: height 0.4s ease;
+  min-height: 4rpx;
+}
+.stats-bar.ok { background: var(--primary); }
+.stats-bar.low { background: var(--gi-mid); }
+.stats-bar.over { background: var(--accent-coral); }
+.stats-bar-val { font-size: 18rpx; color: var(--text-sub); }
+.stats-bar-day { font-size: 20rpx; color: var(--text-main); }
+
+.stats-legend {
+  display: flex;
+  justify-content: center;
+  gap: 24rpx;
+  margin-top: 12rpx;
+  font-size: 22rpx;
+  color: var(--text-sub);
+}
+.stats-legend-item { display: flex; align-items: center; gap: 6rpx; }
+.stats-legend-dot {
+  width: 16rpx;
+  height: 16rpx;
+  border-radius: 4rpx;
+}
+.stats-legend-dot.ok { background: var(--primary); }
+.stats-legend-dot.low { background: var(--gi-mid); }
+.stats-legend-dot.over { background: var(--accent-coral); }
+
+/* 本周日均 */
+.stats-week { display: flex; flex-direction: column; gap: 14rpx; }
+.stats-week-row {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+}
+.stats-week-name {
+  width: 100rpx;
+  font-size: 24rpx;
+  color: var(--text-main);
+  flex-shrink: 0;
+}
+.stats-week-track {
+  flex: 1;
+  background: var(--bg-page);
+  border-radius: 999rpx;
+  height: 16rpx;
+  overflow: hidden;
+}
+.stats-week-fill {
+  background: var(--primary);
+  height: 100%;
+  border-radius: 999rpx;
+  transition: width 0.4s ease;
+}
+.stats-week-val {
+  font-size: 22rpx;
+  color: var(--text-sub);
+  min-width: 200rpx;
+  text-align: right;
+}
+
+/* GI 控制 */
+.stats-gi-badge {
+  font-size: 22rpx;
+  font-weight: 600;
+  padding: 6rpx 14rpx;
+  border-radius: 999rpx;
+}
+.stats-gi-badge.low { background: rgba(95, 168, 107, 0.15); color: var(--gi-low); }
+.stats-gi-badge.mid { background: rgba(233, 180, 76, 0.15); color: var(--gi-mid); }
+.stats-gi-badge.high { background: rgba(229, 123, 100, 0.15); color: var(--gi-high); }
+.stats-gi-badge.none { background: var(--bg-page); color: var(--text-sub); }
+
+.stats-gi-hint {
+  font-size: 24rpx;
+  color: var(--text-main);
+  margin-bottom: 16rpx;
+  padding: 12rpx 16rpx;
+  background: var(--bg-page);
+  border-radius: 12rpx;
+}
+
+.stats-gi-bars {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  height: 220rpx;
+  gap: 6rpx;
+}
+.stats-gi-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4rpx;
+  height: 100%;
+}
+.stats-gi-value {
+  font-size: 18rpx;
+  color: var(--text-sub);
+}
+.stats-gi-bar-wrap {
+  flex: 1;
+  width: 70%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  background: var(--bg-page);
+  border-radius: 6rpx;
+  overflow: hidden;
+}
+.stats-gi-bar {
+  width: 100%;
+  border-radius: 6rpx 6rpx 0 0;
+  transition: height 0.4s ease;
+  min-height: 4rpx;
+}
+.stats-gi-bar.low { background: var(--gi-low); }
+.stats-gi-bar.mid { background: var(--gi-mid); }
+.stats-gi-bar.high { background: var(--gi-high); }
+.stats-gi-day { font-size: 20rpx; color: var(--text-main); }
+
+/* 高 GI 食物 */
+.stats-higilist {
+  margin-top: 24rpx;
+  padding-top: 16rpx;
+  border-top: 2rpx dashed var(--gi-high);
+}
+.stats-higilist-title {
+  font-size: 24rpx;
+  color: var(--gi-high);
+  font-weight: 600;
+  display: block;
+  margin-bottom: 12rpx;
+}
+.stats-higilist-items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12rpx;
+}
+.stats-higilist-item {
+  background: rgba(229, 123, 100, 0.1);
+  border: 2rpx solid rgba(229, 123, 100, 0.3);
+  padding: 8rpx 16rpx;
+  border-radius: 12rpx;
+  display: flex;
+  align-items: baseline;
+  gap: 8rpx;
+}
+.stats-higilist-name {
+  font-size: 22rpx;
+  color: var(--text-main);
+}
+.stats-higilist-gi {
+  font-size: 20rpx;
+  color: var(--gi-high);
+  font-weight: 700;
+}

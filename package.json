@@ -1,0 +1,21 @@
+{
+  "name": "fitdaily-mini",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "build:check": "tsc --noEmit",
+    "watch": "tsc --watch",
+    "clean": "find . -name '*.js' -not -path '*/node_modules/*' -delete && find . -name '*.js.map' -not -path '*/node_modules/*' -delete",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "miniprogram-api-typings": "^5.2.3",
+    "typescript": "^5.4.5"
+  }
+}

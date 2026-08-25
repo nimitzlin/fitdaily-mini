@@ -1,0 +1,6 @@
+<view class="page">
+  <view class="card">
+    <text class="title">training</text>
+    <text class="desc">施工中 · 需求见 docs/fitdaily/PRD.md</text>
+  </view>
+</view>

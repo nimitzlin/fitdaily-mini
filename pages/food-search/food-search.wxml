@@ -1,0 +1,40 @@
+<view class="page">
+  <!-- 搜索框 -->
+  <view class="fs-search card">
+    <input class="fs-input" placeholder="搜索食物，如：鸡胸肉" value="{{keyword}}"
+           bindinput="onKeyword" confirm-type="search" focus="{{true}}" />
+  </view>
+
+  <!-- 分类筛选 -->
+  <scroll-view scroll-x class="fs-cats" enhanced show-scrollbar="{{false}}">
+    <view wx:for="{{cats}}" wx:key="*this"
+          class="fs-cat {{catIndex === index ? 'fs-cat-on' : ''}}"
+          data-index="{{index}}" bindtap="onCat">{{item}}</view>
+  </scroll-view>
+
+  <!-- 我的食物（置顶） -->
+  <block wx:if="{{myRows.length}}">
+    <view class="fs-sec">⭐ 我的食物</view>
+    <view wx:for="{{myRows}}" wx:key="id" class="fs-row" data-id="{{item.id}}" bindtap="onPick">
+      <view class="fs-main">
+        <text class="fs-name">{{item.name}}</text>
+        <text class="fs-meta">{{item.per100.calories}} kcal/100g · 蛋白{{item.per100.protein}} 碳水{{item.per100.carbs}} 脂肪{{item.per100.fat}}</text>
+      </view>
+      <view class="gi-badge {{item.giCls}}"><view class="gb-dot"></view><text>{{item.giText}}</text></view>
+    </view>
+  </block>
+
+  <!-- 内置库 -->
+  <view class="fs-sec">🥗 食物库</view>
+  <view wx:for="{{rows}}" wx:key="id" class="fs-row" data-id="{{item.id}}" bindtap="onPick">
+    <view class="fs-main">
+      <text class="fs-name">{{item.name}}</text>
+      <text class="fs-meta">{{item.per100.calories}} kcal/100g · 蛋白{{item.per100.protein}} 碳水{{item.per100.carbs}} 脂肪{{item.per100.fat}}</text>
+    </view>
+    <view class="gi-badge {{item.giCls}}"><view class="gb-dot"></view><text>{{item.giText}}</text></view>
+  </view>
+
+  <view wx:if="{{!rows.length && !myRows.length}}" class="fs-empty">
+    没找到「{{keyword}}」，试试用底部「自定义录入」创建它 →
+  </view>
+</view>

@@ -1,0 +1,30 @@
+/**
+ * FitDaily 设计 Token · PRD 4.1
+ * 日系手帐 · 抹茶绿马卡龙 · 大圆角贴纸卡片
+ * 全部页面通过 CSS 变量引用，禁止硬编码色值
+ */
+page {
+  /* 色板 */
+  --bg-page: #F1FAF0;            /* 奶绿背景 */
+  --bg-card: #FFFFFF;
+  --primary: #8ED08F;            /* 抹茶绿：边框/按钮/完成态 */
+  --primary-light: #C7F2C0;
+  --primary-deep: #98D8A0;
+  --text-main: #386641;          /* 深森林绿文字（禁用纯黑） */
+  --text-sub: #6B8F6E;
+  --accent-coral: #FF9A76;       /* 热量进度/超标警示 */
+  --accent-yellow: #FCD884;      /* 装饰星/次高亮 */
+  --accent-blue: #98C1D9;        /* 喝水 */
+
+  /* GI 红绿灯 */
+  --gi-low: #5FA86B;
+  --gi-mid: #E9B44C;
+  --gi-high: #E57B64;
+  --gi-none: #BFC7BF;
+
+  /* 形状 */
+  --radius-card: 32rpx;
+  --radius-pill: 999rpx;
+  --border-card: 4rpx solid var(--primary);
+  --shadow-card: 0 4rpx 16rpx rgba(56, 102, 65, 0.06);
+}

@@ -1,0 +1,33 @@
+.ms {
+  margin-bottom: 20rpx;
+}
+
+.ms-head {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+  padding: 8rpx 8rpx 12rpx;
+}
+
+.ms-label {
+  font-size: 30rpx;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.ms-kcal {
+  font-size: 24rpx;
+  color: var(--text-sub);
+}
+
+.ms-arrow {
+  margin-left: auto;
+  font-size: 32rpx;
+  color: var(--text-sub);
+  transform: rotate(90deg);
+  transition: transform 0.2s;
+}
+
+.ms-arrow.ms-open {
+  transform: rotate(270deg);
+}

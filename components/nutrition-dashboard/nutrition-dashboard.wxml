@@ -1,0 +1,37 @@
+<view class="nd">
+  <view class="nd-head">
+    <text class="nd-title">今日摄入</text>
+    <text class="nd-sum">目标 {{profile.calorieTarget}} kcal · 已 {{stats.calories}} kcal</text>
+  </view>
+
+  <capsule-progress value="{{stats.calories}}" target="{{profile.calorieTarget}}" />
+
+  <view class="nd-macros">
+    <view class="nd-macro">
+      <text class="nd-mlabel">蛋白质</text>
+      <text class="nd-mval">{{stats.protein}}g / {{profile.proteinTarget}}g</text>
+      <view class="nd-mbar"><capsule-progress showBubble="{{false}}" value="{{stats.protein}}" target="{{profile.proteinTarget}}" /></view>
+    </view>
+    <view class="nd-macro">
+      <text class="nd-mlabel">碳水</text>
+      <text class="nd-mval">{{stats.carbs}}g / {{profile.carbsTarget}}g</text>
+      <view class="nd-mbar"><capsule-progress showBubble="{{false}}" value="{{stats.carbs}}" target="{{profile.carbsTarget}}" /></view>
+    </view>
+    <view class="nd-macro">
+      <text class="nd-mlabel">脂肪</text>
+      <text class="nd-mval">{{stats.fat}}g / {{profile.fatTarget}}g</text>
+      <view class="nd-mbar"><capsule-progress showBubble="{{false}}" value="{{stats.fat}}" target="{{profile.fatTarget}}" /></view>
+    </view>
+    <view class="nd-macro">
+      <text class="nd-mlabel">膳食纤维</text>
+      <text class="nd-mval">{{stats.fiber}}g / {{profile.fiberTarget}}g</text>
+      <view class="nd-mbar"><capsule-progress showBubble="{{false}}" value="{{stats.fiber}}" target="{{profile.fiberTarget}}" /></view>
+    </view>
+  </view>
+
+  <view wx:if="{{giCls}}" class="nd-gi {{giCls}}">
+    <text class="nd-gi-title">📊 今日 GI 评分{{stats.avgGi != null ? '：平均 ' + stats.avgGi : ''}}</text>
+    <text class="nd-gi-text">{{giText}}</text>
+    <text wx:if="{{stats.highGiFoods.length}}" class="nd-gi-text">⚠️ 高GI：{{highGiText}}</text>
+  </view>
+</view>

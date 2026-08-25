@@ -1,0 +1,116 @@
+.page {
+  padding: 24rpx;
+}
+
+.pf-title-row {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+}
+
+.pf-emoji {
+  font-size: 36rpx;
+}
+
+.pf-title {
+  font-size: 32rpx;
+  font-weight: 700;
+  flex: 1;
+}
+
+.pf-edit {
+  font-size: 24rpx;
+  color: var(--primary);
+  padding: 8rpx 16rpx;
+  border: 2rpx solid var(--primary-light);
+  border-radius: 12rpx;
+}
+
+.pf-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12rpx;
+  margin-top: 24rpx;
+}
+
+.pf-cell {
+  background: var(--bg-page);
+  border-radius: 20rpx;
+  padding: 16rpx 8rpx;
+  text-align: center;
+}
+
+.pf-num {
+  display: block;
+  font-size: 28rpx;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.pf-unit {
+  font-size: 20rpx;
+  color: var(--text-sub);
+}
+
+.pf-menu {
+  margin-top: 24rpx;
+  padding: 8rpx 24rpx;
+}
+
+.pf-item {
+  display: flex;
+  align-items: center;
+  gap: 20rpx;
+  padding: 26rpx 0;
+  border-bottom: 2rpx dashed var(--primary-light);
+}
+
+.pf-item:last-child {
+  border-bottom: none;
+}
+
+.pf-i-emoji {
+  font-size: 40rpx;
+}
+
+.pf-i-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4rpx;
+}
+
+.pf-i-name {
+  font-size: 30rpx;
+  font-weight: 700;
+}
+
+.pf-i-desc {
+  font-size: 22rpx;
+  color: var(--text-sub);
+}
+
+.pf-arrow {
+  font-size: 36rpx;
+  color: var(--text-sub);
+}
+
+.pf-about {
+  margin-top: 24rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6rpx;
+  padding: 28rpx;
+}
+
+.pf-about-t {
+  font-size: 24rpx;
+  font-weight: 700;
+  color: var(--text-sub);
+}
+
+.pf-about-d {
+  font-size: 22rpx;
+  color: var(--text-sub);
+}

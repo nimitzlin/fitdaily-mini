@@ -1,0 +1,81 @@
+<view class="page">
+  <!-- 身体档案输入 -->
+  <view class="card">
+    <view class="gs-title-row">
+      <text class="gs-emoji">📐</text>
+      <text class="gs-title">身体档案</text>
+    </view>
+    <text class="gs-desc">用于计算专属每日目标（Mifflin-St Jeor 公式）。仅存本机。</text>
+
+    <!-- 性别 -->
+    <view class="gs-row">
+      <text class="gs-label">性别</text>
+      <picker mode="selector" range="{{sexOptions}}" value="{{sexIndex}}" bindchange="onPickerSex" class="gs-picker">
+        <view>{{sexOptions[sexIndex]}}</view>
+      </picker>
+    </view>
+
+    <!-- 年龄 -->
+    <view class="gs-row">
+      <text class="gs-label">年龄</text>
+      <input class="gs-input" type="number" value="{{age}}" bindinput="onAge" placeholder="岁" />
+    </view>
+
+    <!-- 身高 -->
+    <view class="gs-row">
+      <text class="gs-label">身高</text>
+      <input class="gs-input" type="number" value="{{heightCm}}" bindinput="onHeight" placeholder="cm" />
+    </view>
+
+    <!-- 体重 -->
+    <view class="gs-row">
+      <text class="gs-label">体重</text>
+      <input class="gs-input" type="digit" value="{{weightKg}}" bindinput="onWeight" placeholder="kg" />
+    </view>
+
+    <!-- 活动量 -->
+    <view class="gs-col">
+      <text class="gs-label">活动量</text>
+      <picker mode="selector" range="{{activityOptions}}" value="{{activityIndex}}" bindchange="onPickerActivity" class="gs-picker-full">
+        <view>{{activityOptions[activityIndex]}}</view>
+      </picker>
+    </view>
+
+    <!-- 目标 -->
+    <view class="gs-col">
+      <text class="gs-label">目标</text>
+      <picker mode="selector" range="{{goalOptions}}" value="{{goalIndex}}" bindchange="onPickerGoal" class="gs-picker-full">
+        <view>{{goalOptions[goalIndex]}}</view>
+      </picker>
+    </view>
+  </view>
+
+  <!-- 计算预览 -->
+  <view class="card gs-preview">
+    <view class="gs-title-row">
+      <text class="gs-emoji">⚡</text>
+      <text class="gs-title">计算预览</text>
+    </view>
+    <view class="gs-detail">
+      <view class="gs-d-row"><text class="gs-d-key">基础代谢 BMR</text><text class="gs-d-val">{{bmr}} kcal</text></view>
+      <view class="gs-d-row"><text class="gs-d-key">每日消耗 TDEE</text><text class="gs-d-val">{{tdee}} kcal</text></view>
+      <view class="gs-d-row gs-d-target"><text class="gs-d-key">🎯 目标热量</text><text class="gs-d-val">{{targetKcal}} kcal</text></view>
+    </view>
+
+    <view class="gs-divider"></view>
+
+    <view class="gs-targets">
+      <view class="gs-t-cell"><text class="gs-t-num">{{computed.proteinTarget}}g</text><text class="gs-t-unit">蛋白质</text></view>
+      <view class="gs-t-cell"><text class="gs-t-num">{{computed.carbsTarget}}g</text><text class="gs-t-unit">碳水</text></view>
+      <view class="gs-t-cell"><text class="gs-t-num">{{computed.fatTarget}}g</text><text class="gs-t-unit">脂肪</text></view>
+      <view class="gs-t-cell"><text class="gs-t-num">{{computed.fiberTarget}}g</text><text class="gs-t-unit">纤维</text></view>
+      <view class="gs-t-cell gs-t-water"><text class="gs-t-num">{{computed.waterTargetMl}}ml</text><text class="gs-t-unit">饮水</text></view>
+    </view>
+  </view>
+
+  <button class="btn-primary gs-save" bindtap="onSave">保存并应用目标</button>
+
+  <text class="gs-footnote">
+    公式：BMR = 10×体重kg + 6.25×身高cm - 5×年龄 ± 5（男/女）\nTDEE = BMR × 活动系数（1.2-1.9）\n减脂 -500 / 维持 +0 / 增肌 +300\n蛋白 1.4-2.0 g/kg · 脂肪 25% 热量 · 纤维 25g · 水 35ml/kg
+  </text>
+</view>

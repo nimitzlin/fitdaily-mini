@@ -1,0 +1,6 @@
+<view class="cp-wrap">
+  <view class="cp-track">
+    <view class="cp-fill {{over ? 'cp-over' : ''}}" style="width: {{percent}}%"></view>
+  </view>
+  <view wx:if="{{showBubble}}" class="cp-bubble {{over ? 'cp-over-text' : ''}}">{{percent}}%</view>
+</view>

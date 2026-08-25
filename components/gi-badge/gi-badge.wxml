@@ -1,0 +1,4 @@
+<view class="gi-badge {{cls}}">
+  <view class="gb-dot"></view>
+  <text>{{label}}</text>
+</view>

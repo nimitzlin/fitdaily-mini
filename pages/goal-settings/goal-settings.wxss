@@ -1,0 +1,181 @@
+.page {
+  padding: 24rpx;
+}
+
+.gs-title-row {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+}
+
+.gs-emoji {
+  font-size: 36rpx;
+}
+
+.gs-title {
+  font-size: 32rpx;
+  font-weight: 700;
+}
+
+.gs-desc {
+  display: block;
+  margin-top: 12rpx;
+  font-size: 24rpx;
+  color: var(--text-sub);
+}
+
+.gs-row {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+  margin-top: 24rpx;
+}
+
+.gs-col {
+  margin-top: 24rpx;
+  display: flex;
+  flex-direction: column;
+  gap: 10rpx;
+  width: 100%;
+}
+
+.gs-label {
+  width: 140rpx;
+  font-size: 28rpx;
+  color: var(--text-main);
+  flex-shrink: 0;
+}
+
+.gs-input {
+  flex: 1;
+  background: var(--bg-page);
+  border: 2rpx solid var(--primary-light);
+  border-radius: 16rpx;
+  padding: 20rpx 24rpx;
+  font-size: 28rpx;
+  line-height: 40rpx;
+  min-height: 80rpx;
+  display: block;
+  box-sizing: border-box;
+}
+
+.gs-picker {
+  flex: 1;
+  background: var(--bg-page);
+  border: 2rpx solid var(--primary-light);
+  border-radius: 16rpx;
+  padding: 20rpx 24rpx;
+  font-size: 28rpx;
+  min-height: 80rpx;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.gs-picker-full {
+  background: var(--bg-page);
+  border: 2rpx solid var(--primary-light);
+  border-radius: 16rpx;
+  padding: 20rpx 24rpx;
+  font-size: 28rpx;
+  min-height: 80rpx;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* 预览卡片 */
+.gs-preview {
+  margin-top: 24rpx;
+}
+
+.gs-detail {
+  margin-top: 16rpx;
+}
+
+.gs-d-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12rpx 0;
+  font-size: 26rpx;
+}
+
+.gs-d-target {
+  border-top: 2rpx dashed var(--primary-light);
+  margin-top: 8rpx;
+  padding-top: 16rpx;
+  font-weight: 700;
+}
+
+.gs-d-key {
+  color: var(--text-sub);
+}
+
+.gs-d-target .gs-d-key {
+  color: var(--primary);
+  font-size: 30rpx;
+}
+
+.gs-d-val {
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.gs-target .gs-d-val {
+  color: var(--primary);
+  font-size: 32rpx;
+}
+
+.gs-divider {
+  height: 2rpx;
+  background: var(--primary-light);
+  margin: 16rpx 0;
+  opacity: 0.4;
+}
+
+.gs-targets {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 12rpx;
+  margin-top: 8rpx;
+}
+
+.gs-t-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 16rpx 8rpx;
+  background: var(--bg-page);
+  border-radius: 12rpx;
+}
+
+.gs-t-water {
+  grid-column: span 1;
+}
+
+.gs-t-num {
+  font-size: 30rpx;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.gs-t-unit {
+  font-size: 20rpx;
+  color: var(--text-sub);
+  margin-top: 4rpx;
+}
+
+.gs-save {
+  margin-top: 32rpx;
+}
+
+.gs-footnote {
+  display: block;
+  margin-top: 24rpx;
+  font-size: 22rpx;
+  color: var(--text-sub);
+  line-height: 1.7;
+  white-space: pre-line;
+}

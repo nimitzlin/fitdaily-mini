@@ -1,0 +1,41 @@
+<view class="page">
+  <!-- 营养看板 -->
+  <view class="card">
+    <nutrition-dashboard stats="{{stats}}" profile="{{profile}}" />
+  </view>
+
+  <!-- 喝水小卡片 -->
+  <view class="card water-card" bindlongpress="onWaterLongPress">
+    <text class="wc-emoji">💧</text>
+    <view class="wc-main">
+      <text class="wc-title">今日饮水</text>
+      <text class="wc-val">{{water}}ml / {{profile.waterTargetMl}}ml</text>
+    </view>
+    <view class="btn-ghost wc-btn" bindtap="onAddWater">+250ml</view>
+  </view>
+
+  <!-- 四餐时间线 -->
+  <meal-section
+    wx:for="{{meals}}"
+    wx:key="key"
+    meal="{{item.key}}"
+    label="{{item.label}}"
+    logs="{{item.logs}}"
+    expanded="{{true}}"
+    bind:itemtap="onItemTap"
+    bind:itemedit="onItemEdit"
+    bind:itemremove="onItemRemove"
+  >
+    <food-card wx:for="{{item.logs}}" wx:for-item="log" wx:key="id" log="{{log}}"
+      bind:tap="onItemTap" bind:edit="onItemEdit" bind:remove="onItemRemove" />
+    <view wx:if="{{!item.logs.length}}" class="empty">还没记录，点右下角 + 开始</view>
+  </meal-section>
+
+  <view style="height: 140rpx"></view>
+
+  <!-- 悬浮添加按钮 -->
+  <view class="fab" bindtap="openSheet">＋</view>
+
+  <!-- 录入方式弹层 -->
+  <half-screen-sheet show="{{sheetShow}}" bind:close="closeSheet" bind:choose="onChooseEntry" />
+</view>

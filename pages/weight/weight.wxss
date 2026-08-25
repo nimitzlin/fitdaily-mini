@@ -1,0 +1,133 @@
+.page {
+  padding: 24rpx;
+}
+
+.wg-input-card {
+  display: flex;
+  flex-direction: column;
+  gap: 20rpx;
+}
+
+.wg-row {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+}
+
+.wg-label {
+  font-size: 30rpx;
+  font-weight: 700;
+}
+
+.wg-input {
+  flex: 1;
+  background: var(--bg-page);
+  border: 2rpx solid var(--primary-light);
+  border-radius: 16rpx;
+  padding: 14rpx 20rpx;
+  font-size: 32rpx;
+  text-align: center;
+}
+
+.wg-unit {
+  font-size: 28rpx;
+  color: var(--text-sub);
+}
+
+.wg-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 16rpx;
+}
+
+.wg-title {
+  font-size: 30rpx;
+  font-weight: 700;
+}
+
+.wg-diff {
+  font-size: 26rpx;
+  font-weight: 700;
+}
+
+.wg-down {
+  color: var(--gi-low);
+}
+
+.wg-up {
+  color: var(--accent-coral);
+}
+
+/* 简易折线图容器 */
+.wg-chart {
+  position: relative;
+  height: 260rpx;
+  background: var(--bg-page);
+  border-radius: 20rpx;
+  overflow: hidden;
+}
+
+.wg-dot {
+  position: absolute;
+  width: 14rpx;
+  height: 14rpx;
+  border-radius: 50%;
+  background: var(--primary-deep);
+  transform: translate(-50%, -50%);
+  z-index: 2;
+}
+
+.wg-line {
+  position: absolute;
+  height: 3rpx;
+  background: var(--primary);
+  transform-origin: left center;
+  z-index: 1;
+}
+
+.wg-xaxis {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8rpx;
+  font-size: 20rpx;
+  color: var(--text-sub);
+}
+
+.wg-rec {
+  display: flex;
+  justify-content: space-between;
+  padding: 18rpx 4rpx;
+  border-bottom: 2rpx dashed var(--primary-light);
+  font-size: 28rpx;
+}
+
+.wg-rec:last-child {
+  border-bottom: none;
+}
+
+.wg-val {
+  font-weight: 700;
+}
+
+.wg-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10rpx;
+  padding: 64rpx 40rpx;
+}
+
+.wg-e-emoji {
+  font-size: 72rpx;
+}
+
+.wg-e-t {
+  font-size: 30rpx;
+  font-weight: 700;
+}
+
+.wg-e-d {
+  font-size: 24rpx;
+  color: var(--text-sub);
+}

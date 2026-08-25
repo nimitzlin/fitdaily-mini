@@ -1,0 +1,30 @@
+<view wx:if="{{show}}" class="hs-mask" bindtap="onClose">
+  <view class="hs-sheet" catchtap="noop">
+    <view class="hs-bar"></view>
+    <view class="hs-title">记录一餐</view>
+
+    <view class="hs-opt" data-type="photo" bindtap="onChoose">
+      <text class="hs-emoji">📷</text>
+      <view class="hs-texts">
+        <text class="hs-name">拍照识别</text>
+        <text class="hs-desc">AI 估算热量营养，确认后写入</text>
+      </view>
+    </view>
+
+    <view class="hs-opt" data-type="search" bindtap="onChoose">
+      <text class="hs-emoji">🔍</text>
+      <view class="hs-texts">
+        <text class="hs-name">搜索食物库</text>
+        <text class="hs-desc">内置常见食物 + 我的常用置顶</text>
+      </view>
+    </view>
+
+    <view class="hs-opt" data-type="custom" bindtap="onChoose">
+      <text class="hs-emoji">✍️</text>
+      <view class="hs-texts">
+        <text class="hs-name">自定义录入</text>
+        <text class="hs-desc">手填营养与 GI，存入我的食物库</text>
+      </view>
+    </view>
+  </view>
+</view>

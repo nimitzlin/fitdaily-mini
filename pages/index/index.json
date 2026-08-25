@@ -1,0 +1,10 @@
+{
+  "navigationBarTitleText": "今日",
+  "usingComponents": {
+    "nutrition-dashboard": "../../components/nutrition-dashboard/nutrition-dashboard",
+    "capsule-progress": "../../components/capsule-progress/capsule-progress",
+    "food-card": "../../components/food-card/food-card",
+    "meal-section": "../../components/meal-section/meal-section",
+    "half-screen-sheet": "../../components/half-screen-sheet/half-screen-sheet"
+  }
+}

@@ -1,0 +1,20 @@
+<view class="page">
+  <view wx:if="{{!rows.length}}" class="mf-empty card">
+    <text class="mf-emoji">🍳</text>
+    <text class="mf-text">还没有自定义食物</text>
+    <text class="mf-hint">在「今日 → ＋ → 自定义录入」创建后，会自动出现在这里</text>
+  </view>
+
+  <view wx:for="{{rows}}" wx:key="id" class="mf-row">
+    <view class="mf-main" data-id="{{item.id}}" bindtap="onPick">
+      <view class="mf-line1">
+        <text class="mf-name">{{item.name}}</text>
+        <view class="gi-badge {{item.giCls}}"><view class="gb-dot"></view><text>{{item.giText}}</text></view>
+      </view>
+      <text class="mf-meta">每100g：{{item.per100.calories}} kcal · 蛋白{{item.per100.protein}}g 碳水{{item.per100.carbs}}g 脂肪{{item.per100.fat}}g</text>
+    </view>
+    <text class="mf-del" data-id="{{item.id}}" data-name="{{item.name}}" catchtap="onDelete">删除</text>
+  </view>
+
+  <button wx:if="{{rows.length}}" class="btn-ghost mf-add" bindtap="onAdd">＋ 新建自定义食物</button>
+</view>

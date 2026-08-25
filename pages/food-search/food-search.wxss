@@ -1,0 +1,98 @@
+.page {
+  padding: 24rpx;
+}
+
+.fs-search {
+  padding: 16rpx 24rpx;
+}
+
+.fs-input {
+  font-size: 28rpx;
+}
+
+.fs-cats {
+  white-space: nowrap;
+  margin: 20rpx -24rpx 0;
+  padding: 0 24rpx;
+}
+
+.fs-cat {
+  display: inline-block;
+  padding: 8rpx 28rpx;
+  margin-right: 12rpx;
+  border-radius: var(--radius-pill);
+  background: #fff;
+  border: 2rpx solid var(--primary-light);
+  color: var(--text-sub);
+  font-size: 24rpx;
+}
+
+.fs-cat-on {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: #fff;
+  font-weight: 700;
+}
+
+.fs-sec {
+  margin: 24rpx 8rpx 12rpx;
+  font-size: 26rpx;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.fs-row {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+  background: #fff;
+  border: var(--border-card);
+  border-radius: var(--radius-card);
+  padding: 20rpx 24rpx;
+  margin-bottom: 14rpx;
+}
+
+.fs-main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6rpx;
+}
+
+.fs-name {
+  font-size: 30rpx;
+  font-weight: 700;
+}
+
+.fs-meta {
+  font-size: 22rpx;
+  color: var(--text-sub);
+}
+
+.fs-empty {
+  text-align: center;
+  padding: 60rpx 40rpx;
+  color: var(--text-sub);
+  font-size: 26rpx;
+}
+
+/* gi-badge 样式（与组件一致的内联版） */
+.gi-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8rpx;
+  padding: 4rpx 16rpx;
+  border-radius: var(--radius-pill);
+  font-size: 22rpx;
+  font-weight: 700;
+}
+.gb-dot { width: 14rpx; height: 14rpx; border-radius: 50%; }
+.gb-low { background: rgba(95,168,107,.15); color: var(--gi-low); }
+.gb-low .gb-dot { background: var(--gi-low); }
+.gb-mid { background: rgba(233,180,76,.18); color: #b8862f; }
+.gb-mid .gb-dot { background: var(--gi-mid); }
+.gb-high { background: rgba(229,123,100,.16); color: var(--gi-high); }
+.gb-high .gb-dot { background: var(--gi-high); }
+.gb-none { background: rgba(191,199,191,.25); color: var(--text-sub); }
+.gb-none .gb-dot { background: var(--gi-none); }

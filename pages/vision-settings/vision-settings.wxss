@@ -1,0 +1,138 @@
+.page {
+  padding: 24rpx;
+}
+
+.vs-title-row {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+}
+
+.vs-emoji {
+  font-size: 40rpx;
+}
+
+.vs-title {
+  font-size: 34rpx;
+  font-weight: 700;
+}
+
+.vs-desc {
+  display: block;
+  margin-top: 12rpx;
+  font-size: 24rpx;
+  color: var(--text-sub);
+}
+
+.vs-row {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+  margin-top: 24rpx;
+}
+
+.vs-no-mt {
+  margin-top: 32rpx;
+}
+
+.vs-col {
+  margin-top: 24rpx;
+  display: flex;
+  flex-direction: column;
+  gap: 10rpx;
+  width: 100%;
+}
+
+.vs-label {
+  width: auto;
+  font-size: 26rpx;
+  color: var(--text-main);
+  flex-shrink: 0;
+}
+
+.vs-picker {
+  background: var(--bg-page);
+  border: 2rpx solid var(--primary-light);
+  border-radius: 16rpx;
+  padding: 20rpx 24rpx;
+  font-size: 28rpx;
+  min-width: 280rpx;
+  min-height: 80rpx;
+  line-height: 40rpx;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.vs-input {
+  background: var(--bg-page);
+  border: 2rpx solid var(--primary-light);
+  border-radius: 16rpx;
+  padding: 20rpx 24rpx;
+  font-size: 28rpx;
+  line-height: 40rpx;
+  min-height: 80rpx;
+  width: 100%;
+  min-width: 0;
+  display: block;
+  box-sizing: border-box;
+}
+
+.vs-key-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.vs-masked {
+  font-size: 22rpx;
+  color: var(--text-sub);
+}
+
+.vs-hint {
+  font-size: 22rpx;
+  color: var(--text-sub);
+}
+
+.vs-test {
+  margin-top: 36rpx;
+}
+
+.vs-result {
+  margin-top: 16rpx;
+  font-size: 24rpx;
+  border-radius: 16rpx;
+  padding: 14rpx 20rpx;
+}
+
+.vs-ok {
+  background: rgba(95, 168, 107, 0.15);
+  color: var(--gi-low);
+}
+
+.vs-bad {
+  background: rgba(229, 123, 100, 0.15);
+  color: var(--gi-high);
+}
+
+.vs-save {
+  margin-top: 24rpx;
+}
+
+.vs-tips {
+  margin-top: 24rpx;
+  display: flex;
+  flex-direction: column;
+  gap: 8rpx;
+}
+
+.vs-tips-title {
+  font-size: 26rpx;
+  font-weight: 700;
+}
+
+.vs-tip {
+  font-size: 22rpx;
+  color: var(--text-sub);
+}

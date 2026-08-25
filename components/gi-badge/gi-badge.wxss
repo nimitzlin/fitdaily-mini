@@ -1,0 +1,47 @@
+.gi-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8rpx;
+  padding: 4rpx 16rpx;
+  border-radius: var(--radius-pill);
+  font-size: 22rpx;
+  font-weight: 700;
+}
+
+.gb-dot {
+  width: 14rpx;
+  height: 14rpx;
+  border-radius: 50%;
+}
+
+.gb-low {
+  background: rgba(95, 168, 107, 0.15);
+  color: var(--gi-low);
+}
+.gb-low .gb-dot {
+  background: var(--gi-low);
+}
+
+.gb-mid {
+  background: rgba(233, 180, 76, 0.18);
+  color: #b8862f;
+}
+.gb-mid .gb-dot {
+  background: var(--gi-mid);
+}
+
+.gb-high {
+  background: rgba(229, 123, 100, 0.16);
+  color: var(--gi-high);
+}
+.gb-high .gb-dot {
+  background: var(--gi-high);
+}
+
+.gb-none {
+  background: rgba(191, 199, 191, 0.25);
+  color: var(--text-sub);
+}
+.gb-none .gb-dot {
+  background: var(--gi-none);
+}

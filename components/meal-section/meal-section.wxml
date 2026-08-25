@@ -1,0 +1,10 @@
+<view class="ms">
+  <view class="ms-head" bindtap="toggle">
+    <text class="ms-label">{{label}}</text>
+    <text class="ms-kcal">{{kcal}} kcal</text>
+    <text class="ms-arrow {{open ? 'ms-open' : ''}}">›</text>
+  </view>
+  <view wx:if="{{open}}" class="ms-body">
+    <slot />
+  </view>
+</view>

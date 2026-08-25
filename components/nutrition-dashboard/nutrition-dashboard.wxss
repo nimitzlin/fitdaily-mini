@@ -1,0 +1,87 @@
+.nd-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 16rpx;
+}
+
+.nd-title {
+  font-size: 32rpx;
+  font-weight: 700;
+}
+
+.nd-sum {
+  font-size: 26rpx;
+  color: var(--text-sub);
+}
+
+.nd-macros {
+  margin-top: 20rpx;
+  display: flex;
+  flex-direction: column;
+  gap: 14rpx;
+}
+
+.nd-macro {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+}
+
+.nd-mlabel {
+  width: 130rpx;
+  font-size: 24rpx;
+  color: var(--text-main);
+}
+
+.nd-mval {
+  width: 150rpx;
+  font-size: 22rpx;
+  color: var(--text-sub);
+}
+
+.nd-mbar {
+  flex: 1;
+}
+
+.nd-mdelta {
+  width: 80rpx;
+  text-align: right;
+  font-size: 22rpx;
+  color: var(--gi-low);
+}
+
+.nd-over {
+  color: var(--accent-coral);
+}
+
+/* GI 评分卡 */
+.nd-gi {
+  margin-top: 24rpx;
+  border-radius: var(--radius-card);
+  padding: 16rpx 20rpx;
+  display: flex;
+  flex-direction: column;
+  gap: 6rpx;
+}
+
+.nd-gi-good {
+  background: rgba(95, 168, 107, 0.14);
+}
+.nd-gi-warn {
+  background: rgba(233, 180, 76, 0.18);
+}
+.nd-gi-none {
+  background: rgba(191, 199, 191, 0.18);
+}
+
+.nd-gi-title {
+  font-size: 26rpx;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.nd-gi-text {
+  font-size: 24rpx;
+  color: var(--text-main);
+}

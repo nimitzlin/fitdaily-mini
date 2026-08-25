@@ -1,0 +1,70 @@
+.fc {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+  background: #fff;
+  border: var(--border-card);
+  border-radius: var(--radius-card);
+  padding: 20rpx 24rpx;
+  margin-bottom: 16rpx;
+}
+
+.fc-gi {
+  flex-shrink: 0;
+}
+
+.fc-main {
+  flex: 1;
+  min-width: 0;
+}
+
+.fc-row1 {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.fc-name {
+  font-size: 30rpx;
+  font-weight: 700;
+  color: var(--text-main);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.fc-kcal {
+  flex-shrink: 0;
+  margin-left: 12rpx;
+  font-size: 28rpx;
+  font-weight: 700;
+  color: var(--accent-coral);
+}
+
+.fc-row2 {
+  display: flex;
+  gap: 16rpx;
+  margin-top: 6rpx;
+}
+
+.fc-meta {
+  font-size: 22rpx;
+  color: var(--text-sub);
+}
+
+.fc-ops {
+  display: flex;
+  flex-direction: column;
+  gap: 8rpx;
+  flex-shrink: 0;
+}
+
+.fc-op {
+  font-size: 22rpx;
+  color: var(--text-sub);
+  padding: 4rpx 8rpx;
+}
+
+.fc-del {
+  color: var(--gi-high);
+}

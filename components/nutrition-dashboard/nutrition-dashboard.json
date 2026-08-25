@@ -1,0 +1,6 @@
+{
+  "component": true,
+  "usingComponents": {
+    "capsule-progress": "../capsule-progress/capsule-progress"
+  }
+}

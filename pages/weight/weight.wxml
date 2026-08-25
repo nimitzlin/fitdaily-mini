@@ -1,0 +1,52 @@
+<view class="page">
+  <!-- 录入卡 -->
+  <view class="card wg-input-card">
+    <view class="wg-row">
+      <text class="wg-label">今日体重</text>
+      <input class="wg-input" type="digit" maxlength="5" placeholder="如：65.5"
+             value="{{input}}" bindinput="onInput" />
+      <text class="wg-unit">kg</text>
+    </view>
+    <button class="btn-primary wg-btn" bindtap="onSave">记录今天</button>
+  </view>
+
+  <!-- 趋势卡 -->
+  <view class="card" wx:if="{{chart.length}}">
+    <view class="wg-head">
+      <text class="wg-title">体重趋势</text>
+      <text class="wg-diff {{diffFirst <= 0 ? 'wg-down' : 'wg-up'}}">
+        {{latest.weightKg}}kg · {{diffFirst <= 0 ? '↓' : '↑'}}{{diffFirst < 0 ? -diffFirst : diffFirst}}kg
+      </text>
+    </view>
+
+    <!-- 纯 CSS 折线（点 + 连线），避免引 echarts 增包体 -->
+    <view class="wg-chart">
+      <block wx:for="{{chart}}" wx:key="index">
+        <view class="wg-dot" style="left: {{item.x}}%; top: {{item.y}}%"></view>
+        <view wx:if="{{index > 0}}" class="wg-line"
+              style="left: {{chart[index-1].x}}%; top: {{chart[index-1].y}}%;
+                     width: {{item.x - chart[index-1].x}}%;
+                     transform: rotate({{(item.y - chart[index-1].y) / (item.x - chart[index-1].x) * 100 || 0}}deg);"></view>
+      </block>
+    </view>
+    <view class="wg-xaxis">
+      <text>{{chart[0].label}}</text>
+      <text>{{chart[chart.length-1].label}}</text>
+    </view>
+  </view>
+
+  <!-- 历史列表 -->
+  <view class="card" wx:if="{{records.length}}">
+    <text class="wg-title">历史记录</text>
+    <view wx:for="{{records}}" wx:key="date" class="wg-rec">
+      <text class="wg-date">{{item.date}}</text>
+      <text class="wg-val">{{item.weightKg}} kg</text>
+    </view>
+  </view>
+
+  <view wx:if="{{!records.length}}" class="card wg-empty">
+    <text class="wg-e-emoji">⚖️</text>
+    <text class="wg-e-t">记下第一笔体重吧</text>
+    <text class="wg-e-d">每天同一时间（晨起空腹最佳）测量更准</text>
+  </view>
+</view>

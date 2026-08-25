@@ -1,0 +1,4 @@
+.page { padding: 24rpx; }
+.card { background: var(--bg-card); border: var(--border-card); border-radius: var(--radius-card); padding: 32rpx; box-shadow: var(--shadow-card); }
+.title { display: block; font-size: 34rpx; font-weight: 700; color: var(--text-main); }
+.desc { display: block; margin-top: 12rpx; font-size: 26rpx; color: var(--text-sub); }

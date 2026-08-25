@@ -1,0 +1,99 @@
+.page {
+  padding: 24rpx;
+}
+
+.mf-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12rpx;
+  padding: 64rpx 40rpx;
+}
+
+.mf-emoji {
+  font-size: 72rpx;
+}
+
+.mf-text {
+  font-size: 30rpx;
+  font-weight: 700;
+}
+
+.mf-hint {
+  font-size: 24rpx;
+  color: var(--text-sub);
+  text-align: center;
+}
+
+.mf-row {
+  display: flex;
+  align-items: stretch;
+  background: #fff;
+  border: var(--border-card);
+  border-radius: var(--radius-card);
+  margin-bottom: 16rpx;
+  overflow: hidden;
+}
+
+.mf-main {
+  flex: 1;
+  min-width: 0;
+  padding: 20rpx 24rpx;
+  display: flex;
+  flex-direction: column;
+  gap: 8rpx;
+}
+
+.mf-line1 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12rpx;
+}
+
+.mf-name {
+  font-size: 30rpx;
+  font-weight: 700;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.mf-meta {
+  font-size: 22rpx;
+  color: var(--text-sub);
+}
+
+.mf-del {
+  display: flex;
+  align-items: center;
+  padding: 0 28rpx;
+  background: rgba(229, 123, 100, 0.12);
+  color: var(--gi-high);
+  font-size: 24rpx;
+  flex-shrink: 0;
+}
+
+.mf-add {
+  margin-top: 16rpx;
+}
+
+/* gi-badge 内联样式 */
+.gi-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8rpx;
+  padding: 4rpx 16rpx;
+  border-radius: var(--radius-pill);
+  font-size: 22rpx;
+  font-weight: 700;
+}
+.gb-dot { width: 14rpx; height: 14rpx; border-radius: 50%; }
+.gb-low { background: rgba(95,168,107,.15); color: var(--gi-low); }
+.gb-low .gb-dot { background: var(--gi-low); }
+.gb-mid { background: rgba(233,180,76,.18); color: #b8862f; }
+.gb-mid .gb-dot { background: var(--gi-mid); }
+.gb-high { background: rgba(229,123,100,.16); color: var(--gi-high); }
+.gb-high .gb-dot { background: var(--gi-high); }
+.gb-none { background: rgba(191,199,191,.25); color: var(--text-sub); }
+.gb-none .gb-dot { background: var(--gi-none); }

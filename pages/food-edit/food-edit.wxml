@@ -1,0 +1,67 @@
+<view class="page">
+  <view class="card">
+    <text class="fe-title">{{editLogId ? '编辑记录' : '记录一餐'}}</text>
+
+    <view wx:if="{{aiBanner}}" class="fe-ai-banner">{{aiBanner}}</view>
+
+    <view class="fe-row fe-no-mt">
+      <text class="fe-label">餐次</text>
+      <picker mode="selector" range="{{meals}}" value="{{mealIndex}}" bindchange="onPickMeal" class="fe-picker">
+        <view>{{meals[mealIndex].label}}</view>
+      </picker>
+    </view>
+
+    <view class="fe-row">
+      <text class="fe-label">食物名称</text>
+      <input class="fe-input" placeholder="如：自制鸡胸肉沙拉" maxlength="20"
+             value="{{name}}" data-field="name" bindinput="onInput" />
+    </view>
+
+    <view class="fe-row">
+      <text class="fe-label">份量（克/ml）</text>
+      <input class="fe-input" type="digit" value="{{weight}}" data-field="weight" bindinput="onInput" />
+    </view>
+
+    <view class="fe-grid">
+      <view class="fe-cell">
+        <text class="fe-label">热量（每100g·kcal）</text>
+        <input class="fe-input" type="digit" placeholder="必填" value="{{calories}}" data-field="calories" bindinput="onInput" />
+      </view>
+      <view class="fe-cell">
+        <text class="fe-label">蛋白质（每100g·g）</text>
+        <input class="fe-input" type="digit" placeholder="0" value="{{protein}}" data-field="protein" bindinput="onInput" />
+      </view>
+      <view class="fe-cell">
+        <text class="fe-label">碳水（每100g·g）</text>
+        <input class="fe-input" type="digit" placeholder="0" value="{{carbs}}" data-field="carbs" bindinput="onInput" />
+      </view>
+      <view class="fe-cell">
+        <text class="fe-label">脂肪（每100g·g）</text>
+        <input class="fe-input" type="digit" placeholder="0" value="{{fat}}" data-field="fat" bindinput="onInput" />
+      </view>
+      <view class="fe-cell">
+        <text class="fe-label">膳食纤维（选填·g）</text>
+        <input class="fe-input" type="digit" placeholder="0" value="{{fiber}}" data-field="fiber" bindinput="onInput" />
+      </view>
+    </view>
+
+    <view wx:if="{{warnText}}" class="fe-warn">💡 {{warnText}}</view>
+
+    <!-- GI 区块 -->
+    <view class="fe-gi-block">
+      <view class="fe-row">
+        <text class="fe-label">升糖指数 GI（选填）</text>
+        <input class="fe-input fe-gi-input" type="number" maxlength="3"
+               placeholder="0-100" value="{{gi}}" data-field="gi" bindinput="onInput" />
+        <view class="gi-badge {{giCls}}"><view class="gb-dot"></view><text>{{giLabel}}</text></view>
+      </view>
+      <view class="fe-switch-row">
+        <text class="fe-label">是否低GI食物</text>
+        <switch checked="{{lowGiSwitch}}" color="#5FA86B" bindchange="onLowGiChange" />
+      </view>
+      <text class="fe-hint">≤55 低GI · 56-69 中GI · ≥70 高GI；填写GI后自动判定，冲突时以数值为准</text>
+    </view>
+
+    <button class="btn-primary fe-save" bindtap="onSave">保存并记录</button>
+  </view>
+</view>

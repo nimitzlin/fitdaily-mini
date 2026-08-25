@@ -1,0 +1,42 @@
+<view class="page">
+  <!-- 每日目标 -->
+  <view class="card">
+    <view class="pf-title-row">
+      <text class="pf-emoji">🎯</text>
+      <text class="pf-title">每日目标</text>
+      <view class="pf-edit" bindtap="goGoalSettings">✏️ 编辑</view>
+    </view>
+    <view class="pf-grid">
+      <view class="pf-cell"><text class="pf-num">{{profile.calorieTarget}}</text><text class="pf-unit">热量 kcal</text></view>
+      <view class="pf-cell"><text class="pf-num">{{profile.proteinTarget}}g</text><text class="pf-unit">蛋白质</text></view>
+      <view class="pf-cell"><text class="pf-num">{{profile.carbsTarget}}g</text><text class="pf-unit">碳水</text></view>
+      <view class="pf-cell"><text class="pf-num">{{profile.fatTarget}}g</text><text class="pf-unit">脂肪</text></view>
+      <view class="pf-cell"><text class="pf-num">{{profile.fiberTarget}}g</text><text class="pf-unit">纤维</text></view>
+      <view class="pf-cell"><text class="pf-num">{{profile.waterTargetMl}}ml</text><text class="pf-unit">饮水</text></view>
+    </view>
+  </view>
+
+  <!-- 功能入口 -->
+  <view class="card pf-menu">
+    <view class="pf-item" bindtap="goMyFoods">
+      <text class="pf-i-emoji">🍳</text>
+      <view class="pf-i-main"><text class="pf-i-name">我的食物库</text><text class="pf-i-desc">管理自定义食物</text></view>
+      <text class="pf-arrow">›</text>
+    </view>
+    <view class="pf-item" bindtap="goVision">
+      <text class="pf-i-emoji">📷</text>
+      <view class="pf-i-main"><text class="pf-i-name">AI 识别设置</text><text class="pf-i-desc">{{visionReady ? '已配置 MiniMax ✅' : '配置 MiniMax API Key'}}</text></view>
+      <text class="pf-arrow">›</text>
+    </view>
+    <view class="pf-item" bindtap="goWeight">
+      <text class="pf-i-emoji">⚖️</text>
+      <view class="pf-i-main"><text class="pf-i-name">体重记录</text><text class="pf-i-desc">曲线与趋势（T12 施工中）</text></view>
+      <text class="pf-arrow">›</text>
+    </view>
+  </view>
+
+  <view class="card pf-about">
+    <text class="pf-about-t">每日健身伴侣 FitDaily · v0.1-dev</text>
+    <text class="pf-about-d">数据仅存本机 · 无账号 · 无社交</text>
+  </view>
+</view>

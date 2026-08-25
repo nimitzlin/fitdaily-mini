@@ -1,0 +1,31 @@
+@import "config/tokens.wxss";
+
+/* 全局基础样式 */
+page {
+  background: var(--bg-page);
+  color: var(--text-main);
+  font-size: 28rpx;
+  line-height: 1.6;
+}
+
+.card {
+  background: var(--bg-card);
+  border: var(--border-card);
+  border-radius: var(--radius-card);
+  padding: 32rpx;
+  box-shadow: var(--shadow-card);
+}
+
+.btn-primary {
+  background: var(--primary);
+  color: #fff;
+  border-radius: var(--radius-pill);
+  font-weight: 700;
+}
+
+.btn-ghost {
+  background: transparent;
+  border: 3rpx solid var(--primary);
+  color: var(--text-main);
+  border-radius: var(--radius-pill);
+}
