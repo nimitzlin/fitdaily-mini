@@ -1,5 +1,5 @@
 {
-  "appid": "wx2a331b137dad8452",
+  "appid": "wx2da3c953b8aa4ae4",
   "compileType": "miniprogram",
   "libVersion": "latest",
   "projectname": "fitdaily-mini",
@@ -50,5 +50,6 @@
     "ignore": [],
     "include": []
   },
-  "editorSetting": {}
+  "editorSetting": {},
+  "isGameTourist": false
 }

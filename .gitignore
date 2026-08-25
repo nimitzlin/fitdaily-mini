@@ -7,6 +7,11 @@ miniprogram_npm/
 *.js.map
 !project.config.js
 
+# 备份文件（不入库）
+*.bak
+*.bak-*
+project.config.json.bak-*
+
 # IDE
 .idea/
 .vscode/
