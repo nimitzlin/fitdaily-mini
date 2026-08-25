@@ -7,6 +7,7 @@ import {
   bodyGet,
   bodySet,
   profileSet,
+  todayStr,
   weightUpsert,
   weightsAll,
 } from '../../services/storage';
@@ -134,9 +135,9 @@ Page({
     bodySet(body);
     profileSet(this.data.computed);
 
-    // 如果用户没记过体重，顺便记录今天体重
+    // 如果用户没记过体重，顺便记录今天体重（本地时区，不用 toISOString/UTC）
     const ws = weightsAll();
-    const today = new Date().toISOString().slice(0, 10);
+    const today = todayStr();
     if (!ws.find((x) => x.date === today)) {
       weightUpsert({ date: today, weightKg: w });
     }

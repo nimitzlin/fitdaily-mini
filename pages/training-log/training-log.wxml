@@ -1,0 +1,93 @@
+<view class="page">
+  <!-- 步骤 1: 选动作 -->
+  <view wx:if="{{!selectedExercise}}" class="card">
+    <view class="tl-row-h">
+      <text class="tl-emoji">🎯</text>
+      <text class="tl-title">选择动作</text>
+    </view>
+
+    <!-- 部位 tab -->
+    <scroll-view scroll-x class="tl-parts">
+      <view wx:for="{{partLabels}}" wx:key="key"
+            class="tl-part {{currentPart === item.key ? 'is-active' : ''}}"
+            data-part="{{item.key}}"
+            bindtap="selectPart">
+        {{item.label}}
+      </view>
+    </scroll-view>
+
+    <!-- 动作列表 -->
+    <view class="tl-exlist">
+      <view wx:for="{{exercises}}" wx:key="id"
+            wx:if="{{item.bodyPart === currentPart}}"
+            class="tl-ex"
+            data-id="{{item.id}}"
+            bindtap="selectExercise">
+        <view class="tl-ex-main">
+          <text class="tl-ex-name">{{item.name}}</text>
+          <text class="tl-ex-meta">{{item.equipment}}</text>
+        </view>
+        <view class="tl-ex-tag" wx:if="{{item.isCompound}}">复合</view>
+        <text class="tl-ex-arrow">›</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 步骤 2: 填组 -->
+  <view wx:if="{{selectedExercise}}" class="card">
+    <view class="tl-row-h">
+      <text class="tl-emoji">🏋️</text>
+      <text class="tl-title">{{selectedExercise.name}}</text>
+      <view class="tl-repick" bindtap="selectExercise" data-id="">‹ 换动作</view>
+    </view>
+    <text class="tl-meta">{{selectedExercise.equipment}} · {{selectedExercise.isCompound ? '复合动作' : '孤立动作'}}</text>
+
+    <!-- 组列表 -->
+    <view class="tl-sets">
+      <view wx:for="{{sets}}" wx:key="*this" class="tl-set-row">
+        <text class="tl-set-num">#{{index + 1}}</text>
+        <view class="tl-set-input">
+          <text class="tl-set-lbl">{{selectedExercise.bodyPart === 'cardio' ? '时间 分' : '次数'}}</text>
+          <input type="number" value="{{item.reps}}" data-idx="{{index}}" bindinput="onSetReps" class="tl-input" />
+        </view>
+        <view wx:if="{{selectedExercise.bodyPart !== 'cardio'}}" class="tl-set-input">
+          <text class="tl-set-lbl">重量 kg</text>
+          <input type="digit" value="{{item.weightKg}}" data-idx="{{index}}" bindinput="onSetWeight" class="tl-input" />
+        </view>
+        <view wx:else class="tl-set-input">
+          <text class="tl-set-lbl">距离 km（可选）</text>
+          <input type="digit" placeholder="0" value="{{item.weightKg}}" data-idx="{{index}}" bindinput="onSetWeight" class="tl-input" />
+        </view>
+        <view class="tl-set-del" data-idx="{{index}}" bindtap="removeSet">×</view>
+      </view>
+    </view>
+
+    <view class="tl-add-set" bindtap="addSet">+ 加一组</view>
+
+    <view class="tl-rest-row">
+      <text class="tl-rest-lbl">⏱ 休息 {{restSec}}s</text>
+      <view class="tl-rest-btn {{timerRunning ? 'is-running' : ''}}"
+            bindtap="{{timerRunning ? 'stopTimer' : 'startTimer'}}">
+        {{timerRunning ? restLeft + 's 点击停止' : '开始休息'}}
+      </view>
+    </view>
+
+    <button class="btn-primary tl-save" bindtap="saveLog">保存训练记录</button>
+  </view>
+
+  <!-- 今日训练列表 -->
+  <view wx:if="{{todayLogs.length}}" class="card">
+    <view class="tl-row-h">
+      <text class="tl-emoji">📋</text>
+      <text class="tl-title">今日训练</text>
+      <text class="tl-log-count">{{todayLogs.length}} 条</text>
+    </view>
+    <view wx:for="{{todayLogs}}" wx:key="id" class="tl-log-item">
+      <view class="tl-log-info">
+        <text class="tl-log-name">{{item.exName}}</text>
+        <text class="tl-log-sets">{{item.sets.length}} 组 · 顶组 {{item.sets[0].weightKg}}kg × {{item.sets[0].reps}}</text>
+      </view>
+      <view class="tl-log-del" data-id="{{item.id}}" bindtap="onRemoveLog">删除</view>
+    </view>
+  </view>
+</view>

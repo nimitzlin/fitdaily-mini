@@ -94,8 +94,54 @@ export interface BodyProfile {
 }
 
 export interface VisionConfig {
-  preset: 'minimax-intl' | 'minimax-cn';
+  preset: 'minimax-intl' | 'minimax-cn' | 'deepseek';
   baseUrl: string;
   model: string;
   lastTestOk: boolean | null;
+}
+
+/* ---------- T17-T18 运动模块 ---------- */
+
+export type BodyPart = 'chest' | 'back' | 'legs' | 'shoulders' | 'arms' | 'core' | 'cardio' | 'fullbody';
+
+export const BODY_PART_LABEL: Record<BodyPart, string> = {
+  chest: '胸',
+  back: '背',
+  legs: '腿',
+  shoulders: '肩',
+  arms: '臂',
+  core: '核心',
+  cardio: '有氧',
+  fullbody: '全身',
+};
+
+export interface Exercise {
+  id: string;
+  name: string;
+  bodyPart: BodyPart;
+  equipment: string;
+  isCompound: boolean;
+  /** T19: MET 代谢当量，用于估算卡路里消耗 */
+  met: number;
+}
+
+export interface ExerciseSet {
+  reps: number;
+  weightKg: number;
+  restSec: number;
+}
+
+export interface TrainingLog {
+  id: string;
+  date: string;
+  exerciseId: string;
+  sets: ExerciseSet[];
+  note?: string;
+  createdAt: number;
+}
+
+export interface TrainingDay {
+  date: string;
+  done: boolean;
+  note?: string;
 }

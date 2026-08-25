@@ -292,3 +292,32 @@
   color: var(--gi-high);
   font-weight: 700;
 }
+/* ===== 5. 本周训练（T19.2 缺口 A）===== */
+.stats-tr-bars {
+  height: 200rpx;
+}
+.stats-bar.tr {
+  background: var(--primary);
+  opacity: 0.85;
+}
+.stats-tr-burn {
+  display: flex;
+  align-items: baseline;
+  gap: 8rpx;
+  margin-bottom: 16rpx;
+}
+.stats-tr-burn-num {
+  font-size: 48rpx;
+  font-weight: 700;
+  color: var(--accent-coral);
+}
+.stats-tr-burn-unit {
+  font-size: 24rpx;
+  color: var(--text-sub);
+}
+.stats-tr-empty {
+  text-align: center;
+  padding: 16rpx 0 4rpx;
+  font-size: 24rpx;
+  color: var(--text-sub);
+}

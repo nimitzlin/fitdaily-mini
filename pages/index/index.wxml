@@ -14,6 +14,17 @@
     <view class="btn-ghost wc-btn" bindtap="onAddWater">+250ml</view>
   </view>
 
+  <!-- 训练打卡卡 -->
+  <view class="card train-card {{trained ? 'is-done' : ''}}" bindtap="onToggleTrain">
+    <text class="tr-emoji">{{trained ? '💪' : '🤸'}}</text>
+    <view class="tr-main">
+      <text class="tr-title">{{trained ? '今天练了 ✅' : '今天练了吗？'}}</text>
+      <text class="tr-sub" wx:if="{{trained}}">目标已 +300 kcal + 20g 蛋白</text>
+      <text class="tr-sub" wx:else>点一下打卡，目标自动调整</text>
+    </view>
+    <view class="tr-arrow">{{trained ? '再次点击取消' : '›'}}</view>
+  </view>
+
   <!-- 四餐时间线 -->
   <meal-section
     wx:for="{{meals}}"

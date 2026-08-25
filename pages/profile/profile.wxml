@@ -30,7 +30,7 @@
     </view>
     <view class="pf-item" bindtap="goWeight">
       <text class="pf-i-emoji">⚖️</text>
-      <view class="pf-i-main"><text class="pf-i-name">体重记录</text><text class="pf-i-desc">曲线与趋势（T12 施工中）</text></view>
+      <view class="pf-i-main"><text class="pf-i-name">体重记录</text><text class="pf-i-desc">曲线与趋势</text></view>
       <text class="pf-arrow">›</text>
     </view>
   </view>

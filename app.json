@@ -2,6 +2,7 @@
   "pages": [
     "pages/index/index",
     "pages/training/training",
+    "pages/training-log/training-log",
     "pages/data/data",
     "pages/profile/profile",
     "pages/food-search/food-search",

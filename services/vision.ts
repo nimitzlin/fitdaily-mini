@@ -8,7 +8,7 @@ import { RecogItem, RecogResult } from './types-vision';
 export type { RecogItem, RecogResult };
 
 export interface VisionPreset {
-  id: 'minimax-intl' | 'minimax-cn';
+  id: 'minimax-intl' | 'minimax-cn' | 'deepseek';
   label: string;
   baseUrl: string;
   defaultModel: string;
@@ -26,6 +26,14 @@ export const PRESETS: VisionPreset[] = [
     label: 'MiniMax 国际站',
     baseUrl: 'https://api.minimax.io/v1/chat/completions',
     defaultModel: 'MiniMax-M3',
+  },
+  {
+    // DeepSeek 唯一支持图片输入的模型：deepseek-v4-flash-vision-exp（官方 Vision 指南 2026-08）
+    // OpenAI 兼容格式：base64 data URI + image_url，与现有调用链完全一致
+    id: 'deepseek',
+    label: 'DeepSeek',
+    baseUrl: 'https://api.deepseek.com/v1/chat/completions',
+    defaultModel: 'deepseek-v4-flash-vision-exp',
   },
 ];
 
@@ -79,7 +87,7 @@ export function recognizeMeal(cfg: VisionCallCfg, apiKey: string, imageBase64: s
     wx.request({
       url: cfg.baseUrl,
       method: 'POST',
-      timeout: 15000,
+      timeout: 30000, // vision 模型（如 deepseek-vision-exp）大图推理可能超 15s
       header: { 'content-type': 'application/json', Authorization: `Bearer ${apiKey}` },
       data: {
         model: cfg.model,

@@ -56,3 +56,21 @@
   box-shadow: 0 8rpx 24rpx rgba(56, 102, 65, 0.25);
   z-index: 50;
 }
+
+/* 训练打卡卡 */
+.train-card {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+  transition: background 0.3s ease;
+}
+.train-card.is-done {
+  background: linear-gradient(135deg, var(--primary-light), var(--bg-card));
+  border: 4rpx solid var(--primary);
+}
+.tr-emoji { font-size: 40rpx; }
+.tr-main { flex: 1; display: flex; flex-direction: column; gap: 4rpx; }
+.tr-title { font-size: 30rpx; font-weight: 700; color: var(--text-main); }
+.tr-sub { font-size: 22rpx; color: var(--text-sub); }
+.tr-arrow { font-size: 28rpx; color: var(--text-sub); }
+.train-card.is-done .tr-arrow { color: var(--primary); font-size: 22rpx; }

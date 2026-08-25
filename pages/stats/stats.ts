@@ -4,7 +4,9 @@ import {
   weekAverages,
   weekAvgGi,
   weekDailySummaries,
+  weekTrainingSummary,
   WeekAverages,
+  WeekTrainingSummary,
   DaySummary,
 } from '../../services/stats';
 import { profileGet } from '../../services/storage';
@@ -29,6 +31,8 @@ Page({
     maxKcal: 0, // 7 天中最大的摄入，用于柱状图归一化
     activeDays: 0,
     hasAnyLog: false,
+    training: null as WeekTrainingSummary | null, // T19.2 缺口 A
+    maxBurn: 0,
   },
 
   onShow() {
@@ -42,6 +46,8 @@ Page({
     const weekGi = weekAvgGi(summaries);
     const highGi = highGiFoodsThisWeek(summaries);
     const profile = profileGet();
+    const training = weekTrainingSummary(start);
+    const maxBurn = Math.max(1, ...training.daily.map((d) => d.burn));
     const maxKcal = Math.max(profile.calorieTarget, ...summaries.map((s) => s.stats?.calories ?? 0));
     const hasAnyLog = summaries.some((s) => s.hasLog || s.waterMl > 0);
 
@@ -62,6 +68,8 @@ Page({
       maxKcal,
       activeDays: weekAvg.activeDays,
       hasAnyLog,
+      training,
+      maxBurn,
     });
   },
 });

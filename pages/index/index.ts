@@ -1,5 +1,7 @@
+import { adjustedTargets, TRAIN_DAY_KCAL, TRAIN_DAY_PROTEIN } from '../../services/goal';
 import { dailyStats, DailyStats } from '../../services/nutrition';
 import {
+  currentWeightKg,
   genId,
   logAdd,
   logRemove,
@@ -14,6 +16,7 @@ import {
   waterSet,
   waterReset,
 } from '../../services/storage';
+import { isTrainedToday, kcalForDay, dayTrainingLogs, setTrainingDone } from '../../services/training';
 import { MealLog, MealType, MEAL_LABEL, UserProfile } from '../../services/types';
 import { compressImage, fileToBase64, recognizeMeal, setRecogDraft } from '../../services/vision';
 
@@ -30,10 +33,13 @@ Page({
     date: '',
     stats: null as DailyStats | null,
     profile: null as UserProfile | null,
+    trained: false,
     meals: [] as MealGroup[],
     water: 0,
     sheetShow: false,
   },
+  // 非 data 字段（不参与渲染）今日训练日志缓存
+  _todayLogsCache: [] as ReturnType<typeof dayTrainingLogs>,
 
   onShow() {
     this.refresh();
@@ -47,13 +53,43 @@ Page({
       label: MEAL_LABEL[k],
       logs: logs.filter((l) => l.meal === k),
     }));
+    const trained = isTrainedToday(date);
+    const baseProfile = profileGet();
+    const profile = adjustedTargets(baseProfile, trained);
+    // 缓存今日训练日志，供 onToggleTrain 计算消耗用
+    this._todayLogsCache = dayTrainingLogs(date);
     this.setData({
       date,
-      profile: profileGet(),
+      profile,
+      trained,
       stats: dailyStats(logs),
       meals: groups,
       water: waterOf(date),
     });
+  },
+
+  /** T17 训练日打卡 / 取消打卡 */
+  onToggleTrain() {
+    const date = this.data.date;
+    const next = !this.data.trained;
+    setTrainingDone(date, next);
+    this.refresh();
+    if (next) {
+      // T19 同步显示今日训练消耗
+      const bodyWeight = currentWeightKg();
+      const burn = kcalForDay(this._todayLogsCache || [], bodyWeight);
+      wx.showToast({
+        title: `打卡成功 +${TRAIN_DAY_KCAL} kcal 🔥消耗 ${burn} kcal`,
+        icon: 'none',
+        duration: 2400,
+      });
+    } else {
+      wx.showToast({ title: '已取消打卡', icon: 'none' });
+    }
+  },
+
+  goTraining() {
+    wx.navigateTo({ url: '/pages/training/training' });
   },
 
   openSheet() {

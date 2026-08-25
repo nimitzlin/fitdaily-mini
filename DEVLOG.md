@@ -377,3 +377,179 @@ TDEE = BMR × 活动系数
 
 ### PRD 沉淀位置
 `docs/fitdaily/PRD.md` 第 9.1 节（v1.1 新增章节）
+
+---
+
+## 2026-08-25 · T17-T18 运动模块（阶段 1+2 全栈落地）
+
+### T17 阶段 1（MVP 闭环）
+
+| 文件 | 改动 |
+|---|---|
+| `services/types.ts` | + `BodyPart` enum + `BODY_PART_LABEL` + `Exercise` / `ExerciseSet` / `TrainingLog` / `TrainingDay` 类型 |
+| `services/storage.ts` | + `SK.trainingDone(date)` + `SK.trainingLogMonth(ym)` + 6 个函数（done/log CRUD）|
+| `services/goal.ts` | + `TRAIN_DAY_KCAL = 300` + `TRAIN_DAY_PROTEIN = 20` + `adjustedTargets(base, trained)` |
+| `pages/index/index.{ts,wxml,wxss}` | 首页加训练打卡卡 + `onToggleTrain` + `goTraining` 入口 |
+
+**核心差异化**：训练日 vs 休息日目标自动调整（+300 kcal / +20g 蛋白），首页 nutrition-dashboard 用 `adjustedTargets(base, trained)` 自动联动。
+
+### T18 阶段 2（P1 核心）
+
+| 文件 | 改动 |
+|---|---|
+| `data/exercises-v0.ts` | **新建**：50 个常用动作（胸 8 / 背 8 / 腿 10 / 肩 6 / 臂 8 / 核心 5 / 有氧 3 / 全身 2）|
+| `services/training.ts` | **新建**：6 个聚合函数（exercisesAll / exerciseById / isTrainedToday / dayTrainingLogs / monthTrainedDays / exercisePR / exerciseHistory）|
+| `pages/training/training.{ts,wxml,wxss}` | **重构**：从空壳补全（3155 + 2832 + 3448 字节）|
+| `pages/training-log/training-log.{json,ts,wxml,wxss}` | **新建**：训练记录 4 文件（4573 + 3322 + 3795 字节）|
+| `app.json` | 注册 `pages/training-log/training-log` |
+
+### 训练主页（pages/training）功能
+
+- 💪 **今日打卡主按钮**：单击切换打卡状态 + 视觉变绿
+- 📋 **今日训练列表**：动作 / 组数 / 重量统计
+- 📅 **月历视图**：6 行 × 7 列网格，绿点 = 已训练，浅绿 = 今天（不含打卡，只含真实训练日志）
+- 🏆 **PR 曲线入口**（v1.2 入口已留，待实施）
+
+### 训练记录页（pages/training-log）功能
+
+- 🎯 **步骤 1 选动作**：部位 tab + 50 动作列表（按部位分组）+ 「复合动作」tag
+- 🏋️ **步骤 2 加组**：每组可填「次数」「重量」+ 增删组
+- ⏱ **休息计时器**：默认 90s，倒计时完成震动 + toast
+- 💾 **保存训练记录**：自动写 storage（按月分片）
+- 🗑 **删除训练记录**：二次确认 modal
+
+### 自测验证
+- ✅ `tsc` exit 0
+- ✅ 类型检查全过（`genId` prefix 修了 1 处 bug）
+- ✅ 训练打卡 → 首页目标 +300 kcal +20g 蛋白（verified by adjustedTargets 函数）
+- ✅ 月历计算 `buildMonthCalendar` 复用 `mondayOf` 算法
+
+### PRD 沉淀
+`docs/fitdaily/PRD.md` 第 9.2 节（v1.1 新增运动模块详细设计）+ 变更日志 v1.1 第 4 条
+
+---
+
+## 2026-08-25 · T19 训练消耗估算（MET 公式）
+
+### 背景
+俊洪问：「这个目标完成后，会算出来消耗显示么」→ 之前 T17 的 +300 kcal 只是**目标增量**（"今天因为训练，目标提高 300"），不是真实消耗。本节用 **MET 代谢当量**估算**实际训练消耗**。
+
+### 实施
+
+| 文件 | 改动 |
+|---|---|
+| `services/types.ts` | `Exercise` 加 `met: number` 字段 |
+| `data/exercises-v0.ts` | 50 个动作全加 MET 值（参考 Compendium of Physical Activities 2011） |
+| `services/storage.ts` | 加 `currentWeightKg()` 工具（从 bodyGet 优先，weightsAll 兜底） |
+| `services/training.ts` | 加 `kcalForLog(log, ex, weight)` + `kcalForDay(logs, weight)` 纯函数 |
+| `pages/index/index.{ts,wxml}` | 训练打卡 toast 显示「🔥 消耗 X kcal」 |
+| `pages/training/training.{ts,wxml,wxss}` | 今日训练标题右侧加 `🔥XX kcal` 徽章 |
+| `pages/training-log/training-log.ts` | 保存 toast 显示「🔥 消耗约 X kcal」 |
+
+### MET 公式
+
+```
+有氧：kcal = MET × 体重kg × 时间h（reps 字段当分钟用）
+力量：kcal = MET × 体重kg × 组数 × 0.025h（每组平均 90s 含休息）
+```
+
+### MET 参考值（精选）
+
+| 动作 | MET |
+|---|---|
+| 跳绳 | 11.8（最高消耗）|
+| 壶铃摇摆 | 9.0 |
+| 跑步 | 8.3 |
+| 引体向上 | 8.0 |
+| 硬拉 | 7.0 |
+| 划船机 | 7.0 |
+| 深蹲 | 6.0 |
+| 卧推 | 5.0 |
+| 卷腹/平板 | 2.8（最低）|
+
+### 单元自测（70kg 用户）
+- ✅ 卧推 4 组 = 35 kcal（4 × 5.0 × 70 × 0.025 = 35）
+- ✅ 跑步 30min = 291 kcal（8.3 × 70 × 0.5 = 290.5）
+- ✅ 跳绳 20min = 275 kcal（11.8 × 70 × 0.333 = 275）
+
+### 永久规则（不可逆）
+
+- ✅ 训练消耗显示 = MET × 体重 × 时间/组数（公式固定）
+- ✅ 数据源：`currentWeightKg()`（bodyGet 优先，weightsAll 兜底）
+- ✅ 首页 / 训练主页 / 训练记录页 三处都显示
+- ❌ 不许简化成纯「打卡 +300 kcal」（那是**目标增量**，不是**消耗**）
+- ⚠️ 体重未录入时消耗显示 0（不影响其他功能）
+
+### PRD 沉淀
+`docs/fitdaily/PRD.md` 第 9.3 节（v1.1 新增训练消耗估算详细设计 + MET 表）+ 变更日志
+
+### T19.1 视觉识别加 DeepSeek 预设（2026-08-25 19:45）
+
+**需求**：俊洪拍板「设置 apikey 加入 deepseek-version 的支持，查一下 ds 文档，加入选项」
+
+**官方文档核实（api-docs.deepseek.com，2026-08）**：
+| 项 | 值 |
+|---|---|
+| 支持图片输入的模型 | **deepseek-v4-flash-vision-exp**（唯一 vision 模型；v4-flash/v4-pro 纯文本） |
+| Base URL（OpenAI 格式） | `https://api.deepseek.com`（补全 `/v1/chat/completions`） |
+| 图片传法 | base64 data URI + `image_url`（与现有链路完全一致，零改动） |
+| 格式支持 | JPEG / PNG / GIF / WebP |
+| 请求体上限 | 48 MiB |
+
+**改动（3 处）**：
+1. `services/types.ts` — `VisionConfig.preset` 联合类型 + `'deepseek'`
+2. `services/vision.ts` — `VisionPreset.id` 联合类型 + `'deepseek'`；`PRESETS[]` 加第 3 项
+3. 设置页 picker 动态渲染 `PRESETS`，UI 自动多出「DeepSeek」选项，无需改 wxml
+
+**永久规则**：
+- ✅ DeepSeek 预设 defaultModel 必须是 `deepseek-v4-flash-vision-exp`（不是 deepseek-chat / v4-pro——那两个不支持图片）
+- ✅ baseUrl 用 OpenAI 兼容格式 `https://api.deepseek.com/v1/chat/completions`
+- ⚠️ 用户已有旧配置存的是 minimax preset，切 DeepSeek 需重新选一次预设 + 填 key
+
+### 2026-08-25 20:10 · 全面体检 + 第 1 批修复（2 bug + 4 瑕疵）
+
+**体检范围**：PRD 对照 / 全页面代码走查 / 时区 / NaN / storage 容量 / 月历边界 / 删除链路
+
+**已修（6 处）**：
+
+| # | 类型 | 文件 | 问题 → 修法 |
+|---|---|---|---|
+| 1 | 🔴 Bug | `pages/goal-settings/goal-settings.ts` | `toISOString()`（UTC）导致早上 0-8 点保存体重记到昨天 → 改用本地时区 `todayStr()` |
+| 2 | 🔴 Bug | `pages/training/training.{ts,wxml}` | 有氧动作显示「1 组 · 顶组 0kg × 30」→ ts 端生成 summary 字段：有氧「30 分钟」，力量「4 组 · 顶组 60kg × 12」 |
+| 3 | 🟡 瑕疵 | `services/training.ts` | `kcalForLog` 条件 `log.exerciseId === ex?.id &&` 冗余且 ex=null 时有氧误走力量公式 → 简化为 `ex?.bodyPart === 'cardio'` |
+| 4 | 🟡 瑕疵 | `pages/profile/profile.wxml` | 「体重记录（T12 施工中）」过期文案 → 去掉括号 |
+| 5 | 🟡 瑕疵 | `services/vision.ts` | vision 模型大图推理可能超 15s → timeout 30000 |
+| 6 | 🟡 瑕疵 | `pages/training/training.{ts,wxml}` | 训练主页今日记录无删除入口 → 加 `bindlongpress="onRemoveTodayLog"`（复用 training-log 的 modal 模式） |
+
+**回归自测（node 直跑编译产物）**：
+- ✅ 有氧 30min/70kg = 291 kcal
+- ✅ 未知动作（ex=null）4 组/70kg = 28 kcal（走力量兜底公式，不再误判）
+- ✅ 体重未录入 = 0 kcal
+- ✅ tsc 编译 0 错误
+
+**遗留待拍板**：
+- 缺口 A：stats 页加训练区块（本周 N 次 · X kcal + 7 天柱状）
+- 缺口 B：消耗与目标的关系维持现状（Keep 流派）还是改 MFP 动态余额
+
+### 2026-08-25 20:26 · 缺口 A：stats 页训练区块（T19.2）
+
+**需求**：俊洪拍板「缺口a补上」——stats 周统计补训练维度
+
+**改动（4 处）**：
+
+| 文件 | 改动 |
+|---|---|
+| `services/stats.ts` | + `weekTrainingSummary(startDate)`：返回 `{ trainedDays, totalBurn, daily[7] }`；口径 = 训练日志 **或** 打卡标记（有日志按 MET 算消耗，只打卡算 1 天但 burn=0） |
+| `pages/stats/stats.ts` | recompute 接入 + `training` / `maxBurn` data 字段 |
+| `pages/stats/stats.wxml` | 第 5 区块「💪 本周训练」：头部 N/7 天徽章 + 🔥 总消耗大数字 + 7 天柱状（复用 stats-bars 样式体系）+ 零训练空态引导 |
+| `pages/stats/stats.wxss` | `.stats-tr-*` 系列（柱色用 primary、总消耗数字用 accent-coral 大字） |
+
+**设计决策**：
+- 训练天数口径：有训练日志 **或** 打过卡都算（打卡是轻量行为，不该被忽略）
+- 柱状图归一化：maxBurn 取本周最大值（不是固定刻度），任何量级都能看清相对高低
+- 复用现有 stats-bar 柱状样式体系，只加 `.tr` 配色变体——保持视觉一致
+
+**回归自测**：
+- ✅ tsc 编译 0 错误
+- ✅ kcalForDay 混合场景：卧推 4 组(35) + 跑步 30min(291) = 326 kcal
+- ✅ 空 storage 全 0 不报错

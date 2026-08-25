@@ -3,8 +3,19 @@
  * 依赖：services/storage (日志/水) + services/nutrition (dailyStats)
  */
 import { dailyStats, DailyStats } from './nutrition';
-import { logsOfDay, logsOfMonth, waterOf } from './storage';
+import {
+  currentWeightKg,
+  logsOfDay,
+  logsOfMonth,
+  waterOf,
+} from './storage';
 import { MealLog } from './types';
+import {
+  dayTrainingLogs,
+  isTrainedToday,
+  kcalForDay,
+} from './training';
+import { EXERCISES_V0 } from '../data/exercises-v0';
 
 /** 本周每日摘要 */
 export interface DaySummary {
@@ -127,4 +138,33 @@ export function weekAvgGi(summaries: DaySummary[]): number | null {
   }
   if (sumCarbs <= 0) return null;
   return Math.round(sumGiCarbs / sumCarbs);
+}
+/* ---------- T19.2 本周训练统计（缺口 A） ---------- */
+
+export interface WeekTrainingSummary {
+  /** 本周训练过的日期数（有训练日志或打卡的天数） */
+  trainedDays: number;
+  /** 本周总消耗 kcal（MET 估算） */
+  totalBurn: number;
+  /** 每天 { date, burn }（0 表示当天没练） */
+  daily: Array<{ date: string; burn: number; weekdayLabel: string }>;
+}
+
+/** 本周训练摘要：N 次 + 总消耗 + 每日分布（供 stats 页柱状图） */
+export function weekTrainingSummary(startDate: string = mondayOf()): WeekTrainingSummary {
+  const exMap = new Map(EXERCISES_V0.map((e) => [e.id, e]));
+  const daily: WeekTrainingSummary['daily'] = [];
+  let totalBurn = 0;
+  let trainedDays = 0;
+  for (let i = 0; i < 7; i++) {
+    const date = addDays(startDate, i);
+    const logs = dayTrainingLogs(date);
+    // 打卡但没记日志也算「练过」（打卡天数口径）
+    const marked = isTrainedToday(date);
+    const burn = kcalForDay(logs, currentWeightKg());
+    if (logs.length > 0 || marked) trainedDays += 1;
+    totalBurn += burn;
+    daily.push({ date, burn, weekdayLabel: WK_LABELS[i + 1] });
+  }
+  return { trainedDays, totalBurn, daily };
 }

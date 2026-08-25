@@ -3,7 +3,7 @@
  * key 分片策略（PRD 5）：日志按月分 key 防 1MB 单 key 上限
  * ★ 红线：API Key 只存 'vk'，永不上传、不进日志、不参与云同步
  */
-import { BodyProfile, Food, MealLog, UserProfile, VisionConfig, WeightLog } from './types';
+import { BodyProfile, Food, MealLog, TrainingDay, TrainingLog, UserProfile, VisionConfig, WeightLog } from './types';
 import { BUILTIN_FOODS } from '../data/foods';
 
 export const SK = {
@@ -13,6 +13,8 @@ export const SK = {
   water: (d: string) => `fd_waters_${d}`,
   profile: 'fd_profile',
   body: 'fd_body', // 身体档案原始输入（用于目标计算）
+  trainingDone: (d: string) => `fd_training_done_${d}`, // 打卡标记
+  trainingLogMonth: (ym: string) => `fd_training_${ym}`, // 训练记录按月分片
   visionCfg: 'fd_vision_cfg',
   visionKey: 'vk', // ★ 独立字段红线
 } as const;
@@ -143,6 +145,45 @@ export function waterReset(date: string): void {
   }
 }
 
+// ---------- 训练打卡与记录 ----------
+
+/** 今日是否完成训练 */
+export const trainingDoneGet = (date: string): TrainingDay | null =>
+  get<TrainingDay | null>(SK.trainingDone(date), null);
+
+export function trainingDoneSet(date: string, done: boolean, note?: string): void {
+  if (!done) {
+    try { wx.removeStorageSync(SK.trainingDone(date)); } catch { /* ignore */ }
+    return;
+  }
+  set(SK.trainingDone(date), { date, done: true, note });
+}
+
+/** 取某月训练记录列表 */
+export function trainingLogMonth(ym: string): TrainingLog[] {
+  return get<TrainingLog[]>(SK.trainingLogMonth(ym), []);
+}
+
+/** 取某日训练记录 */
+export function trainingLogDay(date: string): TrainingLog[] {
+  return trainingLogMonth(ymOf(date)).filter((l) => l.date === date);
+}
+
+/** 加一条训练记录 */
+export function trainingLogAdd(log: TrainingLog): void {
+  const ym = ymOf(log.date);
+  const list = trainingLogMonth(ym);
+  list.push(log);
+  set(SK.trainingLogMonth(ym), list);
+}
+
+/** 删一条训练记录 */
+export function trainingLogRemove(date: string, logId: string): void {
+  const ym = ymOf(date);
+  const list = trainingLogMonth(ym).filter((l) => l.id !== logId);
+  set(SK.trainingLogMonth(ym), list);
+}
+
 // ---------- 个人目标 ----------
 export const DEFAULT_PROFILE: UserProfile = {
   calorieTarget: 1800,
@@ -179,4 +220,13 @@ let seq = 0;
 export function genId(prefix: string): string {
   seq += 1;
   return `${prefix}_${Date.now().toString(36)}${seq.toString(36)}`;
+}
+
+/** T19: 取用户当前体重（优先 bodyGet，否则 weightsAll 最后一条） */
+export function currentWeightKg(): number {
+  const b = bodyGet();
+  if (b?.weightKg) return b.weightKg;
+  const ws = weightsAll();
+  if (ws.length) return ws[ws.length - 1].weightKg;
+  return 0;
 }

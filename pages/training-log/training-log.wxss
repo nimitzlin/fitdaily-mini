@@ -1,0 +1,159 @@
+.page {
+  padding: 24rpx;
+}
+
+/* 通用 */
+.tl-row-h { display: flex; align-items: center; gap: 12rpx; margin-bottom: 16rpx; }
+.tl-emoji { font-size: 32rpx; }
+.tl-title { font-size: 30rpx; font-weight: 700; color: var(--text-main); flex: 1; }
+.tl-meta { font-size: 22rpx; color: var(--text-sub); display: block; margin-bottom: 16rpx; }
+
+/* 部位 tab */
+.tl-parts { white-space: nowrap; margin-bottom: 16rpx; }
+.tl-part {
+  display: inline-block;
+  padding: 12rpx 28rpx;
+  margin-right: 12rpx;
+  background: var(--bg-page);
+  border: 2rpx solid var(--primary-light);
+  border-radius: 999rpx;
+  font-size: 26rpx;
+  color: var(--text-main);
+}
+.tl-part.is-active {
+  background: var(--primary);
+  color: #fff;
+  font-weight: 700;
+}
+
+/* 动作列表 */
+.tl-exlist { display: flex; flex-direction: column; }
+.tl-ex {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+  padding: 18rpx 0;
+  border-bottom: 2rpx dashed var(--primary-light);
+}
+.tl-ex:last-child { border-bottom: none; }
+.tl-ex-main { flex: 1; display: flex; flex-direction: column; gap: 4rpx; }
+.tl-ex-name { font-size: 28rpx; font-weight: 600; color: var(--text-main); }
+.tl-ex-meta { font-size: 22rpx; color: var(--text-sub); }
+.tl-ex-tag {
+  font-size: 20rpx;
+  background: var(--primary-light);
+  color: var(--primary-deep);
+  padding: 4rpx 10rpx;
+  border-radius: 8rpx;
+}
+.tl-ex-arrow { font-size: 32rpx; color: var(--text-sub); }
+
+/* 步骤 2 */
+.tl-repick { font-size: 24rpx; color: var(--primary); }
+
+/* 组列表 */
+.tl-sets { margin-top: 16rpx; display: flex; flex-direction: column; gap: 14rpx; }
+.tl-set-row {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+  background: var(--bg-page);
+  border-radius: 12rpx;
+  padding: 12rpx;
+}
+.tl-set-num {
+  font-size: 24rpx;
+  font-weight: 700;
+  color: var(--primary);
+  width: 60rpx;
+  flex-shrink: 0;
+}
+.tl-set-input {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4rpx;
+}
+.tl-set-lbl { font-size: 20rpx; color: var(--text-sub); }
+.tl-input {
+  background: #fff;
+  border: 2rpx solid var(--primary-light);
+  border-radius: 10rpx;
+  padding: 12rpx 16rpx;
+  font-size: 28rpx;
+  min-height: 60rpx;
+  line-height: 36rpx;
+  box-sizing: border-box;
+}
+.tl-set-del {
+  width: 60rpx;
+  height: 60rpx;
+  line-height: 60rpx;
+  text-align: center;
+  font-size: 36rpx;
+  color: var(--gi-high);
+  flex-shrink: 0;
+}
+
+.tl-add-set {
+  margin-top: 16rpx;
+  text-align: center;
+  padding: 14rpx;
+  background: var(--primary-light);
+  border-radius: 12rpx;
+  font-size: 26rpx;
+  color: var(--primary-deep);
+  font-weight: 600;
+}
+
+/* 休息计时器 */
+.tl-rest-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 24rpx;
+  padding: 16rpx;
+  background: var(--bg-page);
+  border-radius: 12rpx;
+}
+.tl-rest-lbl { font-size: 26rpx; font-weight: 700; color: var(--text-main); }
+.tl-rest-btn {
+  padding: 12rpx 24rpx;
+  background: var(--primary);
+  color: #fff;
+  border-radius: 999rpx;
+  font-size: 26rpx;
+  font-weight: 700;
+}
+.tl-rest-btn.is-running {
+  background: var(--accent-coral);
+  animation: pulse 1s infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+/* 保存 */
+.tl-save { margin-top: 24rpx; }
+
+/* 今日训练 */
+.tl-log-count { font-size: 22rpx; color: var(--text-sub); }
+.tl-log-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14rpx 0;
+  border-bottom: 2rpx dashed var(--primary-light);
+}
+.tl-log-item:last-child { border-bottom: none; }
+.tl-log-info { display: flex; flex-direction: column; gap: 4rpx; flex: 1; }
+.tl-log-name { font-size: 28rpx; font-weight: 600; color: var(--text-main); }
+.tl-log-sets { font-size: 22rpx; color: var(--text-sub); }
+.tl-log-del {
+  font-size: 22rpx;
+  color: var(--gi-high);
+  padding: 6rpx 14rpx;
+  border: 2rpx solid var(--gi-high);
+  border-radius: 8rpx;
+}

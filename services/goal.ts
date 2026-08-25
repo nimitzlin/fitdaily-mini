@@ -85,3 +85,17 @@ export function calcDetail(b: BodyProfile): {
     target: Math.round(_tdee + goalDelta(b.goal)),
   };
 }
+
+/** T17 训练日 vs 休息日目标调整 */
+export const TRAIN_DAY_KCAL = 300; // 训练日增加 300 kcal
+export const TRAIN_DAY_PROTEIN = 20; // 训练日增加 20g 蛋白
+
+/** 根据是否训练日返回调整后的 UserProfile */
+export function adjustedTargets(base: UserProfile, trained: boolean): UserProfile {
+  if (!trained) return base;
+  return {
+    ...base,
+    calorieTarget: base.calorieTarget + TRAIN_DAY_KCAL,
+    proteinTarget: base.proteinTarget + TRAIN_DAY_PROTEIN,
+  };
+}

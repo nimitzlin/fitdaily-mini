@@ -1,6 +1,69 @@
 <view class="page">
+  <!-- 今日打卡主按钮 -->
+  <view class="card train-hero {{trained ? 'is-done' : ''}}" bindtap="onToggleTrain">
+    <text class="tr-hero-emoji">{{trained ? '💪' : '🏋️'}}</text>
+    <view class="tr-hero-main">
+      <text class="tr-hero-title">{{trained ? '今日训练已完成 ✅' : '今天练了吗？'}}</text>
+      <text class="tr-hero-sub">{{trained ? '目标已 +300 kcal + 20g 蛋白\n再次点击可取消' : '点击打卡，目标自动 +300 kcal'}}</text>
+    </view>
+  </view>
+
+  <!-- 今日训练 -->
   <view class="card">
-    <text class="title">training</text>
-    <text class="desc">施工中 · 需求见 docs/fitdaily/PRD.md</text>
+    <view class="tr-row-h">
+      <text class="tr-emoji">📝</text>
+      <text class="tr-title">今日训练</text>
+      <view class="tr-counts">
+        <text class="tr-count">{{todayExerciseCount}}</text><text class="tr-count-unit">动作 ·</text>
+        <text class="tr-count">{{todayTotalSets}}</text><text class="tr-count-unit">组 ·</text>
+        <text class="tr-count tr-burn">🔥{{todayBurn}}</text><text class="tr-count-unit">kcal</text>
+      </view>
+    </view>
+    <view wx:if="{{!todayLogs.length}}" class="tr-empty">
+      <text class="tr-empty-emoji">📋</text>
+      <text class="tr-empty-t">还没有训练记录</text>
+      <view class="btn-primary tr-empty-btn" bindtap="goLog">+ 加一组</view>
+    </view>
+    <view wx:for="{{todayLogs}}" wx:key="id" class="tr-log-row" bindlongpress="onRemoveTodayLog" data-id="{{item.id}}">
+      <text class="tr-log-name">{{item.exName}}</text>
+      <text class="tr-log-sets">{{item.summary}}</text>
+    </view>
+    <view wx:if="{{todayLogs.length}}" class="tr-add-btn" bindtap="goLog">+ 加一组</view>
+  </view>
+
+  <!-- 月历 -->
+  <view class="card">
+    <view class="tr-row-h">
+      <text class="tr-emoji">📅</text>
+      <text class="tr-title">{{monthLabel}}</text>
+    </view>
+    <view class="tr-cal-head">
+      <text class="tr-cal-hd">一</text>
+      <text class="tr-cal-hd">二</text>
+      <text class="tr-cal-hd">三</text>
+      <text class="tr-cal-hd">四</text>
+      <text class="tr-cal-hd">五</text>
+      <text class="tr-cal-hd">六</text>
+      <text class="tr-cal-hd">日</text>
+    </view>
+    <view wx:for="{{calendar}}" wx:key="row" class="tr-cal-row">
+      <view wx:for="{{item}}" wx:for-item="cell" wx:key="date" class="tr-cal-cell {{cell.inMonth ? '' : 'is-out'}} {{cell.isToday ? 'is-today' : ''}} {{cell.isTrained ? 'is-trained' : ''}}">
+        <text wx:if="{{cell.inMonth}}" class="tr-cal-day">{{cell.day}}</text>
+      </view>
+    </view>
+    <view class="tr-cal-legend">
+      <view class="tr-cal-legend-item"><view class="tr-cal-dot today"></view><text>今天</text></view>
+      <view class="tr-cal-legend-item"><view class="tr-cal-dot trained"></view><text>已训练</text></view>
+    </view>
+  </view>
+
+  <!-- PR 曲线入口（v1.2 上） -->
+  <view class="card tr-pr-card" bindtap="goPR">
+    <text class="tr-pr-emoji">🏆</text>
+    <view class="tr-pr-main">
+      <text class="tr-pr-title">PR 曲线</text>
+      <text class="tr-pr-sub">卧推 / 深蹲 / 硬拉历史最大重量趋势</text>
+    </view>
+    <text class="tr-pr-arrow">›</text>
   </view>
 </view>

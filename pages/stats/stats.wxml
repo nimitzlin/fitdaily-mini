@@ -174,5 +174,38 @@
         </view>
       </view>
     </view>
+
+    <!-- 5. 本周训练（T19.2 缺口 A） -->
+    <view class="card">
+      <view class="stats-row-h">
+        <text class="stats-emoji">💪</text>
+        <text class="stats-title">本周训练</text>
+        <view class="stats-head-tag">
+          <text class="stats-head-num">{{training.trainedDays}}</text>
+          <text class="stats-head-unit">/7 天</text>
+        </view>
+      </view>
+
+      <view wx:if="{{training.totalBurn > 0}}" class="stats-tr-burn">
+        <text class="stats-tr-burn-num">🔥 {{training.totalBurn}}</text>
+        <text class="stats-tr-burn-unit">kcal 总消耗</text>
+      </view>
+
+      <!-- 7 天消耗柱状 -->
+      <view class="stats-bars stats-tr-bars">
+        <view wx:for="{{training.daily}}" wx:key="date" class="stats-bar-col">
+          <view class="stats-bar-wrap">
+            <view class="stats-bar tr"
+                  style="height: {{item.burn > 0 ? (item.burn / maxBurn * 100) : 0}}%"></view>
+          </view>
+          <text class="stats-bar-val">{{item.burn > 0 ? item.burn : ''}}</text>
+          <text class="stats-bar-day">{{item.weekdayLabel}}</text>
+        </view>
+      </view>
+
+      <view wx:if="{{training.trainedDays === 0}}" class="stats-tr-empty">
+        <text>本周还没训练，去「💪 训练」打卡开练</text>
+      </view>
+    </view>
   </block>
 </view>
