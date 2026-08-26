@@ -108,8 +108,17 @@ Page({
   /** T22.2: 搜不到 → 点 CTA 跳自定义录入（name 预填搜索词） */
   onCreateCustom() {
     const kw = encodeURIComponent(this.data.keyword.trim());
-    wx.redirectTo({
-      url: `/pages/food-edit/food-edit?date=${this.data.date}&source=custom&prefillName=${kw}`,
+    const url = `/pages/food-edit/food-edit?date=${this.data.date}&source=custom&prefillName=${kw}`;
+    console.log('[food-search] onCreateCustom →', url, 'keyword=', this.data.keyword);
+    // 用 navigateTo 代替 redirectTo：即使 stack 里有 food-edit 也不会静默失败
+    // 用户从 food-edit 保存后返回本页面, onShow 重新 refresh 时还看得到刚保存的食物
+    wx.navigateTo({
+      url,
+      fail: (e) => {
+        console.error('[food-search] navigateTo fail:', e);
+        // 降级: redirectTo
+        wx.redirectTo({ url, fail: (e2) => console.error('[food-search] redirectTo also fail:', e2) });
+      },
     });
   },
 });

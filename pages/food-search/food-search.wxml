@@ -50,8 +50,11 @@
     ↓ 加载更多（{{total - shown}} 条未显示）
   </view>
 
-  <!-- T22.2: 没找到 → CTA 引导自定义录入（不只一句提示） -->
-  <view wx:if="{{!rows.length && !myRows.length && !quickRows.length && keyword}}" class="fs-empty">
+  <!-- T22.3: 没找到 → CTA 引导自定义录入
+       注意: 只判断 rows.length + keyword（不看 quickRows/myRows）
+       因为搜索时 quickRows 是之前空搜索的 10 条，myRows 也是，会误判
+  -->
+  <view wx:if="{{!rows.length && keyword}}" class="fs-empty">
     <text class="fs-empty-title">没找到「{{keyword}}」</text>
     <text class="fs-empty-hint">这可能是加工食品 / 养生品 / 合成菜（如芝麻丸、阿胶糕、宫保鸡丁），数据库没收录</text>
     <button class="btn-primary fs-empty-btn" bindtap="onCreateCustom">＋ 自定义录入「{{keyword}}」</button>

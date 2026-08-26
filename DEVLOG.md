@@ -723,3 +723,19 @@ TDEE = BMR × 活动系数
   - 没找到的 UX 永远是"CTA 可点击"，不只静态文字
   - 自定义录入入口有 3 个：主页 ＋ 号 / 我的食物库 + / food-search 搜不到 CTA
   - prefillName 用 encodeURIComponent 编码避免中文 URL 编码问题
+
+### T22.3 ✅ CTA 按钮不显示 bug 修复 (8/26 18:43 完成)
+- **背景**: 俊洪实测"点自定义录入按钮没反应" — 实际不是没反应，是 CTA 卡片根本没显示
+- **bug**: `pages/food-search/food-search.wxml` fs-empty 的 wx:if 条件：
+  - `wx:if="{{!rows.length && !myRows.length && !quickRows.length && keyword}}"`
+  - **quickRows 在搜索状态下保持 10 条（空搜索时的快捷入口还在）**
+  - 所以 `!quickRows.length` = false → 整体条件永远 false → CTA 永不显示
+- **修复**: 简化条件为 `wx:if="{{!rows.length && keyword}}"`
+  - 只判断"主结果列表空 + 搜索词非空"
+  - 不再被 quickRows/myRows 干扰
+- **同时优化 onCreateCustom**: navigateTo + fail 回调 + console.log 方便排查
+- **类型校验**: `npx tsc --noEmit` 0 错误
+- **永久规则**:
+  - wx:if 条件要单一职责（判断"搜不到"就看 rows，别加无关判断）
+  - navigateTo 比 redirectTo 安全（不会静默失败，stack 多层也能跳）
+  - 关键方法加 console.log 方便小程序调试
