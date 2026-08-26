@@ -96,3 +96,24 @@
 .gb-high .gb-dot { background: var(--gi-high); }
 .gb-none { background: rgba(191,199,191,.25); color: var(--text-sub); }
 .gb-none .gb-dot { background: var(--gi-none); }
+
+.fs-sec-meta {
+  font-size: 22rpx;
+  color: #999;
+  font-weight: normal;
+}
+
+.fs-more {
+  margin: 24rpx auto;
+  padding: 20rpx 0;
+  text-align: center;
+  font-size: 26rpx;
+  color: #2b7cff;
+  background: #f0f6ff;
+  border-radius: 12rpx;
+  width: 90%;
+}
+
+.fs-more:active {
+  background: #e0ecff;
+}
