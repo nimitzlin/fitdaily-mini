@@ -4,10 +4,11 @@
  * ★ 红线：API Key 只存 'vk'，永不上传、不进日志、不参与云同步
  */
 import { BodyProfile, Food, MealLog, TrainingDay, TrainingLog, UserProfile, VisionConfig, WeightLog } from './types';
-import { BUILTIN_FOODS } from '../data/foods';
+import { ALL_FOODS } from '../data/foods';
 
 export const SK = {
   foodsUser: 'fd_foods_user',
+  foodsRecent: 'fd_foods_recent', // T20.2: 最近用过的食物 id 列表（最多 50，按时间倒序）
   logsMonth: (ym: string) => `fd_logs_${ym}`, // ym = '2026-08'
   weights: 'fd_weights',
   water: (d: string) => `fd_waters_${d}`,
@@ -63,13 +64,39 @@ export function foodUserRemove(id: string): void {
   );
 }
 
-/** 跨库查食物：我的食物库优先，其次内置库 */
+/** 跨库查食物：我的食物库优先，其次 ALL_FOODS（builtin 108 + cfc 1643 = 1751） */
 export function findFoodById(id: string): Food | null {
   return (
     foodsUserAll().find((f) => f.id === id) ||
-    BUILTIN_FOODS.find((f) => f.id === id) ||
+    ALL_FOODS.find((f) => f.id === id) ||
     null
   );
+}
+
+// ---------- T20.2: 最近用过的食物（用于 food-search 智能排序） ----------
+
+const RECENT_MAX = 50;
+
+/** 获取最近用过的食物 id 列表（按使用时间倒序，最新在前） */
+export const recentFoodsGet = (): string[] =>
+  get<string[]>(SK.foodsRecent, []);
+
+/**
+ * 记录一个食物为最近用过。会：
+ *  1. 把 id 提到列表头部（去重）
+ *  2. 裁剪到 RECENT_MAX 条
+ *  3. 即使 id 不在 builtin/user/cfc 里也保留（老数据兼容）
+ */
+export function recentFoodsAdd(id: string): void {
+  const list = recentFoodsGet().filter((x) => x !== id);
+  list.unshift(id);
+  if (list.length > RECENT_MAX) list.length = RECENT_MAX;
+  set(SK.foodsRecent, list);
+}
+
+/** 清空最近食物列表（调试/重置用） */
+export function recentFoodsClear(): void {
+  try { wx.removeStorageSync(SK.foodsRecent); } catch { /* ignore */ }
 }
 
 // ---------- 饮食记录（按月分片） ----------

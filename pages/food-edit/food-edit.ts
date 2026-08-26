@@ -6,6 +6,7 @@ import {
   logAdd,
   logUpdate,
   logsOfDay,
+  recentFoodsAdd,
   todayStr,
 } from '../../services/storage';
 import { consumeDraftItem, getRecogDraft } from '../../services/vision';
@@ -263,7 +264,11 @@ Page({
       createdAt: this.data.editingLog?.createdAt ?? Date.now(),
     };
     if (this.data.editLogId) logUpdate(log);
-    else logAdd(log);
+    else {
+      logAdd(log);
+      // T20.2: 记录食物到「最近用过」列表，供 food-search 智能排序
+      if (food.id) recentFoodsAdd(food.id);
+    }
 
     // T11：来源是 AI 草稿 → 消费该项，还有剩余则继续确认下一道
     if (this.data.draftIdx >= 0) {

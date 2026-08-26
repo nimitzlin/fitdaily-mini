@@ -2,6 +2,7 @@ import { foodsUserAll } from '../../services/storage';
 import { ALL_FOODS } from '../../data/foods';
 import { Food } from '../../services/types';
 import { giLevel } from '../../services/nutrition';
+import { smartSearch } from '../../services/food-search';
 
 interface Row extends Food {
   giCls: string;
@@ -46,23 +47,24 @@ Page({
   },
 
   search() {
-    const kw = (this.data.keyword || '').trim().toLowerCase();
+    const kw = (this.data.keyword || '').trim();
     const cat = this.data.cats[this.data.catIndex];
 
-    // 我的食物库：搜索命中时置顶展示
-    const my = foodsUserAll().filter((fd: Food) => !kw || fd.name.toLowerCase().includes(kw));
+    // T20.2: 用 smartSearch（含同义词、去重、智能排序）
+    const { total, items } = smartSearch(kw, cat);
 
-    let pool: Food[] =
-      cat === '全部' ? ALL_FOODS : ALL_FOODS.filter((fd) => fd.category === cat);
-    if (kw) pool = pool.filter((fd) => fd.name.toLowerCase().includes(kw));
+    // 我的食物库：仅在无搜索词时置顶展示（避免与 rows 重复）
+    const my = kw
+      ? []
+      : foodsUserAll().slice(0, 10);
 
     const pageSize = kw ? PAGE_SIZE_KEYWORD : PAGE_SIZE_DEFAULT;
-    const slice = pool.slice(0, pageSize);
+    const slice = items.slice(0, pageSize);
 
     this.setData({
-      myRows: decorate(my.slice(0, 10)),
+      myRows: decorate(my),
       rows: decorate(slice),
-      total: pool.length,
+      total,
       shown: slice.length,
       pageSize,
     });
@@ -71,11 +73,10 @@ Page({
   /** 点击"加载更多" */
   onMore() {
     const next = this.data.rows.length + this.data.pageSize;
+    const kw = (this.data.keyword || '').trim();
     const cat = this.data.cats[this.data.catIndex];
-    const kw = (this.data.keyword || '').trim().toLowerCase();
-    let pool: Food[] = cat === '全部' ? ALL_FOODS : ALL_FOODS.filter((fd) => fd.category === cat);
-    if (kw) pool = pool.filter((fd) => fd.name.toLowerCase().includes(kw));
-    const slice = pool.slice(0, next);
+    const { items } = smartSearch(kw, cat);
+    const slice = items.slice(0, next);
     this.setData({
       rows: decorate(slice),
       shown: slice.length,

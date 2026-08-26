@@ -599,3 +599,28 @@ TDEE = BMR × 活动系数
   - cfc 是单源权威数据 → 不许手动编辑 `data/foods-cfc.ts`，改用 import 脚本重生成
   - exercises-v1 同理（Compendium 学术源），不要手改 MET
   - 升级数据: 重跑脚本 `python3 scripts/import_cfc_foods.py` + `python3 scripts/import_compendium_exercises.py`
+
+### T20.2 ✅ 智能搜索 + 同义词去重 + 最近食物排序 (8/26 14:56 完成)
+- **背景**: cfc 1643 条入库后 builtin 100 条被淹没 + builtin/cfc 同物不同名（如 builtin "鸡胸肉" vs cfc "鸡胸脯肉"）
+- **3 个改动**:
+  1. **新建 services/food-search.ts**: `smartSearch(kw, cat)` — 同义词扩展 + 去重 + recent 排序
+     - 30 组同义词映射（鸡胸肉↔鸡胸脯肉/西红柿↔番茄/红薯↔甘薯/白粥↔大米粥/面条↔挂面 等）
+     - 去重：同义词组只保留 cfc（更权威）
+     - 排序权重：recent[0..49] > builtin 命中 > cfc 命中 > 字典序
+  2. **storage.ts 加 recentFoods 机制**:
+     - 新 key `fd_foods_recent` (string[], 最多 50)
+     - `recentFoodsAdd(id)` / `recentFoodsGet()` / `recentFoodsClear()`
+     - food-edit 保存日志时自动写入
+  3. **findFoodById 改用 ALL_FOODS**: 用户选 cfc 食物 → 跨库查找不再丢
+- **效果**:
+  - 搜"鸡胸肉" → 5 条（含 cfc 鸡胸脯肉/乌骨鸡等），builtin 鸡胸肉被 cfc 去重
+  - 搜"西红柿" → 6 条（别名命中 cfc 番茄/奶柿子/樱桃番茄）
+  - 搜"红薯" → builtin 红薯 + cfc 甘薯（别名命中）
+  - 搜"鱼" → 最近用过的三文鱼（cfc）排第一，builtin 字典序接后
+  - 搜"毛豆" → 1 条直接命中
+  - 空搜索 → 鲑鱼/毛豆（recent）置顶，builtin 字典序接后
+- **类型校验**: `npx tsc --noEmit` 0 错误
+- **永久规则**:
+  - 同义词表在 `services/food-search.ts:SYNONYM_GROUPS`，加新别名直接往里 append
+  - `recentFoods` 只在 food-edit 保存时自动写入，不需要手动管
+  - `findFoodById` 跨库查 builtin + cfc + user 三库
