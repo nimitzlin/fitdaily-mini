@@ -97,3 +97,26 @@
 .gb-high .gb-dot { background: var(--gi-high); }
 .gb-none { background: rgba(191,199,191,.25); color: var(--text-sub); }
 .gb-none .gb-dot { background: var(--gi-none); }
+
+/* T22.1 顶部统计卡 */
+.mf-header {
+  padding: 20rpx 24rpx;
+  margin-bottom: 20rpx;
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+  border: 2rpx solid #fcd34d;
+}
+
+.mf-header-title {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #92400e;
+  display: block;
+  margin-bottom: 8rpx;
+}
+
+.mf-header-meta {
+  font-size: 22rpx;
+  color: #b45309;
+  display: block;
+  line-height: 1.5;
+}

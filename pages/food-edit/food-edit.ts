@@ -261,7 +261,11 @@ Page({
     return {
       id: this.data.pickedFoodId || genId('f'),
       name,
-      source: this.data.pickedFoodId ? 'builtin' : 'user',
+      // T22.1: source 准确传递（之前都设成 'builtin'，cfc/user 都丢失源信息）
+      //   - search 选中 → 查 findFoodById 拿原始 source（builtin/cfc/user）
+      //   - my-foods 编辑 → user
+      //   - OCR / 手动 / +号 → user（全新自定义）
+      source: this.resolveSource(),
       category: '其他',
       unit: 'g',
       per100: {
@@ -273,6 +277,21 @@ Page({
       },
       gi: this.data.gi === '' ? null : parseInt(this.data.gi, 10),
     };
+  },
+
+  /** T22.1: 准确推断 source
+   *  原则：
+   *   - pickedFoodId 有值 + 能查到原食物 → 用原 source（cfc/builtin/user 都保留）
+   *   - pickedFoodId 有值 + 查不到（极端情况）→ 退回 user（避免损坏数据）
+   *   - pickedFoodId 空（OCR/手动/+号）→ user
+   */
+  resolveSource(): 'builtin' | 'cfc' | 'user' {
+    const pid = this.data.pickedFoodId;
+    if (pid) {
+      const f = findFoodById(pid);
+      if (f) return f.source;
+    }
+    return 'user';
   },
 
   onSave() {

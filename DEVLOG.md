@@ -669,3 +669,35 @@ TDEE = BMR × 活动系数
 - **永久规则**:
   - smartSearch 永远包含 user 库，user 食物永远排在 builtin/cfc 前
   - 手动录入/OCR 识别后保存的食物，下次 food-search 必能搜到
+
+### T22.1 ✅ formToFood source bug 修复 + user 库维护 UI 完善 (8/26 18:35 完成)
+- **背景**: 俊洪追问"手动录入会进库吗" + "能删除吗" — 顺手修 formToFood 把 cfc/user 都标成 'builtin' 的 bug
+- **bug**: `formToFood()` 用 `pickedFoodId ? 'builtin' : 'user'` 二分判断，导致：
+  - search 选中 cfc 食物（fc0828）保存 → source 错成 'builtin'
+  - my-foods 编辑自定义食物保存 → source 错成 'builtin'
+  - 影响: source metadata 失真，未来扩展（如同步/导出/筛选）会出错
+- **修复**:
+  - 新建 `resolveSource()` 方法：`pickedFoodId` 有值时查 `findFoodById()` 拿原始 source
+  - cfc/builtin/user 准确传递
+- **user 库维护 UI 完善**:
+  - my-foods.ts data 加 total
+  - my-foods.wxml 加顶部统计卡（"共 X 条 · OCR / 手动录入 / +号 都会自动入库"）
+  - 引导文案明示 OCR 识别的产品（如芝麻丸/阿胶糕/龟苓膏）会自动入库
+- **现有 user 库功能（之前就在，已确认）**:
+  - 我的 → 我的食物库 入口
+  - 列表显示每条自定义食物 + GI 标签
+  - 点条目 → 编辑（food-edit source=user）
+  - 点"删除" → 确认弹窗 → foodUserRemove
+  - 顶部"＋ 新建自定义食物"按钮
+- **4 种场景 source 验证**:
+  | 场景 | 之前 | 现在 |
+  |---|---|---|
+  | search 选 cfc 鸡胸脯肉 | builtin ❌ | **cfc** ✅ |
+  | search 选 builtin 米饭 | builtin ✅ | builtin ✅ |
+  | my-foods 选芝麻丸 | builtin ❌ | **user** ✅ |
+  | OCR / 手动 / +号 | user ✅ | user ✅ |
+- **类型校验**: `npx tsc --noEmit` 0 错误
+- **永久规则**:
+  - formToFood 必须用 findFoodById 拿原始 source，不要从 pickedFoodId 二分判断
+  - user 库是单一存储（fd_foods_user），不分子库
+  - 删除走 foodUserRemove + 弹窗确认（不要静默删）

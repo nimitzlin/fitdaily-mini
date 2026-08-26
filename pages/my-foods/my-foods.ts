@@ -12,6 +12,7 @@ const GI_LABELS: Record<string, string> = { low: '低GI', mid: '中GI', high: '�
 Page({
   data: {
     rows: [] as Row[],
+    total: 0, // 顶部统计用
   },
 
   onShow() {
@@ -28,7 +29,7 @@ Page({
         giText: f.gi != null ? `${GI_LABELS[key]} ${f.gi}` : GI_LABELS.none,
       };
     });
-    this.setData({ rows });
+    this.setData({ rows, total: rows.length });
   },
 
   /** 点条目 → 编辑（复用 food-edit，改完返回 onShow 刷新） */
