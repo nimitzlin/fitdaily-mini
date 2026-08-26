@@ -651,3 +651,21 @@ TDEE = BMR × 活动系数
   - 同义词表 + QUICK_NAMES 在 services/ 下，名字匹配比 id 稳定
   - 候选卡是建议不是强制，用户点 ✕ 或不选就保留 AI 识别值
   - 快捷入口只在空搜索+全部分类显示，不打扰搜索流程
+
+### T22 ✅ smartSearch 加 user 库（手动录入食物搜不到 bug 修复）(8/26 18:24 完成)
+- **背景**: 俊洪实测发现手动录入的"芝麻丸"保存后，food-search 搜不到
+- **根因**: `services/food-search.ts:smartSearch()` 只搜 `ALL_FOODS`（cfc + builtin），**完全不搜 user 库**
+  - `foodUserUpsert()` 工作正常（手动录入保存进 user 库）
+  - 但 smartSearch 的 pool 不包含 user 食物 → 用户看不到自己录入的食物
+- **修复**:
+  - smartSearch pool = `[...foodsUserAll(), ...ALL_FOODS]`
+  - user 库排在 builtin/cfc 前（自定义优先于权威数据）
+  - 限定 cat 时也按 user ∪ builtin 分类过滤
+- **效果**:
+  - 搜"芝麻丸" → 命中 1 条 user（之前 0 命中）
+  - 搜"芝麻" → user 芝麻丸排第 1，后接 cfc 白芝麻/黑芝麻
+  - 空搜索 → 1752 条（user 1 + ALL 1751）
+- **类型校验**: `npx tsc --noEmit` 0 错误
+- **永久规则**:
+  - smartSearch 永远包含 user 库，user 食物永远排在 builtin/cfc 前
+  - 手动录入/OCR 识别后保存的食物，下次 food-search 必能搜到

@@ -15,7 +15,7 @@
 import { ALL_FOODS, BUILTIN_FOODS } from '../data/foods';
 import { FOODS_CFC } from '../data/foods-cfc';
 import { Food } from './types';
-import { recentFoodsGet } from './storage';
+import { foodsUserAll, recentFoodsGet } from './storage';
 
 /** T20.2 同义词表：
  *  key   = builtin/常用名（用户在 UI 看到的）
@@ -90,9 +90,14 @@ export function smartSearch(
   cat: string,
 ): { total: number; items: Food[] } {
   const trimmed = kw.trim();
-  const pool = cat === '全部'
-    ? ALL_FOODS
-    : ALL_FOODS.filter((f) => f.category === cat);
+
+  // 池：user 库 + builtin + cfc（user 优先，自定义 > 权威数据）
+  let pool: Food[];
+  if (cat === '全部') {
+    pool = [...foodsUserAll(), ...ALL_FOODS];
+  } else {
+    pool = [...foodsUserAll().filter((f) => f.category === cat), ...ALL_FOODS.filter((f) => f.category === cat)];
+  }
 
   let matched: Food[];
   if (!trimmed) {
