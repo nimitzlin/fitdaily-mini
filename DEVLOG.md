@@ -701,3 +701,25 @@ TDEE = BMR × 活动系数
   - formToFood 必须用 findFoodById 拿原始 source，不要从 pickedFoodId 二分判断
   - user 库是单一存储（fd_foods_user），不分子库
   - 删除走 foodUserRemove + 弹窗确认（不要静默删）
+
+### T22.2 ✅ food-search 搜不到 → CTA 跳自定义录入 (8/26 18:42 完成)
+- **背景**: 俊洪指出"没找到的时候，不应该点一下就跳转到自定义录入么，为啥只有一句提示"
+- **问题**:
+  - 之前 wxml 只显示静态文字 "试试用底部「自定义录入」创建它 →"
+  - food-search 里根本没有"自定义录入"按钮
+  - 用户必须手动返回主页 → ＋ → 自定义录入，name 还要再输一次
+- **修复**:
+  - food-search.wxml 没找到时显示 CTA 卡片（标题 + 解释 + 蓝色大按钮 + 使用提示）
+  - food-search.ts 加 `onCreateCustom()`: 跳转 food-edit 带 `prefillName=搜索词`
+  - food-edit.ts onLoad 检测 `source=custom + prefillName` → 自动填 name 字段 + banner 提示
+- **完整闭环**:
+  1. 搜"芝麻丸" → 0 命中 → 显示 CTA
+  2. 点 "＋ 自定义录入「芝麻丸」" → 跳 food-edit
+  3. name 自动填"芝麻丸"，banner: "💡 没在数据库找到「芝麻丸」，自动填到名称，请补全营养信息"
+  4. 用户填营养值 → 保存 → 进 user 库
+  5. 下次搜"芝麻丸" → 1 命中（user 库 T22 已修）
+- **类型校验**: `npx tsc --noEmit` 0 错误
+- **永久规则**:
+  - 没找到的 UX 永远是"CTA 可点击"，不只静态文字
+  - 自定义录入入口有 3 个：主页 ＋ 号 / 我的食物库 + / food-search 搜不到 CTA
+  - prefillName 用 encodeURIComponent 编码避免中文 URL 编码问题

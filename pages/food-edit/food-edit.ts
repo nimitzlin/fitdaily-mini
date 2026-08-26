@@ -162,6 +162,14 @@ Page({
         mealIndex: guessMealIndex(),
       });
     }
+
+    // T22.2: food-search 搜不到时跳过来，预填 name
+    if (query.source === 'custom' && query.prefillName && !data.name) {
+      data.name = decodeURIComponent(query.prefillName);
+      // 顶部加个提示告知来源
+      data.aiBanner = data.aiBanner || `💡 没在数据库找到「${data.name}」，自动填到名称，请补全营养信息`;
+    }
+
     this.setData(data);
     this.refreshGi();
   },

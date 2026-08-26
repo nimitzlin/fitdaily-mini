@@ -152,3 +152,51 @@
   color: #9a3412;
   display: block;
 }
+
+/* T22.2 没找到时的 CTA 卡片 */
+.fs-empty {
+  text-align: center;
+  padding: 60rpx 32rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.fs-empty-title {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #475569;
+  display: block;
+  margin-bottom: 16rpx;
+}
+
+.fs-empty-hint {
+  font-size: 24rpx;
+  color: #94a3b8;
+  display: block;
+  margin-bottom: 32rpx;
+  line-height: 1.5;
+}
+
+.fs-empty-btn {
+  width: 80%;
+  margin: 0;
+  padding: 24rpx 0;
+  font-size: 28rpx;
+  background: #386641;
+  color: #fff;
+  border-radius: 16rpx;
+  border: none;
+}
+
+.fs-empty-btn::after {
+  border: none;
+}
+
+.fs-empty-tip {
+  font-size: 22rpx;
+  color: #94a3b8;
+  display: block;
+  margin-top: 20rpx;
+  line-height: 1.5;
+}

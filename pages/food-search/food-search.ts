@@ -104,4 +104,12 @@ Page({
       url: `/pages/food-edit/food-edit?date=${this.data.date}&source=search&foodId=${id}`,
     });
   },
+
+  /** T22.2: 搜不到 → 点 CTA 跳自定义录入（name 预填搜索词） */
+  onCreateCustom() {
+    const kw = encodeURIComponent(this.data.keyword.trim());
+    wx.redirectTo({
+      url: `/pages/food-edit/food-edit?date=${this.data.date}&source=custom&prefillName=${kw}`,
+    });
+  },
 });
