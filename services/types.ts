@@ -21,7 +21,7 @@ export interface Nutrition {
 export interface Food {
   id: string;
   name: string;
-  source: 'builtin' | 'user';
+  source: 'builtin' | 'cfc' | 'user';
   category: FoodCategory;
   unit: 'g' | 'ml';
   per100: Nutrition; // ★ 统一每100g口径

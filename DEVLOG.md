@@ -553,3 +553,49 @@ TDEE = BMR × 活动系数
 - ✅ tsc 编译 0 错误
 - ✅ kcalForDay 混合场景：卧推 4 组(35) + 跑步 30min(291) = 326 kcal
 - ✅ 空 storage 全 0 不报错
+
+### 2026-08-25 20:51 · 代码入库 GitHub（nimitzlin/fitdaily-mini）
+
+**仓库**：https://github.com/nimitzlin/fitdaily-mini （private）
+
+**远程布局**：
+- `origin` = 微信 git（git.weixin.qq.com/nimitz/fitdaily）——保留不动
+- `gh` = GitHub（git@github.com:nimitzlin/fitdaily-mini.git）——日常推送目标
+- 本仓库 `core.sshCommand` 指定密钥 `/Users/jhlin/Documents/my keys/nimitz`（2021 年 SSH key，GitHub 账号 nimitzlin 已注册），不影响全局 git 配置
+
+**推送记录**：master → gh/master，commit `262f6b3`，99 个文件，本地/远端 SHA 一致
+
+**安全检查（入库前）**：
+- ✅ 密钥扫描：无硬编码 key/token（BYOK 架构，key 只在运行时读用户输入）
+- ✅ .gitignore 完备：node_modules / *.js 编译产物 / .env / .DS_Store 均排除
+- ✅ PRD.md + outline.md 入库 docs/ 目录，无敏感内容
+
+### T20 ✅ 数据扩充 - 中食物成分表第 6 版 + Compendium MET (8/26 14:26 完成)
+- **背景**: builtin foods 108 条 + builtin exercises 50 条覆盖太薄（早期 MVP 够用，进阶不够）
+- **数据源**:
+  - 食物: Sanotsu/china-food-composition-data (Sanotsu ⭐322)
+    - 1677 条中国食物成分表第 6 版 → qwen3.8-max + kimi-k3 双模型识别 + 人工复核
+    - 61 个细分类别，35 个字段（4 大营养素 + 13 维生素 + 11 微量元素）
+  - 运动: Compendium of Physical Activities (2024 版，821 活动，21 类)
+    - 来源: tfardella/compendium_of_physical_activiy_mysql_format GitHub mirror
+    - 学术级精确 MET（之前 builtin 都是估值：卧推 5.0/卧推 5.0/卧推 5.0 全一样）
+- **实施**:
+  - `scripts/import_cfc_foods.py` - 生成 `data/foods-cfc.ts` (1643 条 + 291 条 GI 命中)
+  - `scripts/import_compendium_exercises.py` - 生成 `data/exercises-v1.ts` (49 条精选)
+  - `data/foods.ts` 末尾加 `ALL_FOODS = [...FOODS_CFC, ...BUILTIN_FOODS]` (1751)
+  - `data/exercises-v0.ts` 末尾加 `ALL_EXERCISES = [...EXERCISES_V0, ...EXERCISES_V1]` (99)
+  - `services/types.ts` `Food.source` 加 'cfc'
+  - `services/training.ts` `exercisesAll()/exerciseById()` 改用 ALL_EXERCISES
+  - `services/stats.ts` weekTrainingSummary 的 exMap 用 ALL_EXERCISES
+  - `pages/food-search/food-search.ts` 改 import ALL_FOODS
+- **效果**:
+  - 食物 108 → 1751 条（16.2 倍），GI 命中 0 → 399 条
+  - 运动 50 → 99 条（细分强度/速度/瓦数），MET 从估值到精确
+- **类型校验**: `npx tsc --noEmit` 0 错误
+- **数据质量验证** (builtin vs cfc 同名食物 kcal 对比):
+  - 米饭: 116=116 ✅ / 苹果: 53=53 ✅ / 西瓜: 26≈31 ✅ / 鸡胸肉: 133≈145 / 鸡蛋: 144≈139
+  - 误差 < 10%，cfc 还更细分（鸡胸肉脂肪分 6.7g/100g 等）
+- **永久规则**:
+  - cfc 是单源权威数据 → 不许手动编辑 `data/foods-cfc.ts`，改用 import 脚本重生成
+  - exercises-v1 同理（Compendium 学术源），不要手改 MET
+  - 升级数据: 重跑脚本 `python3 scripts/import_cfc_foods.py` + `python3 scripts/import_compendium_exercises.py`

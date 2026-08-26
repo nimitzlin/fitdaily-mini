@@ -1,7 +1,7 @@
 /**
  * 训练业务聚合 · 调用 storage + exercises 库
  */
-import { EXERCISES_V0 } from '../data/exercises-v0';
+import { EXERCISES_V0, ALL_EXERCISES } from '../data/exercises-v0';
 import {
   trainingDoneGet,
   trainingDoneSet,
@@ -15,14 +15,14 @@ import { Exercise, TrainingLog } from './types';
 export { EXERCISES_V0 };
 export type { Exercise, TrainingLog };
 
-/** 所有动作（v0 = 50 个内置；v1+ 可扩展 user 自定义） */
+/** 所有动作（v0=50 builtin + v1=49 Compendium = 99 个；user 自定义不在这） */
 export function exercisesAll(): Exercise[] {
-  return EXERCISES_V0;
+  return ALL_EXERCISES;
 }
 
 /** 按 id 查动作 */
 export function exerciseById(id: string): Exercise | null {
-  return EXERCISES_V0.find((e) => e.id === id) || null;
+  return ALL_EXERCISES.find((e) => e.id === id) || null;
 }
 
 /** 今日训练打卡状态 */

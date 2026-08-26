@@ -148,3 +148,17 @@ export const BUILTIN_FOODS: Food[] = [
   f('酱油', '其他', 63, 5.6, 10.1, 0.1, 0.2, 0),
   f('番茄酱', '其他', 83, 1.4, 19.0, 0.3, 1.0, 30),
 ];
+
+// ========== 合并：中国食物成分表 (cfc) + builtin ==========
+// cfc 数据 1643 条 + builtin 108 条 = 1751 条
+// builtin 中不在 cfc 里的: 可乐/奶茶/咖啡/啤酒/橄榄油/酱油/蜂蜜 等饮品调味类
+// 去重策略: id 唯一，cfc 用 fcxxxx，builtin 用 fbxxx - 不冲突
+
+import { FOODS_CFC } from './foods-cfc';
+
+/** 全部内置食物（cfc 1643 + builtin 108 = 1751 条）
+ *  - food-search 全文搜索用这个
+ *  - cfc 优先（精确数据 + 全量），builtin 补充（饮品/调昧/包装食品）
+ *  - storage 查找 builtin 用 BUILTIN_FOODS
+ */
+export const ALL_FOODS = [...FOODS_CFC, ...BUILTIN_FOODS];

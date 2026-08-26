@@ -1,5 +1,5 @@
 import { foodsUserAll } from '../../services/storage';
-import { BUILTIN_FOODS } from '../../data/foods';
+import { ALL_FOODS } from '../../data/foods';
 import { Food } from '../../services/types';
 import { giLevel } from '../../services/nutrition';
 
@@ -46,7 +46,7 @@ Page({
     const my = foodsUserAll().filter((fd: Food) => !kw || fd.name.toLowerCase().includes(kw));
 
     let pool: Food[] =
-      cat === '全部' ? BUILTIN_FOODS : BUILTIN_FOODS.filter((fd) => fd.category === cat);
+      cat === '全部' ? ALL_FOODS : ALL_FOODS.filter((fd) => fd.category === cat);
     if (kw) pool = pool.filter((fd) => fd.name.toLowerCase().includes(kw));
 
     this.setData({

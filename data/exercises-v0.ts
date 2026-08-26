@@ -80,3 +80,15 @@ export const EXERCISES_BY_PART: Record<string, Exercise[]> = EXERCISES_V0.reduce
   },
   {} as Record<string, Exercise[]>,
 );
+
+// ========== 合并：builtin v0 + Compendium v1 ==========
+// Compendium v1 精选 49 条精确 MET 动作（跑步分速度/跳绳分速度/划船机分瓦数/瑜伽/球类）
+// v0 保留为入门动作库，用户原记录不丢失
+
+import { EXERCISES_V1 } from './exercises-v1';
+
+/** 全部动作 = v0 (50) + v1 (49) = 99 条
+ *  - pages/training 选动作用这个
+ *  - storage / data 区分: v0 用 EXERCISES_V0，v1 用 EXERCISES_V1
+ */
+export const ALL_EXERCISES: Exercise[] = [...EXERCISES_V0, ...EXERCISES_V1];

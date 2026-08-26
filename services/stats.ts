@@ -15,7 +15,7 @@ import {
   isTrainedToday,
   kcalForDay,
 } from './training';
-import { EXERCISES_V0 } from '../data/exercises-v0';
+import { ALL_EXERCISES } from '../data/exercises-v0';
 
 /** 本周每日摘要 */
 export interface DaySummary {
@@ -152,7 +152,7 @@ export interface WeekTrainingSummary {
 
 /** 本周训练摘要：N 次 + 总消耗 + 每日分布（供 stats 页柱状图） */
 export function weekTrainingSummary(startDate: string = mondayOf()): WeekTrainingSummary {
-  const exMap = new Map(EXERCISES_V0.map((e) => [e.id, e]));
+  const exMap = new Map(ALL_EXERCISES.map((e) => [e.id, e]));
   const daily: WeekTrainingSummary['daily'] = [];
   let totalBurn = 0;
   let trainedDays = 0;
