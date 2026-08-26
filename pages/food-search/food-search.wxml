@@ -12,6 +12,17 @@
           data-index="{{index}}" bindtap="onCat">{{item}}</view>
   </scroll-view>
 
+  <!-- T21: 常用快捷入口（空搜索 + 全部分类时显示） -->
+  <block wx:if="{{quickRows.length}}">
+    <view class="fs-sec">🔥 常用 10 大</view>
+    <view class="fs-quick-grid">
+      <view wx:for="{{quickRows}}" wx:key="id" class="fs-quick-row" data-id="{{item.id}}" bindtap="onPick">
+        <text class="fs-quick-name">{{item.name}}</text>
+        <text class="fs-quick-meta">{{item.per100.calories}} kcal · 蛋白{{item.per100.protein}}</text>
+      </view>
+    </view>
+  </block>
+
   <!-- 我的食物（置顶） -->
   <block wx:if="{{myRows.length}}">
     <view class="fs-sec">⭐ 我的食物</view>
@@ -39,7 +50,7 @@
     ↓ 加载更多（{{total - shown}} 条未显示）
   </view>
 
-  <view wx:if="{{!rows.length && !myRows.length}}" class="fs-empty">
+  <view wx:if="{{!rows.length && !myRows.length && !quickRows.length}}" class="fs-empty">
     没找到「{{keyword}}」，试试用底部「自定义录入」创建它 →
   </view>
 </view>

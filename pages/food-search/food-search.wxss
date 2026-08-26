@@ -117,3 +117,38 @@
 .fs-more:active {
   background: #e0ecff;
 }
+
+/* T21 常用快捷入口 - 2 列网格 */
+.fs-quick-grid {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 -8rpx;
+}
+
+.fs-quick-row {
+  width: calc(50% - 16rpx);
+  margin: 8rpx;
+  padding: 20rpx;
+  background: linear-gradient(135deg, #fff7ed 0%, #fed7aa 100%);
+  border: 2rpx solid #fdba74;
+  border-radius: 16rpx;
+  box-sizing: border-box;
+}
+
+.fs-quick-row:active {
+  background: linear-gradient(135deg, #ffedd5 0%, #fdba74 100%);
+}
+
+.fs-quick-name {
+  font-size: 28rpx;
+  color: #7c2d12;
+  font-weight: 600;
+  display: block;
+  margin-bottom: 6rpx;
+}
+
+.fs-quick-meta {
+  font-size: 22rpx;
+  color: #9a3412;
+  display: block;
+}

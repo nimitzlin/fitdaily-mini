@@ -128,3 +128,88 @@
 .fe-save {
   margin-top: 32rpx;
 }
+
+/* T21 OCR 智能匹配候选卡 */
+.fe-candidates {
+  background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+  border: 2rpx solid #38bdf8;
+  border-radius: 16rpx;
+  padding: 20rpx;
+  margin: 20rpx 0;
+}
+
+.fe-cand-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 26rpx;
+  color: #0369a1;
+  margin-bottom: 16rpx;
+  font-weight: 600;
+}
+
+.fe-cand-close {
+  font-size: 32rpx;
+  color: #94a3b8;
+  padding: 0 12rpx;
+}
+
+.fe-cand-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #fff;
+  border-radius: 12rpx;
+  padding: 16rpx;
+  margin-bottom: 12rpx;
+}
+
+.fe-cand-row:active {
+  background: #f8fafc;
+}
+
+.fe-cand-row:last-child {
+  margin-bottom: 0;
+}
+
+.fe-cand-main {
+  flex: 1;
+  min-width: 0;
+}
+
+.fe-cand-name {
+  font-size: 28rpx;
+  color: #0f172a;
+  font-weight: 500;
+  display: block;
+  margin-bottom: 6rpx;
+}
+
+.fe-cand-meta {
+  font-size: 22rpx;
+  color: #64748b;
+  display: block;
+}
+
+.fe-cand-tag {
+  font-size: 20rpx;
+  padding: 6rpx 14rpx;
+  border-radius: 8rpx;
+  margin-left: 12rpx;
+  flex-shrink: 0;
+}
+
+.fe-cand-tag-cfc {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.fe-cand-tag-builtin {
+  background: #fef3c7;
+  color: #b45309;
+}
+
+.fe-cand-tag-user {
+  background: #ede9fe;
+  color: #6d28d9;
+}

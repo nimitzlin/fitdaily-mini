@@ -4,6 +4,25 @@
 
     <view wx:if="{{aiBanner}}" class="fe-ai-banner">{{aiBanner}}</view>
 
+    <!-- T21: OCR 智能匹配候选卡（数据库更精确数据） -->
+    <view wx:if="{{showCandidates && candidates.length > 0}}" class="fe-candidates">
+      <view class="fe-cand-title">
+        <text>🎯 数据库有更精确的食物，点采纳替换 AI 识别值</text>
+        <text class="fe-cand-close" bindtap="onDismissCandidates">✕</text>
+      </view>
+      <view wx:for="{{candidates}}" wx:key="id" class="fe-cand-row" data-id="{{item.id}}" bindtap="onPickCandidate">
+        <view class="fe-cand-main">
+          <text class="fe-cand-name">{{item.name}}</text>
+          <text class="fe-cand-meta">{{item.calories}} kcal · 蛋白{{item.protein}} 碳水{{item.carbs}} 脂肪{{item.fat}}<text wx:if="{{item.fiber != null}}"> 纤维{{item.fiber}}</text><text wx:if="{{item.gi != null}}"> · GI {{item.gi}}</text></text>
+        </view>
+        <view class="fe-cand-tag fe-cand-tag-{{item.source}}">
+          <text wx:if="{{item.source === 'cfc'}}">中食物表</text>
+          <text wx:elif="{{item.source === 'builtin'}}">参考值</text>
+          <text wx:else>自定义</text>
+        </view>
+      </view>
+    </view>
+
     <view class="fe-row fe-no-mt">
       <text class="fe-label">餐次</text>
       <picker mode="selector" range="{{meals}}" value="{{mealIndex}}" bindchange="onPickMeal" class="fe-picker">

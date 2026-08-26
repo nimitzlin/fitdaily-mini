@@ -10,6 +10,7 @@ import {
   todayStr,
 } from '../../services/storage';
 import { consumeDraftItem, getRecogDraft } from '../../services/vision';
+import { matchCandidates, MatchCandidate } from '../../services/vision-match';
 import { RecogItem } from '../../services/types-vision';
 import { Food, MealLog, MealType, Nutrition } from '../../services/types';
 
@@ -58,6 +59,8 @@ Page({
     pickedFoodId: '',
     draftIdx: -1,
     aiBanner: '',
+    candidates: [] as Array<{ id: string; name: string; calories: number; source: string; totalScore: number; protein: number; carbs: number; fat: number; fiber: number | null; gi: number | null }>,
+    showCandidates: false,
   } as Record<string, any>,
 
   onLoad(query: Record<string, string | undefined>) {
@@ -131,6 +134,26 @@ Page({
               : '🤖 AI 预填，确认或修改后保存',
           mealIndex: guessMealIndex(),
         });
+
+        // T21: OCR 后智能匹配数据库候选
+        const cs = matchCandidates(it, 3);
+        if (cs.length > 0) {
+          Object.assign(data, {
+            candidates: cs.map((c) => ({
+              id: c.food.id,
+              name: c.food.name,
+              calories: c.food.per100.calories,
+              protein: c.food.per100.protein,
+              carbs: c.food.per100.carbs,
+              fat: c.food.per100.fat,
+              fiber: c.food.per100.fiber,
+              gi: c.food.gi,
+              source: c.food.source,
+              totalScore: c.totalScore,
+            })),
+            showCandidates: true,
+          });
+        }
       }
     }
     if (!data.mealIndex) {
@@ -175,6 +198,33 @@ Page({
 
   onLowGiChange(e: WechatMiniprogram.SwitchChange) {
     this.setData({ lowGiSwitch: e.detail.value });
+  },
+
+  /** T21: 采用数据库候选食物的精确数据 */
+  onPickCandidate(e: WechatMiniprogram.TouchEvent) {
+    const id = e.currentTarget.dataset.id as string;
+    const c = this.data.candidates.find((x: { id: string }) => x.id === id);
+    if (!c) return;
+    this.setData({
+      name: c.name,
+      calories: `${c.calories}`,
+      protein: `${c.protein}`,
+      carbs: `${c.carbs}`,
+      fat: `${c.fat}`,
+      fiber: c.fiber == null ? '' : `${c.fiber}`,
+      gi: c.gi == null ? '' : `${c.gi}`,
+      lowGiSwitch: c.gi != null && c.gi <= 55,
+      pickedFoodId: c.id,
+      showCandidates: false,
+    } as Record<string, unknown>);
+    this.refreshGi();
+    this.checkMacro();
+    wx.showToast({ title: `已采用「${c.name}」数据`, icon: 'success', duration: 1500 });
+  },
+
+  /** 关闭候选卡（用户保留 AI 识别值） */
+  onDismissCandidates() {
+    this.setData({ showCandidates: false });
   },
 
   refreshGi() {

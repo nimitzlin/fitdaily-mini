@@ -624,3 +624,30 @@ TDEE = BMR × 活动系数
   - 同义词表在 `services/food-search.ts:SYNONYM_GROUPS`，加新别名直接往里 append
   - `recentFoods` 只在 food-edit 保存时自动写入，不需要手动管
   - `findFoodById` 跨库查 builtin + cfc + user 三库
+
+### T21 ✅ OCR 智能匹配 + 常用快捷入口 (8/26 15:48 完成)
+- **背景**: OCR 识别出"鸡胸肉"用 LLM 估的 kcal，没利用 cfc 1643 条精确数据；food-search 空搜索看到 1751 条无从下手
+- **2 个改动**:
+  1. **新建 services/vision-match.ts**: OCR 结果 → 数据库 top-3 候选
+     - 名称相似度（编辑距离）+ 营养相似度（kcal 接近度）综合打分
+     - cfc 优先（数据更权威）
+     - 合成菜（宫保鸡丁/麻婆豆腐）0 命中 → 用户保留 AI 识别值，不强制匹配
+  2. **新建 services/food-quick.ts**: food-search 空搜索显示 10 大常吃
+     - 米饭/面条/鸡胸肉/鸡蛋/豆腐/牛奶/番茄/苹果/黄瓜/菠菜
+     - builtin 优先 + recent 补足（用户在用的也置顶）
+  3. **food-edit 加候选卡**: OCR 后展示 🎯 数据库有更精确的食物，点采纳替换 AI 识别值
+     - 每个候选显示 kcal/蛋白/碳水/脂肪/纤维/GI + 来源标签（中食物表/参考值/自定义）
+     - onPickCandidate 一键采纳精确数据
+     - 蓝色高亮卡片 + 关闭按钮
+  4. **food-search 加快捷区**: 🔥 常用 10 大，2 列网格
+     - 仅空搜索 + 全部分类时显示（不与搜索结果冲突）
+- **效果**:
+  - OCR "鸡胸肉 145 kcal" → 显示 builtin 鸡胸肉(133) + cfc 鸡胸脯肉(118) + 火鸡胸脯肉(103)
+  - OCR "宫保鸡丁" → 0 候选（保留 AI 估的值，用户可手动改）
+  - food-search 空搜索 → 10 大常吃卡片置顶 + 全库 50 条
+  - food-search 搜"鸡" → 不显示快捷区，只显示排序后的结果
+- **类型校验**: `npx tsc --noEmit` 0 错误
+- **永久规则**:
+  - 同义词表 + QUICK_NAMES 在 services/ 下，名字匹配比 id 稳定
+  - 候选卡是建议不是强制，用户点 ✕ 或不选就保留 AI 识别值
+  - 快捷入口只在空搜索+全部分类显示，不打扰搜索流程

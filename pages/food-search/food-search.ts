@@ -3,6 +3,7 @@ import { ALL_FOODS } from '../../data/foods';
 import { Food } from '../../services/types';
 import { giLevel } from '../../services/nutrition';
 import { smartSearch } from '../../services/food-search';
+import { quickFoods } from '../../services/food-quick';
 
 interface Row extends Food {
   giCls: string;
@@ -35,6 +36,7 @@ Page({
     catIndex: 0,
     rows: [] as Row[],
     myRows: [] as Row[],
+    quickRows: [] as Row[], // T21: 常用 10 大快捷入口
     date: '',
     total: 0,       // 总命中条数
     shown: 0,       // 当前显示条数
@@ -54,15 +56,17 @@ Page({
     const { total, items } = smartSearch(kw, cat);
 
     // 我的食物库：仅在无搜索词时置顶展示（避免与 rows 重复）
-    const my = kw
-      ? []
-      : foodsUserAll().slice(0, 10);
+    const my = kw ? [] : foodsUserAll().slice(0, 10);
+
+    // T21: 常用快捷入口：仅空搜索 + 全部分类时显示
+    const quick = !kw && cat === '全部' ? quickFoods() : [];
 
     const pageSize = kw ? PAGE_SIZE_KEYWORD : PAGE_SIZE_DEFAULT;
     const slice = items.slice(0, pageSize);
 
     this.setData({
       myRows: decorate(my),
+      quickRows: decorate(quick),
       rows: decorate(slice),
       total,
       shown: slice.length,
