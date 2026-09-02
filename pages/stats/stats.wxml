@@ -207,5 +207,25 @@
         <text>本周还没训练，去「💪 训练」打卡开练</text>
       </view>
     </view>
+
+    <!-- 6. 补登历史记录入口 (T22) -->
+    <view class="card stats-data-entry" bindtap="goData">
+      <text class="stats-data-emoji">📝</text>
+      <view class="stats-data-main">
+        <text class="stats-data-title">补登 / 修改历史记录</text>
+        <text class="stats-data-sub">忘了登记？选日期补饮食 / 训练 / 饮水</text>
+      </view>
+      <text class="stats-data-arrow">›</text>
+    </view>
   </block>
+
+  <!-- 空态也保留入口 -->
+  <view wx:if="{{!hasAnyLog}}" class="card stats-data-entry" bindtap="goData">
+    <text class="stats-data-emoji">📝</text>
+    <view class="stats-data-main">
+      <text class="stats-data-title">补登 / 修改历史记录</text>
+      <text class="stats-data-sub">忘了登记？选日期补饮食 / 训练 / 饮水</text>
+    </view>
+    <text class="stats-data-arrow">›</text>
+  </view>
 </view>

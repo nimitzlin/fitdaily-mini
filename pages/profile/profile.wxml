@@ -35,8 +35,36 @@
     </view>
   </view>
 
-  <view class="card pf-about">
-    <text class="pf-about-t">每日健身伴侣 FitDaily · v0.1-dev</text>
-    <text class="pf-about-d">数据仅存本机 · 无账号 · 无社交</text>
+  <!-- 关于 + 更新日志入口 -->
+  <view class="card pf-about" bindtap="toggleChangelog">
+    <text class="pf-about-t">每日健身伴侣 FitDaily</text>
+    <view class="pf-about-meta">
+      <text class="pf-about-version">{{currentVersion}}</text>
+      <text class="pf-about-date">{{currentDate}}</text>
+      <text class="pf-about-arrow">查看更新 ›</text>
+    </view>
+  </view>
+
+  <!-- 更新日志弹层 -->
+  <view wx:if="{{showChangelog}}" class="pf-changelog-mask" bindtap="closeChangelog">
+    <view class="pf-changelog-sheet" catchtap="">
+      <view class="pf-changelog-head">
+        <text class="pf-changelog-title">📋 更新日志</text>
+        <view class="pf-changelog-close" bindtap="closeChangelog">×</view>
+      </view>
+      <scroll-view scroll-y class="pf-changelog-scroll">
+        <view wx:for="{{changelog}}" wx:key="version" class="pf-clog-entry">
+          <view class="pf-clog-head">
+            <text class="pf-clog-version {{item.version === currentVersion ? 'is-current' : ''}}">{{item.version}}</text>
+            <text class="pf-clog-date">{{item.date}}</text>
+          </view>
+          <text class="pf-clog-title">{{item.title}}</text>
+          <view class="pf-clog-items">
+            <text wx:for="{{item.items}}" wx:for-item="line" wx:key="*this" class="pf-clog-line">{{line}}</text>
+          </view>
+        </view>
+        <view style="height: 40rpx"></view>
+      </scroll-view>
+    </view>
   </view>
 </view>

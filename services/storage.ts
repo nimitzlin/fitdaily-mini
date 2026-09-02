@@ -204,6 +204,15 @@ export function trainingLogAdd(log: TrainingLog): void {
   set(SK.trainingLogMonth(ym), list);
 }
 
+/** 改一条训练记录（按 id 替换，date 可能跨月） */
+export function trainingLogUpdate(log: TrainingLog): void {
+  const oldYm = ymOf(log.date);
+  const listOld = trainingLogMonth(oldYm).filter((l) => l.id !== log.id);
+  // 同月直接替换；跨月也走过滤后追加（极少见，先简单处理）
+  listOld.push(log);
+  set(SK.trainingLogMonth(oldYm), listOld);
+}
+
 /** 删一条训练记录 */
 export function trainingLogRemove(date: string, logId: string): void {
   const ym = ymOf(date);

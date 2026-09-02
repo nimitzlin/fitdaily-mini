@@ -60,11 +60,33 @@
 }
 
 .fc-op {
+  display: flex;
+  align-items: center;
+  gap: 6rpx;
   font-size: 22rpx;
   color: var(--text-sub);
-  padding: 4rpx 8rpx;
+  padding: 8rpx 12rpx;
+  border: 2rpx solid transparent;
+  border-radius: 8rpx;
+}
+
+.fc-edit {
+  background: var(--primary-light);
+  color: var(--primary-deep);
+  border-color: var(--primary);
+  font-weight: 600;
 }
 
 .fc-del {
+  background: #fff5f3;
   color: var(--gi-high);
+  border-color: var(--gi-high);
+}
+
+.fc-op-icon {
+  font-size: 22rpx;
+}
+
+.fc-op-t {
+  font-size: 22rpx;
 }

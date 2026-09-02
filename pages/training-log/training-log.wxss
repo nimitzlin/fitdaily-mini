@@ -147,13 +147,50 @@
   border-bottom: 2rpx dashed var(--primary-light);
 }
 .tl-log-item:last-child { border-bottom: none; }
+.tl-log-item.is-editing {
+  background: var(--primary-light);
+  margin: 0 -16rpx;
+  padding: 14rpx 16rpx;
+  border-radius: 12rpx;
+  border-bottom: none;
+}
 .tl-log-info { display: flex; flex-direction: column; gap: 4rpx; flex: 1; }
 .tl-log-name { font-size: 28rpx; font-weight: 600; color: var(--text-main); }
 .tl-log-sets { font-size: 22rpx; color: var(--text-sub); }
+.tl-log-ops { display: flex; flex-direction: column; gap: 8rpx; flex-shrink: 0; }
+.tl-log-edit {
+  font-size: 22rpx;
+  color: var(--primary-deep);
+  padding: 6rpx 14rpx;
+  border: 2rpx solid var(--primary);
+  border-radius: 8rpx;
+  text-align: center;
+}
 .tl-log-del {
   font-size: 22rpx;
   color: var(--gi-high);
   padding: 6rpx 14rpx;
   border: 2rpx solid var(--gi-high);
   border-radius: 8rpx;
+  text-align: center;
+}
+
+/* 编辑模式 banner */
+.tl-edit-banner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--primary-light);
+  border-radius: 10rpx;
+  padding: 12rpx 16rpx;
+  margin: 16rpx 0;
+}
+.tl-edit-banner-t { font-size: 24rpx; color: var(--primary-deep); font-weight: 600; }
+.tl-edit-cancel {
+  font-size: 22rpx;
+  color: var(--primary-deep);
+  padding: 4rpx 12rpx;
+  background: #fff;
+  border: 2rpx solid var(--primary);
+  border-radius: 6rpx;
 }

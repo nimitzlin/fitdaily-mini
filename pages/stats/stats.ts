@@ -39,6 +39,11 @@ Page({
     this.recompute();
   },
 
+  /** T22: 跳到数据补登页 */
+  goData() {
+    wx.navigateTo({ url: '/pages/data/data' });
+  },
+
   recompute() {
     const start = mondayOf();
     const summaries = weekDailySummaries(start);

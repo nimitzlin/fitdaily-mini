@@ -15,7 +15,13 @@
     </view>
   </view>
   <view class="fc-ops" catchtap="">
-    <text class="fc-op" catchtap="onEdit">编辑</text>
-    <text class="fc-op fc-del" catchtap="onRemove">删除</text>
+    <view class="fc-op fc-edit" catchtap="onEdit">
+      <text class="fc-op-icon">✏️</text>
+      <text class="fc-op-t">编辑</text>
+    </view>
+    <view class="fc-op fc-del" catchtap="onRemove">
+      <text class="fc-op-icon">🗑️</text>
+      <text class="fc-op-t">删除</text>
+    </view>
   </view>
 </view>

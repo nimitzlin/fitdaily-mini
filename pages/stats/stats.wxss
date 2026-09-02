@@ -321,3 +321,18 @@
   font-size: 24rpx;
   color: var(--text-sub);
 }
+
+/* T22: 补登历史记录入口 */
+.stats-data-entry {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+  margin-top: 16rpx;
+  background: linear-gradient(135deg, var(--primary-light) 0%, #ffffff 100%);
+  border: 2rpx dashed var(--primary);
+}
+.stats-data-emoji { font-size: 40rpx; }
+.stats-data-main { flex: 1; display: flex; flex-direction: column; gap: 4rpx; }
+.stats-data-title { font-size: 28rpx; font-weight: 700; color: var(--primary-deep); }
+.stats-data-sub { font-size: 22rpx; color: var(--text-sub); }
+.stats-data-arrow { font-size: 40rpx; color: var(--primary); font-weight: 700; }
