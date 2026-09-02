@@ -9,6 +9,7 @@ import {
   trainingLogDay,
   trainingLogMonth,
   trainingLogRemove,
+  trainingLogUpdate,
 } from './storage';
 import { Exercise, TrainingLog } from './types';
 
@@ -36,6 +37,11 @@ export function setTrainingDone(date: string, done: boolean): void {
 /** 加一条训练记录 */
 export function addTrainingLog(log: TrainingLog): void {
   trainingLogAdd(log);
+}
+
+/** 改一条训练记录 */
+export function updateTrainingLog(log: TrainingLog): void {
+  trainingLogUpdate(log);
 }
 
 /** 删一条训练记录 */
@@ -136,10 +142,34 @@ export function kcalForLog(
 
 /** 多条日志总消耗（同一天） */
 export function kcalForDay(logs: TrainingLog[], bodyWeightKg: number): number {
-  const exMap = new Map(EXERCISES_V0.map((e) => [e.id, e]));
+  // 用 ALL_EXERCISES 建索引（包含 V0 builtin + V1 Compendium 补充），
+  // 与 kcalForLog 单条计算的 exerciseById 口径保持一致
+  const exMap = new Map(ALL_EXERCISES.map((e) => [e.id, e]));
   let total = 0;
   for (const log of logs) {
     total += kcalForLog(log, exMap.get(log.exerciseId) || null, bodyWeightKg);
   }
   return total;
+}
+
+/**
+ * 顶组展示文本。有氧动作 weightKg 存的是 km 距离、reps 存的是分钟数；
+ * 力量动作 weightKg 是 kg、reps 是次数。
+ */
+export function formatSetSummary(log: TrainingLog): string {
+  const ex = exerciseById(log.exerciseId);
+  const sets = Array.isArray(log.sets) ? log.sets : [];
+  const top = sets[0];
+  const weight = top?.weightKg ?? 0;
+  const reps = top?.reps ?? 0;
+  if (ex?.bodyPart === 'cardio') {
+    const totalMin = sets.reduce((s, x) => s + (x.reps || 0), 0);
+    if (weight > 0) {
+      return `${sets.length} 段 · ${weight}km · ${totalMin} 分钟`;
+    }
+    return `${sets.length} 段 · ${totalMin} 分钟`;
+  }
+  // 力量训练
+  const repsSum = sets.reduce((s, x) => s + (x.reps || 0), 0);
+  return `${sets.length} 组 · 顶组 ${weight}kg × ${reps} · 总次数 ${repsSum}`;
 }

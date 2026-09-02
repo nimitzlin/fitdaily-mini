@@ -1,6 +1,152 @@
 <view class="page">
+  <!-- 顶部日期选择器 -->
+  <view class="card data-head">
+    <view class="data-head-arrow" bindtap="onPrevDay">‹</view>
+    <view class="data-head-main">
+      <view class="data-head-date">
+        <text class="data-head-date-num">{{selectedDate}}</text>
+        <text class="data-head-week">{{selectedWeekday}}</text>
+        <view wx:if="{{!selectedIsToday}}" class="data-today-btn" bindtap="onJumpToday">回到今天</view>
+        <view wx:else class="data-today-tag">今天</view>
+      </view>
+      <view class="data-head-sub">
+        <text wx:if="{{selectedHasLog}}">已有 {{selectedLogs.length}} 条饮食记录</text>
+        <text wx:elif="{{selectedTrained}}">已训练但未记录饮食</text>
+        <text wx:else>该日暂无记录，可点右下角 + 补登</text>
+      </view>
+    </view>
+    <view class="data-head-arrow" bindtap="onNextDay">›</view>
+  </view>
+
+  <!-- 月历视图 -->
   <view class="card">
-    <text class="title">data</text>
-    <text class="desc">施工中 · 需求见 docs/fitdaily/PRD.md</text>
+    <view class="data-cal-head">
+      <view class="data-cal-arrow" bindtap="onPrevMonth">‹</view>
+      <text class="data-cal-title">{{monthLabel}}</text>
+      <view class="data-cal-arrow" bindtap="onNextMonth">›</view>
+    </view>
+
+    <view class="data-cal-weekhead">
+      <text class="data-cal-whd">一</text>
+      <text class="data-cal-whd">二</text>
+      <text class="data-cal-whd">三</text>
+      <text class="data-cal-whd">四</text>
+      <text class="data-cal-whd">五</text>
+      <text class="data-cal-whd">六</text>
+      <text class="data-cal-whd">日</text>
+    </view>
+
+    <view wx:for="{{weeks}}" wx:key="row" wx:for-item="row" class="data-cal-row">
+      <view wx:for="{{row}}" wx:key="date" wx:for-item="cell"
+            class="data-cal-cell {{cell.inMonth ? '' : 'is-out'}} {{cell.isToday ? 'is-today' : ''}} {{cell.isSelected ? 'is-selected' : ''}}"
+            data-date="{{cell.date}}"
+            bindtap="onPickDate">
+        <text wx:if="{{cell.inMonth}}" class="data-cal-day">{{cell.dayNum}}</text>
+        <view wx:if="{{cell.hasFood}}" class="data-dot food"></view>
+        <view wx:if="{{cell.hasTrain}}" class="data-dot train">🔥</view>
+      </view>
+    </view>
+
+    <view class="data-cal-legend">
+      <view class="data-cal-legend-item"><view class="data-dot food"></view><text>饮食</text></view>
+      <view class="data-cal-legend-item"><text class="data-dot train">🔥</text><text>训练</text></view>
+      <view class="data-cal-legend-item"><view class="data-cal-dot today"></view><text>今天</text></view>
+      <view class="data-cal-legend-item"><view class="data-cal-dot selected"></view><text>选中</text></view>
+    </view>
+  </view>
+
+  <!-- 当日营养卡片（仅当日有记录时显示） -->
+  <view wx:if="{{selectedHasLog || selectedTrained}}" class="card data-summary">
+    <view class="data-summary-row">
+      <view class="data-sum-cell">
+        <text class="data-sum-num">{{selectedStats ? selectedStats.calories : 0}}</text>
+        <text class="data-sum-unit">/ {{profile.calorieTarget}} kcal</text>
+      </view>
+      <view class="data-sum-cell">
+        <text class="data-sum-num">{{selectedStats ? selectedStats.protein : 0}}</text>
+        <text class="data-sum-unit">/ {{profile.proteinTarget}} g 蛋白</text>
+      </view>
+      <view class="data-sum-cell">
+        <text class="data-sum-num">🔥{{selectedBurn}}</text>
+        <text class="data-sum-unit">kcal 消耗</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 训练打卡 -->
+  <view class="card data-train-card {{selectedTrained ? 'is-done' : ''}}" bindtap="onToggleTrain">
+    <text class="data-train-emoji">{{selectedTrained ? '💪' : '🤸'}}</text>
+    <view class="data-train-main">
+      <text class="data-train-t">{{selectedTrained ? '该日已完成训练 ✅' : '这天练了吗？'}}</text>
+      <text class="data-train-sub">点一下补打卡 / 取消</text>
+    </view>
+  </view>
+
+  <!-- 饮食列表 -->
+  <view wx:if="{{selectedLogs.length}}" class="card">
+    <view class="data-row-h">
+      <text class="data-emoji">🍽️</text>
+      <text class="data-title">饮食记录</text>
+      <text class="data-count">{{selectedLogs.length}} 条</text>
+    </view>
+    <view wx:for="{{selectedLogs}}" wx:key="id" class="data-log-row">
+      <view class="data-log-info">
+        <text class="data-log-name">{{item.nameSnapshot}}</text>
+        <text class="data-log-meta">{{item.weight}}g · {{item.intake.calories}} kcal · 蛋白 {{item.intake.protein}}g</text>
+      </view>
+      <view class="data-log-ops">
+        <view class="data-log-op data-edit" data-id="{{item.id}}" data-name="{{item.nameSnapshot}}"
+              catchtap="onFoodAction" data-type="edit">编辑</view>
+        <view class="data-log-op data-del" data-id="{{item.id}}" data-name="{{item.nameSnapshot}}"
+              catchtap="onFoodAction" data-type="remove">删除</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 训练列表 -->
+  <view wx:if="{{selectedTrainLogs.length}}" class="card">
+    <view class="data-row-h">
+      <text class="data-emoji">🏋️</text>
+      <text class="data-title">训练记录</text>
+      <text class="data-count">{{selectedTrainLogs.length}} 条</text>
+    </view>
+    <view wx:for="{{selectedTrainLogs}}" wx:key="id" class="data-log-row">
+      <view class="data-log-info">
+        <text class="data-log-name">{{item.exerciseName}}</text>
+        <text class="data-log-meta">{{item.summary}}</text>
+      </view>
+      <view class="data-log-ops">
+        <view class="data-log-op data-edit" data-id="{{item.id}}" data-name="{{item.exerciseName}}"
+              catchtap="onTrainAction" data-type="edit">编辑</view>
+        <view class="data-log-op data-del" data-id="{{item.id}}" data-name="{{item.exerciseName}}"
+              catchtap="onTrainAction" data-type="remove">删除</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 饮水 -->
+  <view class="card data-water-card" bindlongpress="onWaterLongPress">
+    <text class="data-water-emoji">💧</text>
+    <view class="data-water-main">
+      <text class="data-water-title">当日饮水</text>
+      <text class="data-water-val">{{selectedWater}}ml / {{profile.waterTargetMl}}ml</text>
+    </view>
+    <view class="btn-ghost data-water-btn" bindtap="onAddWater">+250ml</view>
+  </view>
+
+  <view style="height: 160rpx"></view>
+
+  <!-- 底部操作区 -->
+  <view class="data-fab-wrap">
+    <view class="data-fab-row">
+      <view class="data-fab-half" bindtap="onAddFood">
+        <text class="data-fab-emoji">🍱</text>
+        <text class="data-fab-t">补录饮食</text>
+      </view>
+      <view class="data-fab-half" bindtap="onAddTrain">
+        <text class="data-fab-emoji">🏋️</text>
+        <text class="data-fab-t">补录训练</text>
+      </view>
+    </view>
   </view>
 </view>

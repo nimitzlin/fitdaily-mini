@@ -2,7 +2,15 @@
  * 训练记录 · 选动作 + 加组 + 休息计时器
  */
 import { genId, todayStr, currentWeightKg } from '../../services/storage';
-import { addTrainingLog, dayTrainingLogs, exercisesAll, kcalForLog, removeTrainingLog } from '../../services/training';
+import {
+  addTrainingLog,
+  dayTrainingLogs,
+  exercisesAll,
+  formatSetSummary,
+  kcalForLog,
+  removeTrainingLog,
+  updateTrainingLog,
+} from '../../services/training';
 import { BODY_PART_LABEL, BodyPart, Exercise, TrainingLog } from '../../services/types';
 
 interface DraftSet {
@@ -22,21 +30,32 @@ Page({
     restSec: 90,
     timerRunning: false,
     restLeft: 0,
-    todayLogs: [] as Array<TrainingLog & { exName: string }>,
+    todayLogs: [] as Array<TrainingLog & { exName: string; summary: string }>,
     timer: null as number | null,
+    /** 编辑模式：editingLogId 非空 = 正在编辑一条已有记录 */
+    editingLogId: '',
   },
 
   onShow() {
+    this.syncDateFromQuery();
     const all = exercisesAll();
     const parts = Array.from(new Set(all.map((e) => e.bodyPart)));
     const partLabels = parts.map((p) => ({ key: p, label: BODY_PART_LABEL[p as BodyPart] }));
     this.setData({
-      today: todayStr(),
       exercises: all,
       partLabels,
       currentPart: parts[0] || '',
     });
     this.refreshLogs();
+  },
+
+  /** 从页面 query 同步日期（从 data 页跳转过来时传 ?date=YYYY-MM-DD） */
+  syncDateFromQuery() {
+    const pages = getCurrentPages();
+    const cur = pages[pages.length - 1];
+    const q = (cur && cur.options) || {};
+    const date = q.date || todayStr();
+    this.setData({ today: date });
   },
 
   onUnload() {
@@ -48,6 +67,7 @@ Page({
     const logs = dayTrainingLogs(today).map((l) => ({
       ...l,
       exName: this.data.exercises.find((e) => e.id === l.exerciseId)?.name || l.exerciseId,
+      summary: formatSetSummary(l),
     }));
     this.setData({ todayLogs: logs });
   },
@@ -130,13 +150,19 @@ Page({
       });
       return;
     }
-    addTrainingLog({
-      id: genId('tr'),
+    const isEdit = !!this.data.editingLogId;
+    const log: TrainingLog = {
+      id: this.data.editingLogId || genId('tr'),
       date: this.data.today,
       exerciseId: ex.id,
       sets: this.data.sets.map((s) => ({ ...s, restSec: this.data.restSec })),
       createdAt: Date.now(),
-    });
+    };
+    if (isEdit) {
+      updateTrainingLog(log);
+    } else {
+      addTrainingLog(log);
+    }
     // T19 计算消耗并提示
     const burn = kcalForLog(
       { id: '', date: this.data.today, exerciseId: ex.id, sets: this.data.sets, createdAt: Date.now() },
@@ -144,11 +170,11 @@ Page({
       currentWeightKg(),
     );
     wx.showToast({
-      title: `已保存 ✅ 🔥 消耗约 ${burn} kcal`,
+      title: isEdit ? `已更新 ✅ 🔥 消耗约 ${burn} kcal` : `已保存 ✅ 🔥 消耗约 ${burn} kcal`,
       icon: 'none',
       duration: 2200,
     });
-    this.setData({ selectedExercise: null, sets: [] });
+    this.setData({ selectedExercise: null, sets: [], editingLogId: '' });
     this.refreshLogs();
   },
 
@@ -160,10 +186,42 @@ Page({
       success: (r) => {
         if (r.confirm) {
           removeTrainingLog(this.data.today, id);
+          // 如果删的恰好是正在编辑的那条，重置编辑模式
+          if (this.data.editingLogId === id) {
+            this.setData({ selectedExercise: null, sets: [], editingLogId: '' });
+          }
           this.refreshLogs();
         }
       },
     });
+  },
+
+  /** 点已有记录 → 编辑模式：回填到上方表单 */
+  onEditLog(e: WechatMiniprogram.BaseEvent) {
+    const id = e.currentTarget.dataset.id as string;
+    const log = dayTrainingLogs(this.data.today).find((l) => l.id === id);
+    if (!log) {
+      wx.showToast({ title: '记录不存在或已删除', icon: 'none' });
+      return;
+    }
+    const ex = exercisesAll().find((e) => e.id === log.exerciseId) || null;
+    if (!ex) {
+      wx.showToast({ title: '动作已下架，无法编辑', icon: 'none' });
+      return;
+    }
+    this.setData({
+      selectedExercise: ex,
+      currentPart: ex.bodyPart,
+      sets: log.sets.map((s) => ({ reps: s.reps, weightKg: s.weightKg, restSec: s.restSec })),
+      editingLogId: id,
+    });
+    wx.showToast({ title: `正在编辑「${ex.name}」`, icon: 'none', duration: 1500 });
+    wx.pageScrollTo({ selector: '.card', duration: 200 });
+  },
+
+  /** 取消编辑（清空表单 + 退出编辑模式） */
+  onCancelEdit() {
+    this.setData({ selectedExercise: null, sets: [], editingLogId: '' });
   },
 
   /** T18 休息计时器 */

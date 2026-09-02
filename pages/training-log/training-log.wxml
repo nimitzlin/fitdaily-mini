@@ -42,6 +42,12 @@
     </view>
     <text class="tl-meta">{{selectedExercise.equipment}} · {{selectedExercise.isCompound ? '复合动作' : '孤立动作'}}</text>
 
+    <!-- 编辑模式 banner -->
+    <view wx:if="{{editingLogId}}" class="tl-edit-banner">
+      <text class="tl-edit-banner-t">✏️ 正在编辑这条记录</text>
+      <view class="tl-edit-cancel" bindtap="onCancelEdit">取消</view>
+    </view>
+
     <!-- 组列表 -->
     <view class="tl-sets">
       <view wx:for="{{sets}}" wx:key="*this" class="tl-set-row">
@@ -72,7 +78,7 @@
       </view>
     </view>
 
-    <button class="btn-primary tl-save" bindtap="saveLog">保存训练记录</button>
+    <button class="btn-primary tl-save" bindtap="saveLog">{{editingLogId ? '更新训练记录' : '保存训练记录'}}</button>
   </view>
 
   <!-- 今日训练列表 -->
@@ -82,12 +88,15 @@
       <text class="tl-title">今日训练</text>
       <text class="tl-log-count">{{todayLogs.length}} 条</text>
     </view>
-    <view wx:for="{{todayLogs}}" wx:key="id" class="tl-log-item">
+    <view wx:for="{{todayLogs}}" wx:key="id" class="tl-log-item {{editingLogId === item.id ? 'is-editing' : ''}}">
       <view class="tl-log-info">
         <text class="tl-log-name">{{item.exName}}</text>
-        <text class="tl-log-sets">{{item.sets.length}} 组 · 顶组 {{item.sets[0].weightKg}}kg × {{item.sets[0].reps}}</text>
+        <text class="tl-log-sets">{{item.summary}}</text>
       </view>
-      <view class="tl-log-del" data-id="{{item.id}}" bindtap="onRemoveLog">删除</view>
+      <view class="tl-log-ops">
+        <view class="tl-log-edit" data-id="{{item.id}}" bindtap="onEditLog">编辑</view>
+        <view class="tl-log-del" data-id="{{item.id}}" bindtap="onRemoveLog">删除</view>
+      </view>
     </view>
   </view>
 </view>

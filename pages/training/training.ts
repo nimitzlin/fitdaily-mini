@@ -1,7 +1,7 @@
 /**
  * 训练主页：月历 + 今日打卡 + 今日训练动作列表 + 入口
  */
-import { isTrainedToday, kcalForDay, monthTrainedDays, dayTrainingLogs, setTrainingDone, exercisesAll } from '../../services/training';
+import { isTrainedToday, kcalForDay, monthTrainedDays, dayTrainingLogs, setTrainingDone, exercisesAll, formatSetSummary } from '../../services/training';
 import { currentWeightKg, todayStr } from '../../services/storage';
 import { removeTrainingLog } from '../../services/training';
 import { Exercise, TrainingLog } from '../../services/types';
@@ -43,11 +43,8 @@ Page({
     );
     const todayLogs = dayTrainingLogs(today).map((l) => {
       const ex = exercisesAll().find((e) => e.id === l.exerciseId);
-      const isCardio = ex?.bodyPart === 'cardio';
-      // 力量：「4 组 · 顶组 60kg × 12」；有氧（reps=分钟）：「30 分钟」
-      const summary = isCardio
-        ? `${l.sets.reduce((s, x) => s + (x.reps || 0), 0)} 分钟`
-        : `${l.sets.length} 组 · 顶组 ${l.sets[0]?.weightKg ?? 0}kg × ${l.sets[0]?.reps ?? 0}`;
+      // 「4 组 · 顶组 60kg × 12」；有氧「2 段 · 5km · 30 分钟」 /「2 段 · 30 分钟」
+      const summary = formatSetSummary(l);
       return {
         ...l,
         exName: ex?.name || l.exerciseId,
