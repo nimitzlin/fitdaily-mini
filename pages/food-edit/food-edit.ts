@@ -31,7 +31,11 @@ function per100From(total: number | null, weightG: number | undefined): string {
 /** 按当前时间猜餐次 */
 function guessMealIndex(): number {
   const h = new Date().getHours();
-  const key: MealType = h < 10 ? 'breakfast' : h < 14 ? 'lunch' : h < 21 ? 'dinner' : 'snack';
+  const key: MealType =
+    h < 10 ? 'breakfast' :
+    h < 15 ? 'lunch' :
+    h < 21 ? 'dinner' :
+    'snack';
   return MEALS.findIndex((m) => m.key === key);
 }
 
@@ -52,7 +56,7 @@ Page({
     lowGiSwitch: false,
     meal: 'lunch' as MealType,
     meals: MEALS,
-    mealIndex: 1,
+    mealIndex: guessMealIndex(),
     giCls: 'gb-none',
     giLabel: '暂无数据',
     warnText: '',
@@ -156,7 +160,7 @@ Page({
         }
       }
     }
-    if (!data.mealIndex) {
+    if (data.mealIndex == null) {
       Object.assign(data, {
         meal: MEALS[guessMealIndex()].key,
         mealIndex: guessMealIndex(),

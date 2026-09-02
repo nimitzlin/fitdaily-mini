@@ -25,7 +25,7 @@
 
     <view class="fe-row fe-no-mt">
       <text class="fe-label">餐次</text>
-      <picker mode="selector" range="{{meals}}" value="{{mealIndex}}" bindchange="onPickMeal" class="fe-picker">
+      <picker mode="selector" range="{{meals}}" range-key="label" value="{{mealIndex}}" bindchange="onPickMeal" class="fe-picker">
         <view>{{meals[mealIndex].label}}</view>
       </picker>
     </view>
