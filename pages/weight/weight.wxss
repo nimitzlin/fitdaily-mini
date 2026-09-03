@@ -34,6 +34,20 @@
   color: var(--text-sub);
 }
 
+.wg-picker {
+  flex: 1;
+  background: var(--bg-page);
+  border: 2rpx solid var(--primary-light);
+  border-radius: 16rpx;
+  padding: 14rpx 20rpx;
+  font-size: 32rpx;
+  text-align: center;
+  color: var(--text-main);
+}
+.wg-picker-t {
+  font-size: 30rpx;
+}
+
 .wg-head {
   display: flex;
   justify-content: space-between;
@@ -62,6 +76,8 @@
 /* 简易折线图容器 */
 .wg-chart {
   position: relative;
+  width: 600rpx; /* 与 TS 里 CHART_W 保持一致；rotate 角度按这个尺寸算 */
+  max-width: 100%;
   height: 260rpx;
   background: var(--bg-page);
   border-radius: 20rpx;
@@ -93,10 +109,14 @@
   font-size: 20rpx;
   color: var(--text-sub);
 }
+.wg-xaxis-single {
+  justify-content: center;
+}
 
 .wg-rec {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   padding: 18rpx 4rpx;
   border-bottom: 2rpx dashed var(--primary-light);
   font-size: 28rpx;
@@ -108,6 +128,19 @@
 
 .wg-val {
   font-weight: 700;
+  flex: 1;
+  text-align: right;
+  margin-right: 16rpx;
+}
+
+.wg-rec-del {
+  font-size: 22rpx;
+  color: var(--accent-coral, #E57B64);
+  background: rgba(229, 123, 100, 0.08);
+  padding: 8rpx 18rpx;
+  border-radius: 999rpx;
+  border: 2rpx solid var(--accent-coral, #E57B64);
+  line-height: 1;
 }
 
 .wg-empty {

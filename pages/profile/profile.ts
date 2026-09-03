@@ -10,6 +10,16 @@ interface ChangelogEntry {
 
 const CHANGELOG: ChangelogEntry[] = [
   {
+    version: 'v1.3',
+    date: '2026-09-03',
+    title: '体重补录 + 折线图异常修复',
+    items: [
+      '🆕 体重补录历史日期（日期 picker，默认今天，限制不能选未来）',
+      '🆕 体重记录删除（历史列表每行「删除」胶囊按钮 + 确认模态框）',
+      '🐛 修复体重趋势折线图异常（点跳位 / 线条角度错乱）',
+    ],
+  },
+  {
     version: 'v1.2',
     date: '2026-09-02',
     title: '训练记录显示/统计修复',

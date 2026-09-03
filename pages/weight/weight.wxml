@@ -2,12 +2,20 @@
   <!-- 录入卡 -->
   <view class="card wg-input-card">
     <view class="wg-row">
-      <text class="wg-label">今日体重</text>
+      <text class="wg-label">记录日期</text>
+      <picker mode="date" value="{{pickDate}}" end="{{maxDate}}" bindchange="onPickDate" class="wg-picker">
+        <view class="wg-picker-t">{{pickDate}}</view>
+      </picker>
+    </view>
+    <view class="wg-row">
+      <text class="wg-label">体重</text>
       <input class="wg-input" type="digit" maxlength="5" placeholder="如：65.5"
              value="{{input}}" bindinput="onInput" />
       <text class="wg-unit">kg</text>
     </view>
-    <button class="btn-primary wg-btn" bindtap="onSave">记录今天</button>
+    <button class="btn-primary wg-btn" bindtap="onSave">
+      {{pickDate === maxDate ? '记录今天' : '补录 ' + pickDate}}
+    </button>
   </view>
 
   <!-- 趋势卡 -->
@@ -19,19 +27,24 @@
       </text>
     </view>
 
-    <!-- 纯 CSS 折线（点 + 连线），避免引 echarts 增包体 -->
+    <!-- 折线图：连线 + 点 -->
     <view class="wg-chart">
-      <block wx:for="{{chart}}" wx:key="index">
-        <view class="wg-dot" style="left: {{item.x}}%; top: {{item.y}}%"></view>
-        <view wx:if="{{index > 0}}" class="wg-line"
-              style="left: {{chart[index-1].x}}%; top: {{chart[index-1].y}}%;
-                     width: {{item.x - chart[index-1].x}}%;
-                     transform: rotate({{(item.y - chart[index-1].y) / (item.x - chart[index-1].x) * 100 || 0}}deg);"></view>
-      </block>
+      <!-- 连线（n>=2 才有） -->
+      <view wx:for="{{segments}}" wx:key="index" class="wg-line"
+            style="left: {{item.x1}}%; top: {{item.y1}}%;
+                   width: {{item.len}}%;
+                   transform: rotate({{item.deg}}deg);"></view>
+      <!-- 点（单点也画，多点更画） -->
+      <view wx:for="{{chart}}" wx:key="index" class="wg-dot"
+            style="left: {{item.x}}%; top: {{item.y}}%;"></view>
     </view>
-    <view class="wg-xaxis">
-      <text>{{chart[0].label}}</text>
-      <text>{{chart[chart.length-1].label}}</text>
+    <!-- x 轴：首尾 label（单点时两端相同，做兼容显示） -->
+    <view wx:if="{{chart.length >= 2}}" class="wg-xaxis">
+      <text>{{chart[0].label}} · {{chart[0].v}}kg</text>
+      <text>{{chart[chart.length-1].label}} · {{chart[chart.length-1].v}}kg</text>
+    </view>
+    <view wx:elif="{{chart.length === 1}}" class="wg-xaxis wg-xaxis-single">
+      <text>{{chart[0].label}} · {{chart[0].v}}kg</text>
     </view>
   </view>
 
@@ -41,6 +54,7 @@
     <view wx:for="{{records}}" wx:key="date" class="wg-rec">
       <text class="wg-date">{{item.date}}</text>
       <text class="wg-val">{{item.weightKg}} kg</text>
+      <view class="wg-rec-del" data-date="{{item.date}}" data-value="{{item.weightKg}}" bindtap="onDelete">删除</view>
     </view>
   </view>
 

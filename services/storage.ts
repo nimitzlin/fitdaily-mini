@@ -140,6 +140,15 @@ export function weightUpsert(entry: WeightLog): void {
   set(SK.weights, list);
 }
 
+/** 按日期删一条体重记录 */
+export function weightRemove(date: string): boolean {
+  const list = weightsAll();
+  const next = list.filter((w) => w.date !== date);
+  if (next.length === list.length) return false;
+  set(SK.weights, next);
+  return true;
+}
+
 // ---------- 喝水 ----------
 export const waterOf = (date: string): number => get<number>(SK.water(date), 0);
 
