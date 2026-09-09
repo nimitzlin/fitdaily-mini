@@ -1,8 +1,8 @@
-<view class="page">
+<view class="page page-enter">
   <!-- 身体档案输入 -->
   <view class="card">
     <view class="gs-title-row">
-      <text class="gs-emoji">📐</text>
+      <view class="emoji-chip emoji-chip--leaf" style="--chip-size: 64rpx"><text>📐</text></view>
       <text class="gs-title">身体档案</text>
     </view>
     <text class="gs-desc">用于计算专属每日目标（Mifflin-St Jeor 公式）。仅存本机。</text>
@@ -53,7 +53,7 @@
   <!-- 计算预览 -->
   <view class="card gs-preview">
     <view class="gs-title-row">
-      <text class="gs-emoji">⚡</text>
+      <view class="emoji-chip emoji-chip--train" style="--chip-size: 64rpx"><text>⚡</text></view>
       <text class="gs-title">计算预览</text>
     </view>
     <view class="gs-detail">
@@ -73,7 +73,7 @@
     </view>
   </view>
 
-  <button class="btn-primary gs-save" bindtap="onSave">保存并应用目标</button>
+  <button class="btn-primary gs-save press-shrink" bindtap="onSave">保存并应用目标</button>
 
   <text class="gs-footnote">
     公式：BMR = 10×体重kg + 6.25×身高cm - 5×年龄 ± 5（男/女）\nTDEE = BMR × 活动系数（1.2-1.9）\n减脂 -500 / 维持 +0 / 增肌 +300\n蛋白 1.4-2.0 g/kg · 脂肪 25% 热量 · 纤维 25g · 水 35ml/kg

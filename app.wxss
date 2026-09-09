@@ -90,3 +90,129 @@ page {
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.5) 0%, transparent 100%);
   pointer-events: none;
 }
+
+/* ========== Emoji Chip · 彩色背景圆形 icon 容器 ==========
+ * 使用方法：
+ *   <view class="emoji-chip emoji-chip--water"><text>💧</text></view>
+ * 修改 size 用 --chip-size
+ */
+.emoji-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--chip-size, 72rpx);
+  height: var(--chip-size, 72rpx);
+  border-radius: 50%;
+  font-size: calc(var(--chip-size, 72rpx) * 0.55);
+  background: var(--chip-bg, var(--primary-soft));
+  box-shadow: var(--shadow-inset);
+  transition: transform var(--dur-fast) var(--ease-spring);
+  flex-shrink: 0;
+}
+.emoji-chip--water   { background: linear-gradient(135deg, #DCEAF6 0%, #C5DEEF 100%); --chip-bg: #DCEAF6; }
+.emoji-chip--train   { background: linear-gradient(135deg, #FFE4D9 0%, #FFCDB8 100%); --chip-bg: #FFE4D9; }
+.emoji-chip--food    { background: linear-gradient(135deg, var(--primary-light) 0%, #B8E2BA 100%); }
+.emoji-chip--leaf    { background: linear-gradient(135deg, #E8F5E3 0%, #C8E6D2 100%); }
+.emoji-chip--scale   { background: linear-gradient(135deg, #FFF3D6 0%, #FCE5A8 100%); }
+.emoji-chip--camera  { background: linear-gradient(135deg, #E8DDFF 0%, #D4C5F9 100%); }
+.emoji-chip--search  { background: linear-gradient(135deg, var(--primary-light) 0%, #A8D8B9 100%); }
+.emoji-chip--pencil  { background: linear-gradient(135deg, #FFF3D6 0%, #FCD884 100%); }
+.emoji-chip--fruit   { background: linear-gradient(135deg, #FFD6E0 0%, #FFB8C8 100%); }
+.emoji-chip--rice    { background: linear-gradient(135deg, #FFF8E1 0%, #FFEFC2 100%); }
+.emoji-chip--meat    { background: linear-gradient(135deg, #FFD9D2 0%, #F4A09C 100%); }
+.emoji-chip--vege    { background: linear-gradient(135deg, #DDF2DD 0%, #B8E0B8 100%); }
+
+/* ========== 动画 Hook ========== */
+
+/* Page 入场：父级加 .page-enter，子元素逐个出现 */
+.page-enter > * {
+  animation: pageItemIn var(--dur-med) var(--ease-out) both;
+}
+.page-enter > *:nth-child(1) { animation-delay: 0ms; }
+.page-enter > *:nth-child(2) { animation-delay: 50ms; }
+.page-enter > *:nth-child(3) { animation-delay: 100ms; }
+.page-enter > *:nth-child(4) { animation-delay: 150ms; }
+.page-enter > *:nth-child(5) { animation-delay: 200ms; }
+.page-enter > *:nth-child(6) { animation-delay: 250ms; }
+.page-enter > *:nth-child(7) { animation-delay: 300ms; }
+.page-enter > *:nth-child(8) { animation-delay: 350ms; }
+
+@keyframes pageItemIn {
+  from { opacity: 0; transform: translateY(16rpx); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Stagger：列表项交错入场（作用于容器内的多个同级子元素） */
+.stagger > * {
+  animation: pageItemIn var(--dur-med) var(--ease-out) both;
+}
+.stagger > *:nth-child(1) { animation-delay: 0ms; }
+.stagger > *:nth-child(2) { animation-delay: 40ms; }
+.stagger > *:nth-child(3) { animation-delay: 80ms; }
+.stagger > *:nth-child(4) { animation-delay: 120ms; }
+.stagger > *:nth-child(5) { animation-delay: 160ms; }
+.stagger > *:nth-child(6) { animation-delay: 200ms; }
+.stagger > *:nth-child(7) { animation-delay: 240ms; }
+.stagger > *:nth-child(8) { animation-delay: 280ms; }
+.stagger > *:nth-child(n+9) { animation-delay: 320ms; }
+
+/* Stagger-self：元素自身作为 stagger 项，用 nth-of-type 让兄弟元素错开
+   适用于 wx:for 包裹的 view（展开后是同级元素） */
+.stagger-self:nth-of-type(1) { animation: pageItemIn var(--dur-med) var(--ease-out) both; animation-delay: 0ms; }
+.stagger-self:nth-of-type(2) { animation: pageItemIn var(--dur-med) var(--ease-out) both; animation-delay: 40ms; }
+.stagger-self:nth-of-type(3) { animation: pageItemIn var(--dur-med) var(--ease-out) both; animation-delay: 80ms; }
+.stagger-self:nth-of-type(4) { animation: pageItemIn var(--dur-med) var(--ease-out) both; animation-delay: 120ms; }
+.stagger-self:nth-of-type(5) { animation: pageItemIn var(--dur-med) var(--ease-out) both; animation-delay: 160ms; }
+.stagger-self:nth-of-type(6) { animation: pageItemIn var(--dur-med) var(--ease-out) both; animation-delay: 200ms; }
+.stagger-self:nth-of-type(7) { animation: pageItemIn var(--dur-med) var(--ease-out) both; animation-delay: 240ms; }
+.stagger-self:nth-of-type(8) { animation: pageItemIn var(--dur-med) var(--ease-out) both; animation-delay: 280ms; }
+.stagger-self:nth-of-type(n+9) { animation: pageItemIn var(--dur-med) var(--ease-out) both; animation-delay: 320ms; }
+
+/* Hover 微缩放（小程序用 hover-class 触发） */
+.hover-scale {
+  transition: transform var(--dur-fast) var(--ease-out);
+}
+.hover-scale:hover {
+  transform: scale(0.97);
+}
+
+/* 按压态 */
+.press-shrink {
+  transition: transform var(--dur-fast) var(--ease-out);
+}
+.press-shrink:active {
+  transform: scale(0.94);
+}
+
+/* Pulse 持续动效（用于训练打卡、饮水提醒等） */
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50%      { transform: scale(1.04); }
+}
+.pulse {
+  animation: pulse 2.4s var(--ease-out) infinite;
+}
+
+/* Float 漂浮（用于 FAB / 装饰元素） */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-6rpx); }
+}
+.float { animation: float 3.2s var(--ease-out) infinite; }
+
+/* Shine 流光（用于 hero 卡路里大数字） */
+@keyframes shine {
+  0%   { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+.shine-text {
+  background: linear-gradient(90deg,
+    var(--primary-deep) 0%,
+    var(--accent-coral) 50%,
+    var(--primary-deep) 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shine 4s linear infinite;
+}

@@ -1,6 +1,13 @@
-<view class="page">
+<view class="page page-enter">
   <!-- 录入卡 -->
-  <view class="card wg-input-card">
+  <view class="card weight-input shine-top">
+    <view class="wg-head-row">
+      <view class="emoji-chip emoji-chip--scale" style="--chip-size: 64rpx"><text>⚖️</text></view>
+      <view class="wg-head-titles">
+        <text class="wg-title">{{pickDate === maxDate ? '记录今日体重' : '补录历史体重'}}</text>
+        <text class="wg-sub">晨起空腹最佳</text>
+      </view>
+    </view>
     <view class="wg-row">
       <text class="wg-label">记录日期</text>
       <picker mode="date" value="{{pickDate}}" end="{{maxDate}}" bindchange="onPickDate" class="wg-picker">
@@ -13,32 +20,32 @@
              value="{{input}}" bindinput="onInput" />
       <text class="wg-unit">kg</text>
     </view>
-    <button class="btn-primary wg-btn" bindtap="onSave">
+    <button class="btn-primary wg-btn press-shrink" bindtap="onSave">
       {{pickDate === maxDate ? '记录今天' : '补录 ' + pickDate}}
     </button>
   </view>
 
   <!-- 趋势卡 -->
-  <view class="card" wx:if="{{chart.length}}">
+  <view class="card weight-chart" wx:if="{{chart.length}}">
     <view class="wg-head">
-      <text class="wg-title">体重趋势</text>
-      <text class="wg-diff {{diffFirst <= 0 ? 'wg-down' : 'wg-up'}}">
-        {{latest.weightKg}}kg · {{diffFirst <= 0 ? '↓' : '↑'}}{{diffFirst < 0 ? -diffFirst : diffFirst}}kg
+      <text class="wg-chart-title">体重趋势</text>
+      <text wx:if="{{latest}}" class="wg-diff {{diffFirst <= 0 ? 'wg-down' : 'wg-up'}}">
+        <text class="wg-diff-num">{{latest.weightKg}}</text>
+        <text class="wg-diff-unit">kg</text>
+        <text class="wg-diff-arrow">{{diffFirst <= 0 ? '↓' : '↑'}}</text>
+        <text class="wg-diff-delta">{{diffFirst < 0 ? -diffFirst : diffFirst}}kg</text>
       </text>
     </view>
 
-    <!-- 折线图：连线 + 点 -->
+    <!-- 折线图 -->
     <view class="wg-chart">
-      <!-- 连线（n>=2 才有） -->
       <view wx:for="{{segments}}" wx:key="index" class="wg-line"
             style="left: {{item.x1}}%; top: {{item.y1}}%;
                    width: {{item.len}}%;
                    transform: rotate({{item.deg}}deg);"></view>
-      <!-- 点（单点也画，多点更画） -->
       <view wx:for="{{chart}}" wx:key="index" class="wg-dot"
             style="left: {{item.x}}%; top: {{item.y}}%;"></view>
     </view>
-    <!-- x 轴：首尾 label（单点时两端相同，做兼容显示） -->
     <view wx:if="{{chart.length >= 2}}" class="wg-xaxis">
       <text>{{chart[0].label}} · {{chart[0].v}}kg</text>
       <text>{{chart[chart.length-1].label}} · {{chart[chart.length-1].v}}kg</text>
@@ -50,16 +57,21 @@
 
   <!-- 历史列表 -->
   <view class="card" wx:if="{{records.length}}">
-    <text class="wg-title">历史记录</text>
-    <view wx:for="{{records}}" wx:key="date" class="wg-rec">
-      <text class="wg-date">{{item.date}}</text>
-      <text class="wg-val">{{item.weightKg}} kg</text>
-      <view class="wg-rec-del" data-date="{{item.date}}" data-value="{{item.weightKg}}" bindtap="onDelete">删除</view>
+    <view class="wg-head">
+      <text class="wg-chart-title">历史记录</text>
+      <text class="wg-history-count">共 {{records.length}} 条</text>
+    </view>
+    <view class="stagger">
+      <view wx:for="{{records}}" wx:key="date" class="wg-rec press-shrink">
+        <text class="wg-date">{{item.date}}</text>
+        <text class="wg-val">{{item.weightKg}} kg</text>
+        <view class="wg-rec-del" data-date="{{item.date}}" data-value="{{item.weightKg}}" bindtap="onDelete" hover-class="wg-rec-del--hover" hover-stay-time="120">删除</view>
+      </view>
     </view>
   </view>
 
   <view wx:if="{{!records.length}}" class="card wg-empty">
-    <text class="wg-e-emoji">⚖️</text>
+    <view class="emoji-chip emoji-chip--scale" style="--chip-size: 120rpx"><text style="font-size: 64rpx">⚖️</text></view>
     <text class="wg-e-t">记下第一笔体重吧</text>
     <text class="wg-e-d">每天同一时间（晨起空腹最佳）测量更准</text>
   </view>

@@ -1,196 +1,365 @@
-.page {
-  padding: 24rpx;
+/* ========== Training Log · v1.5 ========== */
+.page { padding: 32rpx 28rpx; }
+
+.card { margin-bottom: 24rpx; }
+.card:last-child { margin-bottom: 0; }
+
+/* ========== Row Header ========== */
+.tl-row-h {
+  display: flex;
+  align-items: center;
+  gap: 14rpx;
+  margin-bottom: 20rpx;
 }
 
-/* 通用 */
-.tl-row-h { display: flex; align-items: center; gap: 12rpx; margin-bottom: 16rpx; }
-.tl-emoji { font-size: 32rpx; }
-.tl-title { font-size: 30rpx; font-weight: 700; color: var(--text-main); flex: 1; }
-.tl-meta { font-size: 22rpx; color: var(--text-sub); display: block; margin-bottom: 16rpx; }
+.tl-title {
+  font-size: 32rpx;
+  font-weight: 800;
+  color: var(--text-main);
+  flex: 1;
+  letter-spacing: -0.5rpx;
+}
 
-/* 部位 tab */
-.tl-parts { white-space: nowrap; margin-bottom: 16rpx; }
+.tl-meta {
+  font-size: 24rpx;
+  color: var(--text-sub);
+  margin-bottom: 20rpx;
+  display: block;
+}
+
+.tl-log-count {
+  font-size: 24rpx;
+  color: var(--text-sub);
+  font-weight: 600;
+  padding: 6rpx 16rpx;
+  background: var(--primary-soft);
+  border-radius: var(--radius-pill);
+}
+
+/* ========== Parts (部位 tab) ========== */
+.tl-parts {
+  white-space: nowrap;
+  margin-bottom: 20rpx;
+}
+
 .tl-part {
   display: inline-block;
-  padding: 12rpx 28rpx;
+  padding: 14rpx 28rpx;
   margin-right: 12rpx;
-  background: var(--bg-page);
-  border: 2rpx solid var(--primary-light);
-  border-radius: 999rpx;
+  background: var(--glass-bg-strong);
+  backdrop-filter: blur(10rpx);
+  border: var(--border-soft);
+  border-radius: var(--radius-pill);
   font-size: 26rpx;
-  color: var(--text-main);
-}
-.tl-part.is-active {
-  background: var(--primary);
-  color: #fff;
-  font-weight: 700;
+  font-weight: 600;
+  color: var(--text-sub);
+  transition: all var(--dur-fast) var(--ease-out);
 }
 
-/* 动作列表 */
-.tl-exlist { display: flex; flex-direction: column; }
+.tl-part--hover {
+  background: var(--primary-light);
+}
+
+.tl-part.is-active {
+  background: var(--primary-gradient);
+  color: #fff;
+  border-color: transparent;
+  box-shadow: 0 4rpx 12rpx rgba(142, 208, 143, 0.4);
+}
+
+/* ========== Exercise List ========== */
+.tl-exlist {
+  display: flex;
+  flex-direction: column;
+}
+
 .tl-ex {
   display: flex;
   align-items: center;
-  gap: 12rpx;
-  padding: 18rpx 0;
-  border-bottom: 2rpx dashed var(--primary-light);
+  gap: 16rpx;
+  padding: 24rpx 12rpx;
+  border-bottom: var(--border-soft);
+  transition: background var(--dur-fast) var(--ease-out);
 }
-.tl-ex:last-child { border-bottom: none; }
-.tl-ex-main { flex: 1; display: flex; flex-direction: column; gap: 4rpx; }
-.tl-ex-name { font-size: 28rpx; font-weight: 600; color: var(--text-main); }
-.tl-ex-meta { font-size: 22rpx; color: var(--text-sub); }
-.tl-ex-tag {
-  font-size: 20rpx;
-  background: var(--primary-light);
-  color: var(--primary-deep);
-  padding: 4rpx 10rpx;
-  border-radius: 8rpx;
-}
-.tl-ex-arrow { font-size: 32rpx; color: var(--text-sub); }
 
-/* 步骤 2 */
-.tl-repick { font-size: 24rpx; color: var(--primary); }
+.tl-ex:last-child {
+  border-bottom: none;
+}
 
-/* 组列表 */
-.tl-sets { margin-top: 16rpx; display: flex; flex-direction: column; gap: 14rpx; }
-.tl-set-row {
-  display: flex;
-  align-items: center;
-  gap: 12rpx;
-  background: var(--bg-page);
-  border-radius: 12rpx;
-  padding: 12rpx;
+.tl-ex--hover {
+  background: var(--primary-soft);
 }
-.tl-set-num {
-  font-size: 24rpx;
-  font-weight: 700;
-  color: var(--primary);
-  width: 60rpx;
-  flex-shrink: 0;
-}
-.tl-set-input {
+
+.tl-ex-main {
   flex: 1;
   display: flex;
   flex-direction: column;
   gap: 4rpx;
 }
-.tl-set-lbl { font-size: 20rpx; color: var(--text-sub); }
-.tl-input {
-  background: #fff;
-  border: 2rpx solid var(--primary-light);
-  border-radius: 10rpx;
-  padding: 12rpx 16rpx;
-  font-size: 28rpx;
-  min-height: 60rpx;
-  line-height: 36rpx;
-  box-sizing: border-box;
+
+.tl-ex-name {
+  font-size: 30rpx;
+  font-weight: 700;
+  color: var(--text-main);
 }
-.tl-set-del {
+
+.tl-ex-meta {
+  font-size: 22rpx;
+  color: var(--text-sub);
+}
+
+.tl-ex-tag {
+  font-size: 20rpx;
+  font-weight: 700;
+  color: var(--accent-coral);
+  background: rgba(255, 154, 118, 0.15);
+  padding: 4rpx 12rpx;
+  border-radius: var(--radius-pill);
+}
+
+.tl-ex-arrow {
+  font-size: 32rpx;
+  color: var(--text-mute);
+  font-weight: 300;
+  transition: transform var(--dur-fast) var(--ease-out);
+}
+
+.tl-ex--hover .tl-ex-arrow {
+  transform: translateX(4rpx);
+  color: var(--primary);
+}
+
+/* ========== Repick / Cancel ========== */
+.tl-repick {
+  font-size: 24rpx;
+  color: var(--primary-deep);
+  padding: 8rpx 18rpx;
+  background: var(--primary-soft);
+  border-radius: var(--radius-pill);
+  border: 2rpx solid rgba(142, 208, 143, 0.3);
+  font-weight: 600;
+}
+
+.tl-edit-banner {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+  background: linear-gradient(135deg, rgba(255, 212, 194, 0.4) 0%, rgba(255, 255, 255, 0.85) 100%);
+  border: 2rpx solid rgba(255, 154, 118, 0.4);
+  padding: 16rpx 20rpx;
+  border-radius: var(--radius-button);
+  margin-bottom: 20rpx;
+}
+
+.tl-edit-banner-t {
+  flex: 1;
+  font-size: 26rpx;
+  color: var(--accent-coral);
+  font-weight: 600;
+}
+
+.tl-edit-cancel {
+  font-size: 24rpx;
+  color: var(--text-sub);
+  padding: 6rpx 16rpx;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: var(--radius-pill);
+}
+
+/* ========== Sets ========== */
+.tl-sets {
+  display: flex;
+  flex-direction: column;
+  gap: 12rpx;
+}
+
+.tl-set-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 12rpx;
+  padding: 16rpx 12rpx;
+  background: var(--glass-bg-strong);
+  backdrop-filter: blur(8rpx);
+  border: var(--border-soft);
+  border-radius: var(--radius-button);
+}
+
+.tl-set-num {
+  font-size: 26rpx;
+  font-weight: 800;
+  color: var(--primary-deep);
   width: 60rpx;
-  height: 60rpx;
-  line-height: 60rpx;
+  flex-shrink: 0;
+}
+
+.tl-set-input {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4rpx;
+  min-width: 0;
+}
+
+.tl-set-lbl {
+  font-size: 20rpx;
+  color: var(--text-sub);
+  font-weight: 600;
+}
+
+.tl-input {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.7);
+  border: var(--border-soft);
+  border-radius: 14rpx;
+  padding: 12rpx 8rpx;
+  font-size: 28rpx;
+  font-weight: 700;
+  text-align: center;
+  color: var(--text-main);
+}
+
+.tl-set-del {
+  width: 56rpx;
+  height: 56rpx;
+  line-height: 50rpx;
   text-align: center;
   font-size: 36rpx;
-  color: var(--gi-high);
+  color: var(--text-sub);
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 50%;
+  font-weight: 300;
   flex-shrink: 0;
 }
 
 .tl-add-set {
   margin-top: 16rpx;
+  padding: 22rpx;
   text-align: center;
-  padding: 14rpx;
-  background: var(--primary-light);
-  border-radius: 12rpx;
-  font-size: 26rpx;
+  background: var(--primary-soft);
   color: var(--primary-deep);
+  font-size: 28rpx;
+  font-weight: 700;
+  border-radius: var(--radius-button);
+  border: 2rpx dashed rgba(142, 208, 143, 0.5);
+  transition: all var(--dur-fast) var(--ease-out);
+}
+
+.tl-add-set--hover {
+  background: var(--primary-light);
+  border-style: solid;
+  border-color: var(--primary);
+}
+
+/* ========== Rest Timer ========== */
+.tl-rest-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 24rpx;
+  padding: 20rpx 24rpx;
+  background: var(--glass-bg-strong);
+  border-radius: var(--radius-button);
+  border: var(--border-soft);
+}
+
+.tl-rest-lbl {
+  font-size: 26rpx;
+  color: var(--text-main);
   font-weight: 600;
 }
 
-/* 休息计时器 */
-.tl-rest-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 24rpx;
-  padding: 16rpx;
-  background: var(--bg-page);
-  border-radius: 12rpx;
-}
-.tl-rest-lbl { font-size: 26rpx; font-weight: 700; color: var(--text-main); }
 .tl-rest-btn {
-  padding: 12rpx 24rpx;
-  background: var(--primary);
+  padding: 10rpx 24rpx;
+  font-size: 24rpx;
+  font-weight: 600;
+  background: var(--primary-gradient);
   color: #fff;
-  border-radius: 999rpx;
-  font-size: 26rpx;
-  font-weight: 700;
+  border-radius: var(--radius-pill);
+  box-shadow: 0 2rpx 8rpx rgba(142, 208, 143, 0.3);
+  transition: all var(--dur-fast) var(--ease-out);
 }
+
 .tl-rest-btn.is-running {
-  background: var(--accent-coral);
-  animation: pulse 1s infinite;
-}
-@keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.7; }
+  background: var(--accent-coral-gradient);
+  box-shadow: 0 2rpx 8rpx rgba(255, 154, 118, 0.4);
 }
 
-/* 保存 */
-.tl-save { margin-top: 24rpx; }
+.tl-save {
+  margin-top: 24rpx;
+  width: 100%;
+}
 
-/* 今日训练 */
-.tl-log-count { font-size: 22rpx; color: var(--text-sub); }
+/* ========== Today Logs ========== */
 .tl-log-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 14rpx 0;
-  border-bottom: 2rpx dashed var(--primary-light);
-}
-.tl-log-item:last-child { border-bottom: none; }
-.tl-log-item.is-editing {
-  background: var(--primary-light);
-  margin: 0 -16rpx;
-  padding: 14rpx 16rpx;
-  border-radius: 12rpx;
-  border-bottom: none;
-}
-.tl-log-info { display: flex; flex-direction: column; gap: 4rpx; flex: 1; }
-.tl-log-name { font-size: 28rpx; font-weight: 600; color: var(--text-main); }
-.tl-log-sets { font-size: 22rpx; color: var(--text-sub); }
-.tl-log-ops { display: flex; flex-direction: column; gap: 8rpx; flex-shrink: 0; }
-.tl-log-edit {
-  font-size: 22rpx;
-  color: var(--primary-deep);
-  padding: 6rpx 14rpx;
-  border: 2rpx solid var(--primary);
-  border-radius: 8rpx;
-  text-align: center;
-}
-.tl-log-del {
-  font-size: 22rpx;
-  color: var(--gi-high);
-  padding: 6rpx 14rpx;
-  border: 2rpx solid var(--gi-high);
-  border-radius: 8rpx;
-  text-align: center;
+  padding: 24rpx 12rpx;
+  border-bottom: var(--border-soft);
+  transition: background var(--dur-fast) var(--ease-out);
 }
 
-/* 编辑模式 banner */
-.tl-edit-banner {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: var(--primary-light);
-  border-radius: 10rpx;
-  padding: 12rpx 16rpx;
-  margin: 16rpx 0;
+.tl-log-item:last-child {
+  border-bottom: none;
 }
-.tl-edit-banner-t { font-size: 24rpx; color: var(--primary-deep); font-weight: 600; }
-.tl-edit-cancel {
+
+.tl-log-item.is-editing {
+  background: linear-gradient(135deg, rgba(255, 212, 194, 0.4) 0%, rgba(255, 255, 255, 0.5) 100%);
+  border-radius: var(--radius-button);
+}
+
+.tl-log-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4rpx;
+  min-width: 0;
+}
+
+.tl-log-name {
+  font-size: 30rpx;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.tl-log-sets {
+  font-size: 24rpx;
+  color: var(--text-sub);
+}
+
+.tl-log-ops {
+  display: flex;
+  gap: 12rpx;
+}
+
+.tl-log-edit,
+.tl-log-del {
   font-size: 22rpx;
+  font-weight: 600;
+  padding: 8rpx 18rpx;
+  border-radius: var(--radius-pill);
+  transition: all var(--dur-fast) var(--ease-out);
+}
+
+.tl-log-edit {
   color: var(--primary-deep);
-  padding: 4rpx 12rpx;
-  background: #fff;
-  border: 2rpx solid var(--primary);
-  border-radius: 6rpx;
+  background: rgba(142, 208, 143, 0.15);
+  border: 2rpx solid rgba(142, 208, 143, 0.4);
+}
+
+.tl-log-edit:active {
+  background: var(--primary);
+  color: #fff;
+}
+
+.tl-log-del {
+  color: var(--accent-coral);
+  background: rgba(255, 154, 118, 0.1);
+  border: 2rpx solid rgba(255, 154, 118, 0.4);
+}
+
+.tl-log-del:active {
+  background: var(--accent-coral);
+  color: #fff;
 }

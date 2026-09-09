@@ -1,22 +1,23 @@
-<view class="page">
+<view class="page page-enter">
   <!-- 搜索框 -->
   <view class="fs-search card">
+    <view class="fs-search-wrap"><view class="emoji-chip emoji-chip--search" style="--chip-size: 56rpx"><text>🔍</text></view>
     <input class="fs-input" placeholder="搜索食物，如：鸡胸肉 / 毛豆 / 苹果" value="{{keyword}}"
-           bindinput="onKeyword" confirm-type="search" focus="{{true}}" />
+           bindinput="onKeyword" confirm-type="search" focus="{{true}}" /></view>
   </view>
 
   <!-- 分类筛选 -->
   <scroll-view scroll-x class="fs-cats" enhanced show-scrollbar="{{false}}">
     <view wx:for="{{cats}}" wx:key="*this"
-          class="fs-cat {{catIndex === index ? 'fs-cat-on' : ''}}"
-          data-index="{{index}}" bindtap="onCat">{{item}}</view>
+          class="fs-cat press-shrink {{catIndex === index ? 'fs-cat-on' : ''}}"
+          data-index="{{index}}" bindtap="onCat" hover-class="fs-cat--hover" hover-stay-time="120">{{item}}</view>
   </scroll-view>
 
   <!-- T21: 常用快捷入口（空搜索 + 全部分类时显示） -->
   <block wx:if="{{quickRows.length}}">
     <view class="fs-sec">🔥 常用 10 大</view>
     <view class="fs-quick-grid">
-      <view wx:for="{{quickRows}}" wx:key="id" class="fs-quick-row" data-id="{{item.id}}" bindtap="onPick">
+      <view wx:for="{{quickRows}}" wx:key="id" class="fs-quick-row press-shrink stagger-self" data-id="{{item.id}}" bindtap="onPick" hover-class="fs-row--hover" hover-stay-time="120">
         <text class="fs-quick-name">{{item.name}}</text>
         <text class="fs-quick-meta">{{item.per100.calories}} kcal · 蛋白{{item.per100.protein}}</text>
       </view>
@@ -26,7 +27,7 @@
   <!-- 我的食物（置顶） -->
   <block wx:if="{{myRows.length}}">
     <view class="fs-sec">⭐ 我的食物</view>
-    <view wx:for="{{myRows}}" wx:key="id" class="fs-row" data-id="{{item.id}}" bindtap="onPick">
+    <view wx:for="{{myRows}}" wx:key="id" class="fs-row press-shrink stagger-self" data-id="{{item.id}}" bindtap="onPick" hover-class="fs-row--hover" hover-stay-time="120">
       <view class="fs-main">
         <text class="fs-name">{{item.name}}</text>
         <text class="fs-meta">{{item.per100.calories}} kcal/100g · 蛋白{{item.per100.protein}} 碳水{{item.per100.carbs}} 脂肪{{item.per100.fat}}</text>
@@ -37,7 +38,7 @@
 
   <!-- 内置库（带分页信息 + 加载更多） -->
   <view class="fs-sec">🥗 食物库<text wx:if="{{total > 0}}" class="fs-sec-meta">　共 {{total}} 条，已显示 {{shown}}</text></view>
-  <view wx:for="{{rows}}" wx:key="id" class="fs-row" data-id="{{item.id}}" bindtap="onPick">
+  <view wx:for="{{rows}}" wx:key="id" class="fs-row press-shrink stagger-self" data-id="{{item.id}}" bindtap="onPick" hover-class="fs-row--hover" hover-stay-time="120">
     <view class="fs-main">
       <text class="fs-name">{{item.name}}</text>
       <text class="fs-meta">{{item.per100.calories}} kcal/100g · 蛋白{{item.per100.protein}} 碳水{{item.per100.carbs}} 脂肪{{item.per100.fat}}</text>
@@ -46,7 +47,7 @@
   </view>
 
   <!-- 加载更多（剩余条数 > 0 时显示） -->
-  <view wx:if="{{shown < total}}" class="fs-more" bindtap="onMore">
+  <view wx:if="{{shown < total}}" class="fs-more press-shrink" bindtap="onMore" hover-class="fs-more--hover" hover-stay-time="120">
     ↓ 加载更多（{{total - shown}} 条未显示）
   </view>
 

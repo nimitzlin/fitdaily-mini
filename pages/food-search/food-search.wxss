@@ -6,8 +6,41 @@
   padding: 16rpx 24rpx;
 }
 
+.fs-search-wrap {
+  display: flex;
+  align-items: center;
+  gap: 14rpx;
+}
+
 .fs-input {
+  flex: 1;
   font-size: 28rpx;
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+.fs-cat--hover {
+  background: var(--primary-light);
+  transform: scale(0.96);
+  transition: all var(--dur-fast) var(--ease-out);
+}
+
+.fs-row--hover,
+.fs-quick-row {
+  transition: background var(--dur-fast) var(--ease-out);
+}
+
+.fs-row--hover {
+  background: var(--primary-soft);
+}
+
+.fs-row--hover .fs-name {
+  color: var(--primary-deep);
+}
+
+.fs-more--hover {
+  background: var(--primary);
+  color: #fff;
 }
 
 .fs-cats {

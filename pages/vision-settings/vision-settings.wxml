@@ -1,7 +1,7 @@
-<view class="page">
+<view class="page page-enter">
   <view class="card">
     <view class="vs-title-row">
-      <text class="vs-emoji">📷</text>
+      <view class="emoji-chip emoji-chip--camera" style="--chip-size: 64rpx"><text>📷</text></view>
       <text class="vs-title">拍照估算设置</text>
     </view>
     <text class="vs-desc">拍一下菜品照片，自动估算热量与营养（可选服务，按需启用）。</text>
@@ -38,12 +38,12 @@
     </view>
 
     <!-- 测试连接 -->
-    <button class="btn-ghost vs-test" loading="{{testing}}" bindtap="onTest">
+    <button class="btn-ghost vs-test press-shrink" loading="{{testing}}" bindtap="onTest">
       {{testing ? '测试中…' : '测试连接'}}
     </button>
     <view wx:if="{{testMsg}}" class="vs-result {{testOk ? 'vs-ok' : 'vs-bad'}}">{{testMsg}}</view>
 
-    <button class="btn-primary vs-save" bindtap="onSaveTap">保存配置</button>
+    <button class="btn-primary vs-save press-shrink" bindtap="onSaveTap">保存配置</button>
   </view>
 
   <view class="card vs-tips">

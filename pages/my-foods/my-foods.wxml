@@ -1,19 +1,19 @@
-<view class="page">
+<view class="page page-enter">
   <!-- T22.1: 顶部统计 + 引导 -->
   <view wx:if="{{rows.length}}" class="mf-header card">
-    <text class="mf-header-title">🍳 我的自定义食物库</text>
+    <view class="emoji-chip emoji-chip--food" style="--chip-size: 64rpx"><text>🍳</text></view><text class="mf-header-title">我的自定义食物库</text>
     <text class="mf-header-meta">共 {{total}} 条 · 拍照记录 / 手动录入 / +号新建都会自动入库</text>
     <text class="mf-header-meta">点条目编辑营养值，点右侧删除</text>
   </view>
 
   <view wx:if="{{!rows.length}}" class="mf-empty card">
-    <text class="mf-emoji">🍳</text>
+    <view class="emoji-chip emoji-chip--food" style="--chip-size: 120rpx"><text style="font-size: 64rpx">🍳</text></view>
     <text class="mf-text">还没有自定义食物</text>
     <text class="mf-hint">在「今日 → ＋ → 自定义录入」创建后，会自动出现在这里</text>
     <text class="mf-hint">拍照记录也会自动入库（如：芝麻丸 / 阿胶糕 / 龟苓膏 等 cfc 没收录的产品）</text>
   </view>
 
-  <view wx:for="{{rows}}" wx:key="id" class="mf-row">
+  <view wx:for="{{rows}}" wx:key="id" class="mf-row press-shrink stagger-self" hover-class="mf-row--hover" hover-stay-time="120">
     <view class="mf-main" data-id="{{item.id}}" bindtap="onPick">
       <view class="mf-line1">
         <text class="mf-name">{{item.name}}</text>
@@ -21,8 +21,8 @@
       </view>
       <text class="mf-meta">每100g：{{item.per100.calories}} kcal · 蛋白{{item.per100.protein}}g 碳水{{item.per100.carbs}}g 脂肪{{item.per100.fat}}g</text>
     </view>
-    <text class="mf-del" data-id="{{item.id}}" data-name="{{item.name}}" catchtap="onDelete">删除</text>
+    <text class="mf-del press-shrink" data-id="{{item.id}}" data-name="{{item.name}}" catchtap="onDelete">删除</text>
   </view>
 
-  <button wx:if="{{rows.length}}" class="btn-ghost mf-add" bindtap="onAdd">＋ 新建自定义食物</button>
+  <button wx:if="{{rows.length}}" class="btn-ghost mf-add press-shrink" bindtap="onAdd">＋ 新建自定义食物</button>
 </view>

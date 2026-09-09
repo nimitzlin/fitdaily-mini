@@ -1,166 +1,281 @@
+/* ========== Weight Page · v1.5 ========== */
 .page {
-  padding: 24rpx;
+  padding: 32rpx 28rpx;
 }
 
-.wg-input-card {
+/* ========== 输入卡 ========== */
+.weight-input {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.85) 0%, rgba(252, 248, 230, 0.6) 100%);
+}
+
+.wg-head-row {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+  margin-bottom: 24rpx;
+}
+
+.wg-head-titles {
   display: flex;
   flex-direction: column;
-  gap: 20rpx;
+  gap: 2rpx;
+}
+
+.wg-title {
+  font-size: 32rpx;
+  font-weight: 800;
+  color: var(--text-main);
+  letter-spacing: -0.5rpx;
+}
+
+.wg-sub {
+  font-size: 22rpx;
+  color: var(--text-sub);
 }
 
 .wg-row {
   display: flex;
   align-items: center;
   gap: 16rpx;
+  margin-bottom: 16rpx;
 }
 
 .wg-label {
-  font-size: 30rpx;
-  font-weight: 700;
-}
-
-.wg-input {
-  flex: 1;
-  background: var(--bg-page);
-  border: 2rpx solid var(--primary-light);
-  border-radius: 16rpx;
-  padding: 14rpx 20rpx;
-  font-size: 32rpx;
-  text-align: center;
-}
-
-.wg-unit {
-  font-size: 28rpx;
+  font-size: 26rpx;
+  font-weight: 600;
   color: var(--text-sub);
+  width: 100rpx;
 }
 
 .wg-picker {
   flex: 1;
-  background: var(--bg-page);
-  border: 2rpx solid var(--primary-light);
-  border-radius: 16rpx;
-  padding: 14rpx 20rpx;
-  font-size: 32rpx;
+  background: var(--glass-bg-strong);
+  backdrop-filter: blur(10rpx);
+  border: var(--border-card);
+  border-radius: var(--radius-button);
+  padding: 16rpx 20rpx;
+  font-size: 28rpx;
   text-align: center;
   color: var(--text-main);
 }
+
 .wg-picker-t {
-  font-size: 30rpx;
+  font-size: 28rpx;
+  font-weight: 600;
+}
+
+.wg-input {
+  flex: 1;
+  background: var(--glass-bg-strong);
+  backdrop-filter: blur(10rpx);
+  border: var(--border-card);
+  border-radius: var(--radius-button);
+  padding: 16rpx 20rpx;
+  font-size: 32rpx;
+  font-weight: 700;
+  text-align: center;
+  color: var(--primary-deep);
+}
+
+.wg-unit {
+  font-size: 26rpx;
+  font-weight: 600;
+  color: var(--text-sub);
+}
+
+.wg-btn {
+  margin-top: 16rpx;
+  width: 100%;
+}
+
+/* ========== 趋势卡 ========== */
+.weight-chart {
+  margin-top: 28rpx;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.85) 0%, rgba(232, 245, 227, 0.6) 100%);
 }
 
 .wg-head {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
-  margin-bottom: 16rpx;
+  margin-bottom: 24rpx;
 }
 
-.wg-title {
-  font-size: 30rpx;
-  font-weight: 700;
+.wg-chart-title {
+  font-size: 32rpx;
+  font-weight: 800;
+  color: var(--text-main);
+  letter-spacing: -0.5rpx;
+}
+
+.wg-history-count {
+  font-size: 22rpx;
+  color: var(--text-sub);
+  font-weight: 600;
 }
 
 .wg-diff {
-  font-size: 26rpx;
-  font-weight: 700;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6rpx;
+  padding: 8rpx 18rpx;
+  border-radius: var(--radius-pill);
 }
-
-.wg-down {
+.wg-diff.wg-down {
+  background: rgba(95, 168, 107, 0.15);
   color: var(--gi-low);
 }
-
-.wg-up {
+.wg-diff.wg-up {
+  background: rgba(255, 154, 118, 0.15);
   color: var(--accent-coral);
 }
 
-/* 简易折线图容器 */
+.wg-diff-num {
+  font-size: 36rpx;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.5rpx;
+}
+
+.wg-diff-unit {
+  font-size: 22rpx;
+  font-weight: 600;
+}
+
+.wg-diff-arrow {
+  font-size: 22rpx;
+  font-weight: 700;
+  margin-left: 4rpx;
+}
+
+.wg-diff-delta {
+  font-size: 22rpx;
+  font-weight: 700;
+}
+
+/* ========== 折线图容器 ========== */
 .wg-chart {
   position: relative;
-  width: 600rpx; /* 与 TS 里 CHART_W 保持一致；rotate 角度按这个尺寸算 */
+  width: 600rpx;
   max-width: 100%;
-  height: 260rpx;
-  background: var(--bg-page);
-  border-radius: 20rpx;
+  height: 280rpx;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.4) 0%, rgba(232, 245, 227, 0.3) 100%);
+  border-radius: var(--radius-card);
+  border: var(--border-soft);
+  margin: 0 auto;
   overflow: hidden;
 }
 
 .wg-dot {
   position: absolute;
-  width: 14rpx;
-  height: 14rpx;
+  width: 16rpx;
+  height: 16rpx;
   border-radius: 50%;
   background: var(--primary-deep);
   transform: translate(-50%, -50%);
   z-index: 2;
+  box-shadow: 0 0 0 4rpx rgba(142, 208, 143, 0.3),
+              0 2rpx 6rpx rgba(56, 102, 65, 0.3);
+  transition: all var(--dur-fast) var(--ease-out);
+}
+
+.wg-dot:hover {
+  transform: translate(-50%, -50%) scale(1.4);
+  box-shadow: 0 0 0 8rpx rgba(142, 208, 143, 0.5),
+              0 4rpx 12rpx rgba(56, 102, 65, 0.4);
 }
 
 .wg-line {
   position: absolute;
-  height: 3rpx;
-  background: var(--primary);
+  height: 4rpx;
+  background: linear-gradient(90deg, var(--primary) 0%, var(--primary-deep) 100%);
   transform-origin: left center;
   z-index: 1;
+  border-radius: 2rpx;
 }
 
 .wg-xaxis {
   display: flex;
   justify-content: space-between;
-  margin-top: 8rpx;
-  font-size: 20rpx;
+  margin-top: 16rpx;
+  font-size: 22rpx;
   color: var(--text-sub);
+  font-weight: 600;
 }
+
 .wg-xaxis-single {
   justify-content: center;
 }
 
+/* ========== 历史列表 ========== */
 .wg-rec {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 18rpx 4rpx;
-  border-bottom: 2rpx dashed var(--primary-light);
+  padding: 24rpx 8rpx;
+  border-bottom: var(--border-soft);
   font-size: 28rpx;
+  transition: background var(--dur-fast) var(--ease-out);
 }
 
 .wg-rec:last-child {
   border-bottom: none;
 }
 
+.wg-rec:active {
+  background: var(--primary-soft);
+}
+
+.wg-date {
+  color: var(--text-sub);
+  font-weight: 600;
+}
+
 .wg-val {
-  font-weight: 700;
+  font-weight: 800;
+  color: var(--text-main);
   flex: 1;
   text-align: right;
   margin-right: 16rpx;
+  font-variant-numeric: tabular-nums;
 }
 
 .wg-rec-del {
   font-size: 22rpx;
-  color: var(--accent-coral, #E57B64);
-  background: rgba(229, 123, 100, 0.08);
-  padding: 8rpx 18rpx;
-  border-radius: 999rpx;
-  border: 2rpx solid var(--accent-coral, #E57B64);
+  color: var(--accent-coral);
+  background: rgba(255, 154, 118, 0.1);
+  padding: 10rpx 20rpx;
+  border-radius: var(--radius-pill);
+  border: 2rpx solid rgba(255, 154, 118, 0.4);
   line-height: 1;
+  font-weight: 600;
 }
 
+.wg-rec-del--hover {
+  background: var(--accent-coral);
+  color: #fff;
+  border-color: var(--accent-coral);
+}
+
+/* ========== 空态 ========== */
 .wg-empty {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10rpx;
-  padding: 64rpx 40rpx;
-}
-
-.wg-e-emoji {
-  font-size: 72rpx;
+  gap: 12rpx;
+  padding: 80rpx 40rpx;
+  margin-top: 28rpx;
 }
 
 .wg-e-t {
-  font-size: 30rpx;
+  font-size: 32rpx;
   font-weight: 700;
+  color: var(--text-main);
+  margin-top: 12rpx;
 }
 
 .wg-e-d {
   font-size: 24rpx;
   color: var(--text-sub);
+  text-align: center;
 }

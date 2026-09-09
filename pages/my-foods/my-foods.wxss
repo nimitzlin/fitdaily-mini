@@ -1,5 +1,11 @@
 .page {
-  padding: 24rpx;
+  padding: 32rpx 28rpx;
+}
+
+.mf-header-title {
+  display: flex;
+  align-items: center;
+  gap: 14rpx;
 }
 
 .mf-empty {
@@ -7,11 +13,23 @@
   flex-direction: column;
   align-items: center;
   gap: 12rpx;
-  padding: 64rpx 40rpx;
+  padding: 80rpx 40rpx;
 }
 
 .mf-emoji {
   font-size: 72rpx;
+}
+
+.mf-row {
+  transition: background var(--dur-fast) var(--ease-out);
+}
+
+.mf-row--hover {
+  background: var(--primary-soft);
+}
+
+.mf-row--hover .mf-name {
+  color: var(--primary-deep);
 }
 
 .mf-text {

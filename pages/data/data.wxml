@@ -1,4 +1,4 @@
-<view class="page">
+<view class="page page-enter">
   <!-- 顶部日期选择器 -->
   <view class="card data-head">
     <view class="data-head-arrow" bindtap="onPrevDay">‹</view>
@@ -74,8 +74,8 @@
   </view>
 
   <!-- 训练打卡 -->
-  <view class="card data-train-card {{selectedTrained ? 'is-done' : ''}}" bindtap="onToggleTrain">
-    <text class="data-train-emoji">{{selectedTrained ? '💪' : '🤸'}}</text>
+  <view class="card data-train-card press-shrink shine-top {{selectedTrained ? 'is-done' : ''}}" bindtap="onToggleTrain" hover-class="data-train-card--hover" hover-stay-time="120">
+    <view class="emoji-chip emoji-chip--train" style="--chip-size: 80rpx"><text>{{selectedTrained ? '💪' : '🤸'}}</text></view>
     <view class="data-train-main">
       <text class="data-train-t">{{selectedTrained ? '该日已完成训练 ✅' : '这天练了吗？'}}</text>
       <text class="data-train-sub">点一下补打卡 / 取消</text>
@@ -85,48 +85,48 @@
   <!-- 饮食列表 -->
   <view wx:if="{{selectedLogs.length}}" class="card">
     <view class="data-row-h">
-      <text class="data-emoji">🍽️</text>
+      <view class="emoji-chip emoji-chip--food" style="--chip-size: 56rpx"><text>🍽️</text></view>
       <text class="data-title">饮食记录</text>
       <text class="data-count">{{selectedLogs.length}} 条</text>
     </view>
-    <view wx:for="{{selectedLogs}}" wx:key="id" class="data-log-row">
+    <view class="stagger"><view wx:for="{{selectedLogs}}" wx:key="id" class="data-log-row press-shrink">
       <view class="data-log-info">
         <text class="data-log-name">{{item.nameSnapshot}}</text>
         <text class="data-log-meta">{{item.weight}}g · {{item.intake.calories}} kcal · 蛋白 {{item.intake.protein}}g</text>
       </view>
       <view class="data-log-ops">
-        <view class="data-log-op data-edit" data-id="{{item.id}}" data-name="{{item.nameSnapshot}}"
+        <view class="data-log-op data-edit press-shrink" data-id="{{item.id}}" data-name="{{item.nameSnapshot}}"
               catchtap="onFoodAction" data-type="edit">编辑</view>
-        <view class="data-log-op data-del" data-id="{{item.id}}" data-name="{{item.nameSnapshot}}"
+        <view class="data-log-op data-del press-shrink" data-id="{{item.id}}" data-name="{{item.nameSnapshot}}"
               catchtap="onFoodAction" data-type="remove">删除</view>
       </view>
-    </view>
+    </view></view>
   </view>
 
   <!-- 训练列表 -->
   <view wx:if="{{selectedTrainLogs.length}}" class="card">
     <view class="data-row-h">
-      <text class="data-emoji">🏋️</text>
+      <view class="emoji-chip emoji-chip--train" style="--chip-size: 56rpx"><text>🏋️</text></view>
       <text class="data-title">训练记录</text>
       <text class="data-count">{{selectedTrainLogs.length}} 条</text>
     </view>
-    <view wx:for="{{selectedTrainLogs}}" wx:key="id" class="data-log-row">
+    <view class="stagger"><view wx:for="{{selectedTrainLogs}}" wx:key="id" class="data-log-row press-shrink">
       <view class="data-log-info">
         <text class="data-log-name">{{item.exerciseName}}</text>
         <text class="data-log-meta">{{item.summary}}</text>
       </view>
       <view class="data-log-ops">
-        <view class="data-log-op data-edit" data-id="{{item.id}}" data-name="{{item.exerciseName}}"
+        <view class="data-log-op data-edit press-shrink" data-id="{{item.id}}" data-name="{{item.exerciseName}}"
               catchtap="onTrainAction" data-type="edit">编辑</view>
-        <view class="data-log-op data-del" data-id="{{item.id}}" data-name="{{item.exerciseName}}"
+        <view class="data-log-op data-del press-shrink" data-id="{{item.id}}" data-name="{{item.exerciseName}}"
               catchtap="onTrainAction" data-type="remove">删除</view>
       </view>
-    </view>
+    </view></view>
   </view>
 
   <!-- 饮水 -->
-  <view class="card data-water-card" bindlongpress="onWaterLongPress">
-    <text class="data-water-emoji">💧</text>
+  <view class="card data-water-card press-shrink" bindlongpress="onWaterLongPress">
+    <view class="emoji-chip emoji-chip--water" style="--chip-size: 64rpx"><text>💧</text></view>
     <view class="data-water-main">
       <text class="data-water-title">当日饮水</text>
       <text class="data-water-val">{{selectedWater}}ml / {{profile.waterTargetMl}}ml</text>
@@ -139,12 +139,12 @@
   <!-- 底部操作区 -->
   <view class="data-fab-wrap">
     <view class="data-fab-row">
-      <view class="data-fab-half" bindtap="onAddFood">
-        <text class="data-fab-emoji">🍱</text>
+      <view class="data-fab-half press-shrink" bindtap="onAddFood" hover-class="data-fab-half--hover" hover-stay-time="120">
+        <view class="emoji-chip emoji-chip--food" style="--chip-size: 56rpx"><text>🍱</text></view>
         <text class="data-fab-t">补录饮食</text>
       </view>
-      <view class="data-fab-half" bindtap="onAddTrain">
-        <text class="data-fab-emoji">🏋️</text>
+      <view class="data-fab-half press-shrink" bindtap="onAddTrain" hover-class="data-fab-half--hover" hover-stay-time="120">
+        <view class="emoji-chip emoji-chip--train" style="--chip-size: 56rpx"><text>🏋️</text></view>
         <text class="data-fab-t">补录训练</text>
       </view>
     </view>

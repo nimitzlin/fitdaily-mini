@@ -1,7 +1,10 @@
-<view class="page">
+<view class="page page-enter">
   <!-- 今日打卡主按钮 -->
-  <view class="card train-hero {{trained ? 'is-done' : ''}}" bindtap="onToggleTrain">
-    <text class="tr-hero-emoji">{{trained ? '💪' : '🏋️'}}</text>
+  <view class="card train-hero {{trained ? 'is-done' : ''}} press-shrink shine-top"
+        bindtap="onToggleTrain" hover-class="train-hero--hover" hover-stay-time="120">
+    <view class="emoji-chip emoji-chip--train float" style="--chip-size: 96rpx">
+      <text style="font-size: 52rpx">{{trained ? '💪' : '🏋️'}}</text>
+    </view>
     <view class="tr-hero-main">
       <text class="tr-hero-title">{{trained ? '今日训练已完成 ✅' : '今天练了吗？'}}</text>
       <text class="tr-hero-sub">{{trained ? '目标已 +300 kcal + 20g 蛋白\n再次点击可取消' : '点击打卡，目标自动 +300 kcal'}}</text>
@@ -11,7 +14,7 @@
   <!-- 今日训练 -->
   <view class="card">
     <view class="tr-row-h">
-      <text class="tr-emoji">📝</text>
+      <view class="emoji-chip emoji-chip--leaf" style="--chip-size: 56rpx"><text>📝</text></view>
       <text class="tr-title">今日训练</text>
       <view class="tr-counts">
         <text class="tr-count">{{todayExerciseCount}}</text><text class="tr-count-unit">动作 ·</text>
@@ -22,19 +25,25 @@
     <view wx:if="{{!todayLogs.length}}" class="tr-empty">
       <text class="tr-empty-emoji">📋</text>
       <text class="tr-empty-t">还没有训练记录</text>
-      <view class="btn-primary tr-empty-btn" bindtap="goLog">+ 加一组</view>
+      <view class="btn-primary tr-empty-btn press-shrink" bindtap="goLog">+ 加一组</view>
     </view>
-    <view wx:for="{{todayLogs}}" wx:key="id" class="tr-log-row" bindlongpress="onRemoveTodayLog" data-id="{{item.id}}">
-      <text class="tr-log-name">{{item.exName}}</text>
-      <text class="tr-log-sets">{{item.summary}}</text>
+    <view class="stagger">
+      <view wx:for="{{todayLogs}}" wx:key="id" class="tr-log-row press-shrink"
+            bindlongpress="onRemoveTodayLog" data-id="{{item.id}}"
+            hover-class="tr-log-row--hover" hover-stay-time="120">
+        <text class="tr-log-name">{{item.exName}}</text>
+        <text class="tr-log-sets">{{item.summary}}</text>
+      </view>
     </view>
-    <view wx:if="{{todayLogs.length}}" class="tr-add-btn" bindtap="goLog">+ 加一组</view>
+    <view wx:if="{{todayLogs.length}}" class="tr-add-btn press-shrink" bindtap="goLog" hover-class="tr-add-btn--hover" hover-stay-time="120">
+      + 加一组
+    </view>
   </view>
 
   <!-- 月历 -->
   <view class="card">
     <view class="tr-row-h">
-      <text class="tr-emoji">📅</text>
+      <view class="emoji-chip emoji-chip--water" style="--chip-size: 56rpx"><text>📅</text></view>
       <text class="tr-title">{{monthLabel}}</text>
     </view>
     <view class="tr-cal-head">
@@ -57,9 +66,9 @@
     </view>
   </view>
 
-  <!-- PR 曲线入口（v1.2 上） -->
-  <view class="card tr-pr-card" bindtap="goPR">
-    <text class="tr-pr-emoji">🏆</text>
+  <!-- PR 曲线入口 -->
+  <view class="card tr-pr-card press-shrink" bindtap="goPR" hover-class="tr-pr-card--hover" hover-stay-time="120">
+    <view class="emoji-chip emoji-chip--fruit" style="--chip-size: 72rpx"><text>🏆</text></view>
     <view class="tr-pr-main">
       <text class="tr-pr-title">PR 曲线</text>
       <text class="tr-pr-sub">卧推 / 深蹲 / 硬拉历史最大重量趋势</text>

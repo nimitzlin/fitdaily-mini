@@ -1,128 +1,301 @@
+/* ========== Training Page · v1.5 ========== */
 .page {
-  padding: 24rpx;
+  padding: 32rpx 28rpx;
 }
 
-/* 训练主按钮 */
+/* ========== Hero 训练打卡 ========== */
 .train-hero {
   display: flex;
   align-items: center;
-  gap: 20rpx;
-  padding: 32rpx 24rpx;
-  transition: all 0.3s ease;
+  gap: 24rpx;
+  padding: 36rpx 32rpx;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(232, 245, 227, 0.6) 100%);
+  border: 2rpx solid rgba(142, 208, 143, 0.3);
 }
-.train-hero.is-done {
-  background: linear-gradient(135deg, var(--primary-light), var(--bg-card));
-  border: 4rpx solid var(--primary);
-}
-.tr-hero-emoji { font-size: 60rpx; }
-.tr-hero-main { flex: 1; display: flex; flex-direction: column; gap: 8rpx; }
-.tr-hero-title { font-size: 36rpx; font-weight: 700; color: var(--text-main); }
-.tr-hero-sub { font-size: 24rpx; color: var(--text-sub); line-height: 1.5; }
 
-/* 通用行标题 */
+.train-hero.is-done {
+  background: linear-gradient(135deg, rgba(255, 212, 194, 0.5) 0%, rgba(255, 154, 118, 0.3) 100%);
+  border-color: rgba(255, 154, 118, 0.5);
+}
+
+.train-hero--hover {
+  transform: scale(0.99);
+  transition: transform var(--dur-fast) var(--ease-out);
+}
+
+.tr-hero-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8rpx;
+}
+
+.tr-hero-title {
+  font-size: 38rpx;
+  font-weight: 800;
+  color: var(--text-main);
+  letter-spacing: -0.5rpx;
+}
+
+.tr-hero-sub {
+  font-size: 24rpx;
+  color: var(--text-sub);
+  line-height: 1.6;
+  white-space: pre-line;
+}
+
+/* ========== Section Header ========== */
 .tr-row-h {
   display: flex;
   align-items: center;
-  gap: 12rpx;
-  margin-bottom: 16rpx;
+  gap: 14rpx;
+  margin-bottom: 20rpx;
 }
-.tr-emoji { font-size: 32rpx; }
-.tr-title { font-size: 30rpx; font-weight: 700; color: var(--text-main); flex: 1; }
-.tr-counts { font-size: 22rpx; color: var(--text-sub); }
-.tr-count { font-size: 32rpx; font-weight: 700; color: var(--primary); }
-.tr-count-unit { font-size: 22rpx; margin: 0 6rpx; }
 
-/* 今日训练 */
+.tr-title {
+  font-size: 32rpx;
+  font-weight: 800;
+  color: var(--text-main);
+  flex: 1;
+  letter-spacing: -0.5rpx;
+}
+
+.tr-counts {
+  display: flex;
+  align-items: baseline;
+  gap: 4rpx;
+}
+
+.tr-count {
+  font-size: 28rpx;
+  font-weight: 800;
+  color: var(--primary-deep);
+  font-variant-numeric: tabular-nums;
+}
+
+.tr-count-unit {
+  font-size: 22rpx;
+  color: var(--text-sub);
+  font-weight: 600;
+}
+
+.tr-burn {
+  color: var(--accent-coral);
+}
+
+/* ========== Empty ========== */
 .tr-empty {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 12rpx;
-  padding: 32rpx 0;
+  gap: 16rpx;
+  padding: 60rpx 20rpx;
 }
-.tr-empty-emoji { font-size: 60rpx; }
-.tr-empty-t { font-size: 26rpx; color: var(--text-sub); }
+
+.tr-empty-emoji {
+  font-size: 80rpx;
+  opacity: 0.6;
+}
+
+.tr-empty-t {
+  font-size: 28rpx;
+  color: var(--text-sub);
+}
+
 .tr-empty-btn {
   margin-top: 8rpx;
-  padding: 16rpx 60rpx;
+  padding: 16rpx 36rpx;
   font-size: 28rpx;
-  width: auto;
 }
+
+/* ========== Log Row ========== */
 .tr-log-row {
   display: flex;
   justify-content: space-between;
-  align-items: baseline;
-  padding: 16rpx 0;
-  border-bottom: 2rpx dashed var(--primary-light);
+  align-items: center;
+  padding: 24rpx 12rpx;
+  border-bottom: var(--border-soft);
+  transition: background var(--dur-fast) var(--ease-out);
 }
-.tr-log-row:last-of-type { border-bottom: none; }
-.tr-log-name { font-size: 28rpx; font-weight: 600; color: var(--text-main); }
-.tr-log-sets { font-size: 22rpx; color: var(--text-sub); }
-.tr-add-btn {
-  margin-top: 16rpx;
-  text-align: center;
-  padding: 14rpx;
-  background: var(--bg-page);
-  border-radius: 12rpx;
-  font-size: 26rpx;
-  color: var(--primary);
+
+.tr-log-row:last-child {
+  border-bottom: none;
+}
+
+.tr-log-row--hover {
+  background: var(--primary-soft);
+}
+
+.tr-log-name {
+  font-size: 30rpx;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.tr-log-sets {
+  font-size: 24rpx;
+  color: var(--text-sub);
   font-weight: 600;
 }
 
-/* 月历 */
+.tr-add-btn {
+  margin-top: 16rpx;
+  padding: 24rpx;
+  text-align: center;
+  background: var(--primary-soft);
+  color: var(--primary-deep);
+  font-size: 28rpx;
+  font-weight: 700;
+  border-radius: var(--radius-button);
+  border: 2rpx dashed rgba(142, 208, 143, 0.5);
+  transition: all var(--dur-fast) var(--ease-out);
+}
+
+.tr-add-btn--hover {
+  background: var(--primary-light);
+  border-color: var(--primary);
+  border-style: solid;
+}
+
+/* ========== Calendar ========== */
 .tr-cal-head {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  text-align: center;
-  margin-bottom: 8rpx;
+  gap: 4rpx;
+  margin-bottom: 12rpx;
 }
-.tr-cal-hd { font-size: 22rpx; color: var(--text-sub); padding: 8rpx 0; }
-.tr-cal-row { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4rpx; }
+
+.tr-cal-hd {
+  text-align: center;
+  font-size: 22rpx;
+  color: var(--text-sub);
+  font-weight: 600;
+  padding: 8rpx 0;
+}
+
+.tr-cal-row {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4rpx;
+  margin-bottom: 4rpx;
+}
+
 .tr-cal-cell {
-  aspect-ratio: 1;
+  height: 64rpx;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 8rpx;
-  font-size: 24rpx;
+  border-radius: 14rpx;
+  background: transparent;
+  transition: background var(--dur-fast) var(--ease-out),
+              transform var(--dur-fast) var(--ease-spring);
 }
-.tr-cal-cell.is-out { color: transparent; }
-.tr-cal-day { font-size: 26rpx; color: var(--text-main); }
+
+.tr-cal-cell.is-out {
+  opacity: 0.25;
+}
+
 .tr-cal-cell.is-today {
-  background: var(--primary-light);
+  background: var(--primary-soft);
+  border: 2rpx solid var(--primary);
+}
+
+.tr-cal-cell.is-today.is-trained {
+  background: var(--primary-gradient);
+  border-color: var(--primary-deep);
+}
+
+.tr-cal-cell.is-trained:not(.is-today) {
+  background: rgba(142, 208, 143, 0.18);
+}
+
+.tr-cal-day {
+  font-size: 26rpx;
   font-weight: 700;
+  color: var(--text-main);
+  font-variant-numeric: tabular-nums;
 }
-.tr-cal-cell.is-today .tr-cal-day { color: var(--primary); }
-.tr-cal-cell.is-trained {
-  background: var(--primary);
+
+.tr-cal-cell.is-today .tr-cal-day {
+  color: var(--primary-deep);
 }
-.tr-cal-cell.is-trained .tr-cal-day { color: #fff; font-weight: 700; }
+
+.tr-cal-cell.is-today.is-trained .tr-cal-day {
+  color: #fff;
+}
+
 .tr-cal-legend {
   display: flex;
+  justify-content: center;
   gap: 24rpx;
-  margin-top: 16rpx;
+  margin-top: 20rpx;
   font-size: 22rpx;
   color: var(--text-sub);
 }
-.tr-cal-legend-item { display: flex; align-items: center; gap: 8rpx; }
-.tr-cal-dot { width: 20rpx; height: 20rpx; border-radius: 6rpx; }
-.tr-cal-dot.today { background: var(--primary-light); border: 2rpx solid var(--primary); }
-.tr-cal-dot.trained { background: var(--primary); }
 
-/* PR 入口 */
-.tr-pr-card {
+.tr-cal-legend-item {
   display: flex;
   align-items: center;
-  gap: 16rpx;
-  margin-top: 0;
+  gap: 8rpx;
 }
-.tr-pr-emoji { font-size: 40rpx; }
-.tr-pr-main { flex: 1; display: flex; flex-direction: column; gap: 4rpx; }
-.tr-pr-title { font-size: 28rpx; font-weight: 700; color: var(--text-main); }
-.tr-pr-sub { font-size: 22rpx; color: var(--text-sub); }
-.tr-pr-arrow { font-size: 36rpx; color: var(--text-sub); }
-/* T19 消耗徽章 */
-.tr-count.tr-burn {
-  color: var(--accent-coral);
+
+.tr-cal-dot {
+  width: 18rpx;
+  height: 18rpx;
+  border-radius: 50%;
+}
+
+.tr-cal-dot.today {
+  background: var(--primary-soft);
+  border: 2rpx solid var(--primary);
+}
+
+.tr-cal-dot.trained {
+  background: var(--primary-gradient);
+}
+
+/* ========== PR Card ========== */
+.tr-pr-card {
+  margin-top: 28rpx;
+  display: flex;
+  align-items: center;
+  gap: 20rpx;
+  background: linear-gradient(135deg, rgba(255, 212, 194, 0.4) 0%, rgba(255, 255, 255, 0.85) 100%);
+  border: 2rpx solid rgba(255, 154, 118, 0.3);
+}
+
+.tr-pr-card--hover {
+  transform: translateX(4rpx);
+  transition: transform var(--dur-fast) var(--ease-out);
+}
+
+.tr-pr-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4rpx;
+}
+
+.tr-pr-title {
   font-size: 30rpx;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.tr-pr-sub {
+  font-size: 22rpx;
+  color: var(--text-sub);
+}
+
+.tr-pr-arrow {
+  font-size: 36rpx;
+  color: var(--text-mute);
+  font-weight: 300;
+  transition: transform var(--dur-fast) var(--ease-out),
+              color var(--dur-fast) var(--ease-out);
+}
+
+.tr-pr-card--hover .tr-pr-arrow {
+  transform: translateX(8rpx);
+  color: var(--accent-coral);
 }
