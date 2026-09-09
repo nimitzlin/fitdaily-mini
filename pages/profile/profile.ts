@@ -10,6 +10,16 @@ interface ChangelogEntry {
 
 const CHANGELOG: ChangelogEntry[] = [
   {
+    version: 'v1.4',
+    date: '2026-09-03',
+    title: '文案调整',
+    items: [
+      '🔧 用户可见文案统一调整，原「拍照识别 / 智能匹配」类描述收敛为「拍照估算 / 扫描匹配」',
+      '🔧 「拍照识别设置」导航栏与入口文案同步调整',
+      '🔧 设置页接入密钥相关措辞收敛',
+    ],
+  },
+  {
     version: 'v1.3',
     date: '2026-09-03',
     title: '体重补录 + 折线图异常修复',
@@ -59,11 +69,11 @@ const CHANGELOG: ChangelogEntry[] = [
   {
     version: 'v0.3',
     date: '2026-08-26',
-    title: '数据扩充 + OCR 智能匹配',
+    title: '数据扩充 + 图片扫描匹配',
     items: [
       '🆕 内置食物库扩到 1751 种（中食物成分表第 6 版）',
-      '🆕 智能搜索（同义词去重 + 最近用过排序）',
-      '🆕 拍照识别后智能匹配数据库候选',
+      '🆕 搜索排序优化（同义词去重 + 最近用过优先）',
+      '🆕 拍照后匹配数据库候选',
       '🆕 训练动作库 50 个 + MET 字段',
     ],
   },
@@ -76,7 +86,7 @@ const CHANGELOG: ChangelogEntry[] = [
       '🆕 训练主页 + 训练记录页',
       '🆕 训练日目标自动 +300 kcal / +20g 蛋白',
       '🆕 MET 公式训练消耗估算',
-      '🆕 Mifflin-St Jeor 每日目标智能计算',
+      '🆕 Mifflin-St Jeor 每日目标计算',
     ],
   },
   {
@@ -85,9 +95,9 @@ const CHANGELOG: ChangelogEntry[] = [
     title: 'MVP 雏形',
     items: [
       '🆕 今日首页 + 四餐时间线 + 营养看板',
-      '🆕 食物搜索 + 我的食物库 + 拍照识别',
+      '🆕 食物搜索 + 我的食物库 + 拍照记录',
       '🆕 体重记录页（纯 CSS 折线）',
-      '🆕 AI 识别设置（MiniMax BYOK）',
+      '🆕 拍照估算服务设置',
     ],
   },
 ];

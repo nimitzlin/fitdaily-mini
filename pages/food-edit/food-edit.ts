@@ -115,7 +115,7 @@ Page({
       }
     }
     if (query.source === 'photo') {
-      // T11 AI 识别草稿预填；保存时消费草稿，多菜品逐条确认
+      // T11 拍照估算草稿预填；保存时消费草稿，多菜品逐条确认
       const idx = parseInt(query.draftIdx || '0', 10) || 0;
       const draft = getRecogDraft();
       if (draft && draft.items[idx]) {
@@ -134,12 +134,12 @@ Page({
           draftIdx: idx,
           aiBanner:
             draft.confidence < 0.6
-              ? '⚠️ AI 对这餐不太确定，请逐项核对后保存'
-              : '🤖 AI 预填，确认或修改后保存',
+              ? '⚠️ 建议核对一下营养值（不确定度较高）'
+              : '📷 拍照预填，确认或修改后保存',
           mealIndex: guessMealIndex(),
         });
 
-        // T21: OCR 后智能匹配数据库候选
+        // T21: 拍照后快速匹配数据库候选
         const cs = matchCandidates(it, 3);
         if (cs.length > 0) {
           Object.assign(data, {
@@ -234,7 +234,7 @@ Page({
     wx.showToast({ title: `已采用「${c.name}」数据`, icon: 'success', duration: 1500 });
   },
 
-  /** 关闭候选卡（用户保留 AI 识别值） */
+  /** 关闭候选卡（用户保留拍照估算值） */
   onDismissCandidates() {
     this.setData({ showCandidates: false });
   },

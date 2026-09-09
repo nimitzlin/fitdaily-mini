@@ -119,8 +119,8 @@ Page({
     const apiKey = visionKeyGet();
     if (!cfg || !apiKey) {
       wx.showModal({
-        title: '先用 AI 识别，需要配置服务',
-        content: '去「我的 → AI 识别设置」填入 MiniMax API Key（仅存本机）',
+        title: '先用拍照记录，需要配置服务',
+        content: '去「我的 → 拍照估算设置」填入服务密钥（仅存本机）',
         confirmText: '去配置',
         success: (r) => {
           if (r.confirm) wx.navigateTo({ url: '/pages/vision-settings/vision-settings' });
@@ -142,7 +142,7 @@ Page({
           }),
       );
       const src = chosen.tempFiles[0].tempFilePath;
-      wx.showLoading({ title: 'AI 识别中…', mask: true });
+      wx.showLoading({ title: '拍照估算中…', mask: true });
 
       const compressed = await compressImage(src);
       const b64 = await fileToBase64(compressed);
@@ -155,7 +155,7 @@ Page({
 
       setRecogDraft(result.items, result.confidence);
       if (result.confidence < 0.6) {
-        wx.showToast({ title: 'AI 不太确定，请逐项核对', icon: 'none', duration: 2000 });
+        wx.showToast({ title: '建议核对一下营养值', icon: 'none', duration: 2000 });
       }
       wx.navigateTo({
         url: `/pages/food-edit/food-edit?date=${this.data.date}&source=photo&draftIdx=0`,

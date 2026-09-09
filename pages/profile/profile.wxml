@@ -25,7 +25,7 @@
     </view>
     <view class="pf-item" bindtap="goVision">
       <text class="pf-i-emoji">📷</text>
-      <view class="pf-i-main"><text class="pf-i-name">AI 识别设置</text><text class="pf-i-desc">{{visionReady ? '已配置 MiniMax ✅' : '配置 MiniMax API Key'}}</text></view>
+      <view class="pf-i-main"><text class="pf-i-name">拍照估算设置</text><text class="pf-i-desc">{{visionReady ? '服务已就绪 ✅' : '配置拍照估算服务'}}</text></view>
       <text class="pf-arrow">›</text>
     </view>
     <view class="pf-item" bindtap="goWeight">

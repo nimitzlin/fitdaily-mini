@@ -2,9 +2,9 @@
   <view class="card">
     <view class="vs-title-row">
       <text class="vs-emoji">📷</text>
-      <text class="vs-title">AI 拍照识别设置</text>
+      <text class="vs-title">拍照估算设置</text>
     </view>
-    <text class="vs-desc">拍照后由 AI 估算菜品的热量、营养与 GI。第一版支持 MiniMax（国际站 / 国内站）。</text>
+    <text class="vs-desc">拍一下菜品照片，自动估算热量与营养（可选服务，按需启用）。</text>
 
     <!-- 服务商预设 -->
     <view class="vs-row vs-no-mt">
@@ -23,18 +23,18 @@
     <!-- 模型 -->
     <view class="vs-col">
       <text class="vs-label">模型名称</text>
-      <input class="vs-input" value="{{model}}" bindinput="onModel" placeholder="MiniMax-M3" />
+      <input class="vs-input" value="{{model}}" bindinput="onModel" placeholder="model-id" />
     </view>
 
-    <!-- API Key -->
+    <!-- 接入密钥 -->
     <view class="vs-col">
       <view class="vs-key-head">
-        <text class="vs-label">API Key {{hasKey ? '（已保存）' : ''}}</text>
+        <text class="vs-label">接入密钥 {{hasKey ? '（已保存）' : ''}}</text>
         <text wx:if="{{hasKey && !showKey}}" class="vs-masked" bindtap="toggleShowKey">{{keyMasked || '已存本机 👁'}}</text>
       </view>
       <input class="vs-input" password="{{!showKey}}" value="{{keyInput}}" bindinput="onKeyInput"
-             placeholder="{{hasKey ? '输入新 Key 可覆盖' : '粘贴你的 MiniMax API Key'}}" />
-      <text class="vs-hint">🔒 Key 仅保存在你的手机本地，不上传服务器、不参与云同步、不进日志</text>
+             placeholder="{{hasKey ? '输入新密钥可覆盖' : '粘贴你的服务密钥'}}" />
+      <text class="vs-hint">🔒 密钥仅保存在你的手机本地，不上传服务器、不参与云同步、不进日志</text>
     </view>
 
     <!-- 测试连接 -->
@@ -48,8 +48,8 @@
 
   <view class="card vs-tips">
     <text class="vs-tips-title">💡 使用提示</text>
-    <text class="vs-tip">· 默认是 MiniMax 国内站，国内平台 key 直接用；如果是国际站 key 再切到「国际站」</text>
-    <text class="vs-tip">· 识别结果只是草稿，保存前可逐项修改</text>
+    <text class="vs-tip">· 默认是国内站接入地址，国内账号密钥直接用；如果是国际站再切到「国际站」</text>
+    <text class="vs-tip">· 拍照估算结果可作为草稿，保存前可逐项修改</text>
     <text class="vs-tip">· 一餐多道菜会拆成多条，逐条确认</text>
   </view>
 </view>

@@ -6,8 +6,8 @@
     <view class="hs-opt" data-type="photo" bindtap="onChoose">
       <text class="hs-emoji">📷</text>
       <view class="hs-texts">
-        <text class="hs-name">拍照识别</text>
-        <text class="hs-desc">AI 估算热量营养，确认后写入</text>
+        <text class="hs-name">拍照记录</text>
+        <text class="hs-desc">拍一下自动估算营养，确认后写入</text>
       </view>
     </view>
 

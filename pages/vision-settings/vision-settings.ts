@@ -74,7 +74,7 @@ Page({
     );
     let msg: string;
     if (result.ok) {
-      msg = '连接成功 ✅ 可以开始拍照识别了';
+      msg = '连接成功 ✅ 可以开始拍照记录了';
     } else if (result.status === 401) {
       msg = '连接失败：Key 无效或未授权（401），请检查 Key';
     } else if (result.status) {
