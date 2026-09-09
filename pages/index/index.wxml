@@ -1,28 +1,40 @@
-<view class="page">
+<view class="page today-page">
+  <!-- 顶部品牌栏 -->
+  <view class="today-hero">
+    <view class="hero-greet">
+      <text class="hero-emoji">🌱</text>
+      <view class="hero-titles">
+        <text class="hero-title">今日饮食</text>
+        <text class="hero-sub">{{todayDate}} · 距离目标还有 {{remainKcal}} kcal</text>
+      </view>
+    </view>
+    <view class="hero-ring">
+      <text class="hero-ring-num">{{stats.calories}}</text>
+      <text class="hero-ring-target">/ {{profile.calorieTarget}} kcal</text>
+    </view>
+  </view>
+
   <!-- 营养看板 -->
   <view class="card">
     <nutrition-dashboard stats="{{stats}}" profile="{{profile}}" />
   </view>
 
-  <!-- 喝水小卡片 -->
-  <view class="card water-card" bindlongpress="onWaterLongPress">
-    <text class="wc-emoji">💧</text>
-    <view class="wc-main">
-      <text class="wc-title">今日饮水</text>
-      <text class="wc-val">{{water}}ml / {{profile.waterTargetMl}}ml</text>
+  <!-- 训练 + 饮水 双列网格 -->
+  <view class="grid-2col">
+    <view class="card mini-card mini-card--train {{trained ? 'is-done' : ''}}"
+          bindtap="onToggleTrain" hover-class="mini-card--hover" hover-stay-time="120">
+      <view class="mini-emoji">{{trained ? '💪' : '🤸'}}</view>
+      <view class="mini-title">{{trained ? '已打卡' : '训练'}}</view>
+      <view class="mini-sub" wx:if="{{trained}}">+300 kcal 目标</view>
+      <view class="mini-sub" wx:else>点击打卡</view>
     </view>
-    <view class="btn-ghost wc-btn" bindtap="onAddWater">+250ml</view>
-  </view>
-
-  <!-- 训练打卡卡 -->
-  <view class="card train-card {{trained ? 'is-done' : ''}}" bindtap="onToggleTrain">
-    <text class="tr-emoji">{{trained ? '💪' : '🤸'}}</text>
-    <view class="tr-main">
-      <text class="tr-title">{{trained ? '今天练了 ✅' : '今天练了吗？'}}</text>
-      <text class="tr-sub" wx:if="{{trained}}">目标已 +300 kcal + 20g 蛋白</text>
-      <text class="tr-sub" wx:else>点一下打卡，目标自动调整</text>
+    <view class="card mini-card mini-card--water" bindlongpress="onWaterLongPress"
+          hover-class="mini-card--hover" hover-stay-time="120">
+      <view class="mini-emoji">💧</view>
+      <view class="mini-title">{{water}}ml</view>
+      <view class="mini-sub">目标 {{profile.waterTargetMl}}ml</view>
+      <view class="mini-action" catchtap="onAddWater">+250</view>
     </view>
-    <view class="tr-arrow">{{trained ? '再次点击取消' : '›'}}</view>
   </view>
 
   <!-- 四餐时间线 -->
@@ -42,10 +54,10 @@
     <view wx:if="{{!item.logs.length}}" class="empty">还没记录，点右下角 + 开始</view>
   </meal-section>
 
-  <view style="height: 140rpx"></view>
+  <view style="height: 160rpx"></view>
 
   <!-- 悬浮添加按钮 -->
-  <view class="fab" bindtap="openSheet">＋</view>
+  <view class="fab" hover-class="fab--hover" hover-stay-time="120" bindtap="openSheet">＋</view>
 
   <!-- 录入方式弹层 -->
   <half-screen-sheet show="{{sheetShow}}" bind:close="closeSheet" bind:choose="onChooseEntry" />

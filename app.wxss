@@ -2,30 +2,91 @@
 
 /* 全局基础样式 */
 page {
-  background: var(--bg-page);
+  /* Pastel 渐变背景（顶部亮、底部略深） */
+  background: linear-gradient(180deg, var(--bg-page-top) 0%, var(--bg-page) 35%, var(--bg-page-bot) 100%);
+  background-attachment: fixed;
   color: var(--text-main);
   font-size: 28rpx;
   line-height: 1.6;
+  /* 数字等宽（卡路里显示更稳） */
+  font-variant-numeric: tabular-nums;
 }
 
+/* 卡片基类 · 毛玻璃 + 大圆角 + 入场动画 */
 .card {
-  background: var(--bg-card);
+  position: relative;
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
   border: var(--border-card);
   border-radius: var(--radius-card);
   padding: 32rpx;
   box-shadow: var(--shadow-card);
+  /* 入场动画 */
+  animation: cardIn var(--dur-med) var(--ease-out) both;
+  transition: box-shadow var(--dur-fast) var(--ease-out),
+              transform var(--dur-fast) var(--ease-out);
 }
 
+/* 卡片交错入场（前 6 张） */
+.card:nth-child(1) { animation-delay: 0ms; }
+.card:nth-child(2) { animation-delay: 60ms; }
+.card:nth-child(3) { animation-delay: 120ms; }
+.card:nth-child(4) { animation-delay: 180ms; }
+.card:nth-child(5) { animation-delay: 240ms; }
+.card:nth-child(6) { animation-delay: 300ms; }
+
+@keyframes cardIn {
+  from {
+    opacity: 0;
+    transform: translateY(20rpx) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* 按钮基类 */
 .btn-primary {
-  background: var(--primary);
-  color: #fff;
-  border-radius: var(--radius-pill);
+  background: var(--primary-gradient);
+  color: var(--text-on-primary);
+  border-radius: var(--radius-button);
   font-weight: 700;
+  padding: 20rpx 32rpx;
+  box-shadow: var(--shadow-card);
+  transition: transform var(--dur-fast) var(--ease-out),
+              box-shadow var(--dur-fast) var(--ease-out);
+}
+.btn-primary:active {
+  transform: scale(0.97);
+  box-shadow: var(--shadow-card-hover);
 }
 
 .btn-ghost {
-  background: transparent;
-  border: 3rpx solid var(--primary);
-  color: var(--text-main);
-  border-radius: var(--radius-pill);
+  background: var(--glass-bg-strong);
+  border: 2rpx solid var(--primary);
+  color: var(--primary-deep);
+  border-radius: var(--radius-button);
+  padding: 16rpx 28rpx;
+  transition: transform var(--dur-fast) var(--ease-out),
+              background var(--dur-fast) var(--ease-out);
+}
+.btn-ghost:active {
+  transform: scale(0.97);
+  background: var(--primary-soft);
+}
+
+/* 顶部高光（装饰，可选） */
+.shine-top {
+  position: relative;
+  overflow: hidden;
+}
+.shine-top::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 80rpx;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.5) 0%, transparent 100%);
+  pointer-events: none;
 }

@@ -20,6 +20,12 @@ import { isTrainedToday, kcalForDay, dayTrainingLogs, setTrainingDone } from '..
 import { MealLog, MealType, MEAL_LABEL, UserProfile } from '../../services/types';
 import { compressImage, fileToBase64, recognizeMeal, setRecogDraft } from '../../services/vision';
 
+const WK_LABELS = ['日', '一', '二', '三', '四', '五', '六'];
+function weekdayLabel(date: string): string {
+  const [y, m, d] = date.split('-').map(Number);
+  return `周${WK_LABELS[new Date(y, m - 1, d).getDay()]}`;
+}
+
 interface MealGroup {
   key: MealType;
   label: string;
@@ -31,6 +37,10 @@ const MEAL_ORDER: MealType[] = ['breakfast', 'lunch', 'dinner', 'snack'];
 Page({
   data: {
     date: '',
+    /** 人类可读日期，用于 hero 文案 */
+    todayDate: '',
+    /** 距离目标还剩多少 kcal */
+    remainKcal: 0,
     stats: null as DailyStats | null,
     profile: null as UserProfile | null,
     trained: false,
@@ -58,11 +68,17 @@ Page({
     const profile = adjustedTargets(baseProfile, trained);
     // 缓存今日训练日志，供 onToggleTrain 计算消耗用
     this._todayLogsCache = dayTrainingLogs(date);
+    const stats = dailyStats(logs);
+    // 顶部 hero 文案：今日日期 + 剩余卡路里
+    const todayDate = `${date.slice(5)} ${weekdayLabel(date)}`;
+    const remainKcal = Math.max(0, profile.calorieTarget - stats.calories);
     this.setData({
       date,
+      todayDate,
+      remainKcal,
       profile,
       trained,
-      stats: dailyStats(logs),
+      stats,
       meals: groups,
       water: waterOf(date),
     });

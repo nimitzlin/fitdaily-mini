@@ -1,45 +1,162 @@
-.page {
-  padding: 24rpx;
+/* ========== Today Page · v1.5 Glassmorphism ========== */
+.today-page {
+  padding: 32rpx 28rpx;
 }
 
-.water-card {
+/* ========== Hero · 顶部品牌栏 + 大数字卡路里 ========== */
+.today-hero {
   display: flex;
   align-items: center;
-  gap: 20rpx;
-  margin-bottom: 24rpx;
+  justify-content: space-between;
+  margin: 12rpx 4rpx 32rpx;
+  gap: 24rpx;
+  animation: heroIn var(--dur-slow) var(--ease-out) both;
+}
+@keyframes heroIn {
+  from { opacity: 0; transform: translateY(-12rpx); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
-.wc-emoji {
-  font-size: 48rpx;
+.hero-greet {
+  display: flex;
+  align-items: center;
+  gap: 18rpx;
+}
+.hero-emoji {
+  font-size: 56rpx;
+  filter: drop-shadow(0 4rpx 8rpx rgba(142, 208, 143, 0.4));
+}
+.hero-titles { display: flex; flex-direction: column; gap: 4rpx; }
+.hero-title {
+  font-size: 40rpx;
+  font-weight: 800;
+  color: var(--primary-deep);
+  letter-spacing: -0.5rpx;
+}
+.hero-sub {
+  font-size: 22rpx;
+  color: var(--text-sub);
 }
 
-.wc-main {
-  flex: 1;
+.hero-ring {
   display: flex;
   flex-direction: column;
+  align-items: flex-end;
+  line-height: 1.1;
+}
+.hero-ring-num {
+  font-size: 56rpx;
+  font-weight: 800;
+  color: var(--primary-deep);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -1rpx;
+}
+.hero-ring-target {
+  font-size: 20rpx;
+  color: var(--text-sub);
+  margin-top: 4rpx;
 }
 
-.wc-title {
-  font-size: 28rpx;
+/* ========== Grid · 训练 + 饮水 双列卡片 ========== */
+.grid-2col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20rpx;
+  margin-bottom: 28rpx;
+}
+
+.mini-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 28rpx 28rpx 24rpx;
+  min-height: 180rpx;
+  position: relative;
+  overflow: hidden;
+}
+.mini-card::after {
+  /* 角落装饰光晕 */
+  content: '';
+  position: absolute;
+  top: -40rpx;
+  right: -40rpx;
+  width: 160rpx;
+  height: 160rpx;
+  border-radius: 50%;
+  opacity: 0.35;
+  pointer-events: none;
+}
+.mini-card--train::after {
+  background: radial-gradient(circle, var(--accent-coral-light) 0%, transparent 70%);
+}
+.mini-card--water::after {
+  background: radial-gradient(circle, #C8E0EF 0%, transparent 70%);
+}
+
+.mini-card--hover {
+  transform: scale(0.97);
+  transition: transform var(--dur-fast) var(--ease-out);
+}
+
+.mini-emoji {
+  font-size: 44rpx;
+  margin-bottom: 16rpx;
+  filter: drop-shadow(0 2rpx 6rpx rgba(0, 0, 0, 0.08));
+}
+.mini-title {
+  font-size: 36rpx;
+  font-weight: 800;
+  color: var(--text-main);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.5rpx;
+}
+.mini-sub {
+  font-size: 22rpx;
+  color: var(--text-sub);
+  margin-top: 4rpx;
+}
+
+.mini-card--train.is-done {
+  background: linear-gradient(135deg, rgba(255, 154, 118, 0.18) 0%, rgba(255, 212, 194, 0.3) 100%);
+  border-color: rgba(255, 154, 118, 0.5);
+}
+.mini-card--train.is-done .mini-title { color: var(--accent-coral); }
+
+.mini-card--water {
+  /* 默认偏蓝玻璃感 */
+  background: linear-gradient(135deg, rgba(199, 222, 240, 0.5) 0%, rgba(255, 255, 255, 0.7) 100%);
+  border-color: rgba(152, 193, 217, 0.4);
+}
+.mini-card--water .mini-title { color: #4A7C9B; }
+
+.mini-action {
+  position: absolute;
+  bottom: 20rpx;
+  right: 20rpx;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10rpx);
+  padding: 8rpx 20rpx;
+  border-radius: var(--radius-pill);
+  font-size: 22rpx;
   font-weight: 700;
+  color: #4A7C9B;
+  border: 1rpx solid rgba(74, 124, 155, 0.3);
+  transition: transform var(--dur-fast) var(--ease-out);
+}
+.mini-action:active {
+  transform: scale(0.92);
+  background: rgba(255, 255, 255, 0.95);
 }
 
-.wc-val {
-  font-size: 24rpx;
-  color: var(--text-sub);
-}
-
-.wc-btn {
-  padding: 10rpx 24rpx;
-  font-size: 26rpx;
-}
-
+/* ========== Meal Section 空态 ========== */
 .empty {
-  padding: 20rpx 8rpx 8rpx;
+  padding: 32rpx 8rpx 8rpx;
   font-size: 24rpx;
-  color: var(--text-sub);
+  color: var(--text-mute);
+  text-align: center;
 }
 
+/* ========== FAB · 悬浮添加按钮（珊瑚渐变） ========== */
 .fab {
   position: fixed;
   right: 40rpx;
@@ -47,30 +164,23 @@
   width: 112rpx;
   height: 112rpx;
   border-radius: 50%;
-  background: var(--primary);
+  background: var(--accent-coral-gradient);
   color: #fff;
-  font-size: 60rpx;
-  line-height: 104rpx;
+  font-size: 64rpx;
+  line-height: 100rpx;
   text-align: center;
-  font-weight: 700;
-  box-shadow: 0 8rpx 24rpx rgba(56, 102, 65, 0.25);
+  font-weight: 300;
+  box-shadow: var(--shadow-fab);
   z-index: 50;
+  transition: transform var(--dur-fast) var(--ease-spring),
+              box-shadow var(--dur-fast) var(--ease-out);
+  animation: fabIn var(--dur-slow) var(--ease-spring) 400ms both;
 }
-
-/* 训练打卡卡 */
-.train-card {
-  display: flex;
-  align-items: center;
-  gap: 16rpx;
-  transition: background 0.3s ease;
+@keyframes fabIn {
+  from { opacity: 0; transform: scale(0.4) rotate(-90deg); }
+  to   { opacity: 1; transform: scale(1) rotate(0); }
 }
-.train-card.is-done {
-  background: linear-gradient(135deg, var(--primary-light), var(--bg-card));
-  border: 4rpx solid var(--primary);
+.fab--hover {
+  transform: scale(0.9);
+  box-shadow: var(--shadow-fab-hover);
 }
-.tr-emoji { font-size: 40rpx; }
-.tr-main { flex: 1; display: flex; flex-direction: column; gap: 4rpx; }
-.tr-title { font-size: 30rpx; font-weight: 700; color: var(--text-main); }
-.tr-sub { font-size: 22rpx; color: var(--text-sub); }
-.tr-arrow { font-size: 28rpx; color: var(--text-sub); }
-.train-card.is-done .tr-arrow { color: var(--primary); font-size: 22rpx; }
