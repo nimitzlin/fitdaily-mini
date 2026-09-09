@@ -1,5 +1,54 @@
 # FitDaily 更新日志
 
+## v1.5-wip · 2026-09-09（UI 风格化 + 动效系统）
+
+### 🎨 UI 风格化（Pastel + Glassmorphism）
+
+**1. 全局设计 Token**（`app.wxss`）
+- 颜色：`--primary / --primary-soft / --primary-deep / --text / --text-sub / --text-muted`
+- 玻璃质感：`--glass-bg / --glass-bg-strong / --shadow-card / --border-card / --radius-card`
+- 间距与圆角：`--space-xs/sm/md/lg/xl`、`--radius-sm/md/lg/xl`
+- 动效时长与缓动：`--dur-fast/med/slow`、`--ease-out`
+- 渐变：`--primary-gradient / --gold-gradient / --success-gradient`
+
+**2. Emoji Chip 组件**
+- 替代原 SVG icon（小程序 `<image>` 不继承 `currentColor`，SVG 色彩不可控）
+- 11 种色板：`--food / --train / --water / --search / --leaf / --rice / --meat / --vege / --fruit / --neutral` + 默认 pastel
+- 通过 CSS 变量 `--chip-size` 控制尺寸
+
+**3. 全局动效系统**（`app.wxss`）
+- **page-enter**：页面级入场，子元素逐个淡入上滑（50ms 间隔，最多 8 个 + n+9 兜底）
+- **stagger**：容器内子元素交错入场（40ms 间隔），适用于「`<view class="stagger">` 包多个子 view」
+- **stagger-self**：元素自身参与 stagger，用 `nth-of-type` 让 wx:for 兄弟元素错开
+- **press-shrink**：按压 0.94 缩放，配合原生 `hover-class` + `hover-stay-time="120"` 双反馈
+- **持续动效**：
+  - `pulse`：呼吸缩放（休息计时器等）
+  - `float`：温和漂浮（训练 hero emoji 等）
+  - `shine-text`：流光渐变（卡路里数字等）
+
+**4. 各页风格化**
+- `pages/index`：玻璃 hero + 双列网格 + FAB 弹簧入场
+- `pages/profile`：每日目标玻璃卡 + 菜单项目 + 更新日志 sheet 弹簧入场（maskIn + sheetIn）
+- `pages/weight`：玻璃录入卡 + 折线图彩色阴影 + 历史列表 stagger
+- `pages/training`：训练 hero 玻璃 + 月历彩色 cell（is-today 边框 + is-trained 渐变）+ PR 卡
+- `pages/training-log`：动作 tabs 渐变激活 + 组行玻璃 + 休息按钮 pulse
+- `pages/food-search`：搜索框 emoji-chip 装饰 + 分类项 + 食物行 stagger-self
+- `pages/food-edit`：候选卡 stagger-self + 保存按钮按压
+- `pages/vision-settings`：拍照 emoji-chip + 按钮按压
+- `pages/my-foods`：emoji-chip 包裹 + 列表行按压
+- `pages/goal-settings`：档案 emoji-chip + 按钮按压
+- `pages/data`：训练/饮水 chip + 月历维持 + FAB 升级
+
+### 🐛 修复
+
+- **WXSS 解析器不支持 `> *` 选择器**：macOS 2.02.2608040 基础库下把 `>` 后接 `*` 当作非法 token，触发 `error at token *`。修复策略：将 `.page-enter > *` 和 `.stagger > *` 展开为完整 selector-list（25 种 WXSS 元素 × 8 阶 nth-child）。`stagger-self` 不受影响（`nth-of-type` 本就合法）。
+
+### ⚠️ 范围说明
+
+本次为纯样式升级，零 TS / WXML 业务逻辑改动。所有 `bindchange` / `bindinput` / `wx:for` / `wx:key` / 数据流 / 状态机均保持原状，编译产物 `.js` 与改动前等价。
+
+---
+
 ## v1.4 · 2026-09-03（T27 · 文案调整）
 
 ### 🔧 文案调整
