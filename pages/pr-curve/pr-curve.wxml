@@ -1,0 +1,94 @@
+<view class="page page-enter">
+  <!-- 动作选择 tabs -->
+  <scroll-view class="prc-tabs" scroll-x enhanced show-scrollbar="{{false}}">
+    <view class="prc-tab-row">
+      <view wx:for="{{options}}" wx:key="id"
+            class="prc-tab press-shrink {{item.id === activeId ? 'prc-tab--active' : ''}} {{!item.hasData ? 'prc-tab--empty' : ''}}"
+            data-id="{{item.id}}" bindtap="onPickExercise"
+            hover-class="prc-tab--hover" hover-stay-time="120">
+        <text class="prc-tab-name">{{item.name}}</text>
+        <text wx:if="{{item.hasData}}" class="prc-tab-pr">{{item.prKg}}kg</text>
+        <text wx:else class="prc-tab-pr">无数据</text>
+      </view>
+    </view>
+  </scroll-view>
+
+  <!-- PR 顶部卡 -->
+  <view wx:if="{{activeName}}" class="card prc-hero shine-top">
+    <view class="emoji-chip emoji-chip--fruit" style="--chip-size: 72rpx"><text>🏆</text></view>
+    <view class="prc-hero-main">
+      <text class="prc-hero-name">{{activeName}}</text>
+      <view wx:if="{{prKg > 0}}" class="prc-hero-pr">
+        <text class="prc-hero-pr-num shine-text">{{prKg}}</text>
+        <text class="prc-hero-pr-unit">kg</text>
+        <text wx:if="{{diffPR > 0}}" class="prc-hero-pr-delta">+{{diffPR}}kg</text>
+        <text wx:elif="{{diffPR < 0}}" class="prc-hero-pr-delta prc-hero-pr-delta--down">{{diffPR}}kg</text>
+      </view>
+      <text wx:else class="prc-hero-empty">暂无训练记录</text>
+    </view>
+  </view>
+
+  <!-- 趋势图 -->
+  <view wx:if="{{chart.length >= 2}}" class="card prc-chart-card">
+    <view class="prc-chart-head">
+      <text class="prc-chart-title">重量趋势</text>
+      <text wx:if="{{diffFirst !== 0}}" class="prc-diff {{diffFirst > 0 ? 'prc-up' : 'prc-down'}}">
+        <text class="prc-diff-arrow">{{diffFirst > 0 ? '↑' : '↓'}}</text>
+        <text class="prc-diff-delta">{{diffFirst > 0 ? diffFirst : -diffFirst}}kg</text>
+      </text>
+    </view>
+    <view class="prc-chart">
+      <view wx:for="{{segments}}" wx:key="index" class="prc-line"
+            style="left: {{item.x1}}%; top: {{item.y1}}%;
+                   width: {{item.len}}%;
+                   transform: rotate({{item.deg}}deg);"></view>
+      <view wx:for="{{chart}}" wx:key="index" class="prc-dot"
+            style="left: {{item.x}}%; top: {{item.y}}%;">
+        <view class="prc-dot-tip">
+          <text class="prc-dot-tip-date">{{item.date}}</text>
+          <text class="prc-dot-tip-val">{{item.v}}kg</text>
+        </view>
+      </view>
+    </view>
+    <view class="prc-xaxis">
+      <text>{{chart[0].label}} · {{chart[0].v}}kg</text>
+      <text>{{chart[chart.length-1].label}} · {{chart[chart.length-1].v}}kg</text>
+    </view>
+  </view>
+
+  <!-- 单点 -->
+  <view wx:elif="{{chart.length === 1}}" class="card prc-chart-card prc-chart-single">
+    <view class="prc-chart-head">
+      <text class="prc-chart-title">重量趋势</text>
+    </view>
+    <view class="prc-single">
+      <view class="emoji-chip emoji-chip--fruit" style="--chip-size: 64rpx"><text>📈</text></view>
+      <view class="prc-single-main">
+        <text class="prc-single-date">{{chart[0].date}}</text>
+        <text class="prc-single-val">{{chart[0].v}}kg</text>
+        <text class="prc-single-tip">再练一次就能看到趋势线</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 0 数据 -->
+  <view wx:elif="{{activeName && !chart.length}}" class="card prc-empty">
+    <view class="emoji-chip emoji-chip--fruit" style="--chip-size: 120rpx"><text style="font-size: 64rpx">🏋️</text></view>
+    <text class="prc-e-t">还没有 {{activeName}} 记录</text>
+    <text class="prc-e-d">去训练页记录一次动作吧</text>
+  </view>
+
+  <!-- 历史列表 -->
+  <view wx:if="{{history.length}}" class="card prc-history">
+    <view class="prc-history-head">
+      <text class="prc-history-title">训练日期</text>
+      <text class="prc-history-count">共 {{history.length}} 天</text>
+    </view>
+    <view class="stagger">
+      <view wx:for="{{history}}" wx:key="date" class="prc-row press-shrink">
+        <text class="prc-row-date">{{item.date}}</text>
+        <text class="prc-row-val">{{item.topWeight}} kg</text>
+      </view>
+    </view>
+  </view>
+</view>

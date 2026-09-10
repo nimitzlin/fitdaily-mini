@@ -10,6 +10,7 @@
     "pages/my-foods/my-foods",
     "pages/vision-settings/vision-settings",
     "pages/weight/weight",
+    "pages/pr-curve/pr-curve",
     "pages/stats/stats",
     "pages/goal-settings/goal-settings"
   ],

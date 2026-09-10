@@ -133,6 +133,6 @@ Page({
   },
 
   goPR() {
-    wx.showModal({ title: 'PR 曲线', content: '进入动作历史，看卧推/深蹲/硬拉的重量趋势（v1.2 上）', showCancel: false });
+    wx.navigateTo({ url: '/pages/pr-curve/pr-curve' });
   },
 });
