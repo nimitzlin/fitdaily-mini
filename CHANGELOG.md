@@ -39,6 +39,16 @@
 - `pages/goal-settings`：档案 emoji-chip + 按钮按压
 - `pages/data`：训练/饮水 chip + 月历维持 + FAB 升级
 
+### 🆕 新功能
+
+- **PR 曲线页**（`pages/pr-curve/`）
+  - 训练页「PR 曲线」入口由占位弹层改为实际跳转（修复误点）
+  - 动作选择 tabs：卧推/深蹲/硬拉 3 大经典动作 + PR 最高的其他 5 个动作
+  - PR 顶部卡：流光数字 + `+Xkg` 增量胶囊
+  - 重量趋势折线图：复用 weight 页坐标算法，hover tooltip 显示日期 + 重量
+  - 历史训练日期列表 stagger 入场
+  - 0/1/N 三态自适应：0数据引导记录、单点引导「再练一次」、多点画趋势线
+
 ### 🐛 修复
 
 - **WXSS 解析器不支持 `> *` 选择器**：macOS 2.02.2608040 基础库下把 `>` 后接 `*` 当作非法 token，触发 `error at token *`。修复策略：将 `.page-enter > *` 和 `.stagger > *` 展开为完整 selector-list（25 种 WXSS 元素 × 8 阶 nth-child）。`stagger-self` 不受影响（`nth-of-type` 本就合法）。
